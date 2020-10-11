@@ -1,15 +1,10 @@
 package com.beertech.banco.controller;
 
-
-import com.beertech.banco.entity.Operacao;
-import com.beertech.banco.entity.TipoOperacao;
 import com.beertech.banco.repository.OperacaoRepository;
 import com.beertech.banco.service.BancoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import static org.hamcrest.Matchers.is;
 
 import org.json.JSONObject;
