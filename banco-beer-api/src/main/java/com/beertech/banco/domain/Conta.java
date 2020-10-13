@@ -5,16 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import com.beertech.banco.domain.exception.ContaException;
 
 public class Conta {
@@ -30,7 +20,7 @@ public class Conta {
 	public Conta(String hash) {
 		this.hash = hash;
 		this.operacoes = new ArrayList<Operacao>();
-		saldo = new BigDecimal(0);
+		saldo = new BigDecimal(0.00);
 	}
 
 	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo) {
@@ -69,7 +59,7 @@ public class Conta {
 	public void saque(BigDecimal valor) {
 		if (valor.compareTo(new BigDecimal(0)) <= 0)
 			throw new ContaException("O valor para saque deve ser maior do que 0!");
-		if (valor.compareTo(this.saldo) >= 0)
+		if (this.saldo.compareTo(valor) < 0)
 			throw new ContaException("O valor para saque não pode ser maior do que o saldo!");
 		this.saldo = this.saldo.subtract(valor);
 	}

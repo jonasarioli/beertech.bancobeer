@@ -4,10 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 import com.beertech.banco.domain.Operacao;
 import com.beertech.banco.domain.TipoOperacao;

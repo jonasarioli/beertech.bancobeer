@@ -88,6 +88,6 @@ public class MySqlConta {
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta(mySqlConta.getId(), mySqlConta.hash, mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()), mySqlConta.getSaldo());
+		return new Conta(mySqlConta.getId(), mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()), mySqlConta.getSaldo());
 	}
 }
