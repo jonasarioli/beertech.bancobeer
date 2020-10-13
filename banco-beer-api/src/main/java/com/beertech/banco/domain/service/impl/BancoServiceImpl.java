@@ -67,9 +67,14 @@ public class BancoServiceImpl implements BancoService {
 		Optional<Conta> contaOrigem = contaRepository.findByHash(hahsDaContaOrigem);
 		Optional<Conta> contaDestino = contaRepository.findByHash(hahsDaContaDestino);
 		
-		if(!contaOrigem.isPresent() || !contaDestino.isPresent()) {
+		if(!contaOrigem.isPresent() || !contaDestino.isPresent())
 			throw new ContaException("Conta origem e/ou conta destino invalida!");
-		}
+		
+		if(valor.compareTo(new BigDecimal(0)) <= 0)
+			throw new ContaException("O valor de transferencia deve ser maior que zero!");
+		
+		if(contaOrigem.get().getSaldo().compareTo(valor) < 0)
+			throw new ContaException("O valor de transferencia deve ser menor ou igual ao saldo da conta de origem!");
 		
 		contaOrigem.get().saque(valor);
 		contaDestino.get().deposito(valor);

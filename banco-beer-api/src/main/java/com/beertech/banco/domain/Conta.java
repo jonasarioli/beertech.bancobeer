@@ -17,15 +17,10 @@ import javax.persistence.Table;
 
 import com.beertech.banco.domain.exception.ContaException;
 
-@Entity
 public class Conta {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String hash;
-
-	@OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
 	private List<Operacao> operacoes;
 	private BigDecimal saldo;
 
@@ -72,6 +67,8 @@ public class Conta {
 	}
 
 	public void saque(BigDecimal valor) {
+		if (valor.compareTo(new BigDecimal(0)) <= 0)
+			throw new ContaException("O valor para saque deve ser maior do que 0!");
 		if (valor.compareTo(this.saldo) >= 0)
 			throw new ContaException("O valor para saque não pode ser maior do que o saldo!");
 		this.saldo = this.saldo.subtract(valor);

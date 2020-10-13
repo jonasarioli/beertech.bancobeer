@@ -21,12 +21,12 @@ public class MySqlContaRepositoryImpl implements ContaRepository  {
 
 	@Override
 	public Optional<Conta> findByHash(String hash) {
-		return contaRepository.findByHash(hash);
+		return contaRepository.findByHash(hash).map(new MySqlConta()::toDomain);
 	}
 
 	@Override
 	public Conta save(Conta conta) {
-		return contaRepository.save(conta);
+		return new MySqlConta().toDomain((contaRepository.save(new MySqlConta().fromDomain(conta))));
 	}
 
 }
