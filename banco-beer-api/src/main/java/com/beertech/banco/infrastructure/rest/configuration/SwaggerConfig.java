@@ -1,4 +1,4 @@
-package com.beertech.banco.config;
+package com.beertech.banco.infrastructure.rest.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
           .select()
-          .apis(RequestHandlerSelectors.any())
+          .apis( RequestHandlerSelectors.basePackage( "com.beertech.banco.infrastructure" ))
           .paths(PathSelectors.any())
           .build();
     }

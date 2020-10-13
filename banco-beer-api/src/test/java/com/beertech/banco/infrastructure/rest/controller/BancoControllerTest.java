@@ -1,10 +1,10 @@
-package com.beertech.banco.controller;
+package com.beertech.banco.infrastructure.rest.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class RestControllerTest {
+class BancoControllerTest {
 
 	@Test
 	void test() {

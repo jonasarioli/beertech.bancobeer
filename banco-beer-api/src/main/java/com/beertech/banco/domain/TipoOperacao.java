@@ -1,4 +1,4 @@
-package com.beertech.banco.entity;
+package com.beertech.banco.domain;
 
 public enum TipoOperacao {
 	SAQUE,

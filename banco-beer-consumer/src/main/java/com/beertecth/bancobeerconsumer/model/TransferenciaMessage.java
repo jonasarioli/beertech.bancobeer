@@ -13,18 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OperacaoMessage {
+public class TransferenciaMessage {
+
 	@JsonProperty(required=false,value="tipo")
 	private String tipo;
+	@JsonProperty(required=false,value="origem")
+	private String contaOrigem;
 	@JsonProperty(required=false,value="valor")
 	private BigDecimal valor;
-	@JsonProperty(required=false,value="hash")
-	private String hash;
-	
-	
-	@Override
-	public String toString() {
-		return "OperacaoMessage [tipo=" + tipo + ", valor=" + valor + ", hash=" + hash + "]";
-	}
-
+	@JsonProperty(required=false,value="destino")
+	private String contaDestino;
 }

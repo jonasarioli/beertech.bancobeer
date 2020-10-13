@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.beertecth.bancobeerconsumer.model.OperacaoMessage;
+import com.beertecth.bancobeerconsumer.model.TransferenciaMessage;
 
 @Service
 public class ContaClient {
@@ -21,6 +22,11 @@ public class ContaClient {
 
 	public void sendOperation(OperacaoMessage message) {
 		HttpEntity<OperacaoMessage> request = new HttpEntity<>(message);
-		restTemplate.exchange(bancoUrl, HttpMethod.POST, request, OperacaoMessage.class);
+		restTemplate.exchange(bancoUrl + "operacao", HttpMethod.POST, request, OperacaoMessage.class);
+	}
+	
+	public void transferencia(TransferenciaMessage message) {
+		HttpEntity<TransferenciaMessage> request = new HttpEntity<>(message);
+		restTemplate.exchange(bancoUrl + "transferencia", HttpMethod.POST, request, TransferenciaMessage.class);
 	}
 }
