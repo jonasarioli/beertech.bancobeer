@@ -9,10 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class TransferenciaMessage {
 
 	@JsonProperty(required=false,value="tipo")
@@ -23,4 +19,31 @@ public class TransferenciaMessage {
 	private BigDecimal valor;
 	@JsonProperty(required=false,value="destino")
 	private String contaDestino;
+	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getContaOrigem() {
+		return contaOrigem;
+	}
+	public void setContaOrigem(String contaOrigem) {
+		this.contaOrigem = contaOrigem;
+	}
+	public BigDecimal getValor() {
+		return valor;
+	}
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+	public String getContaDestino() {
+		return contaDestino;
+	}
+	public void setContaDestino(String contaDestino) {
+		this.contaDestino = contaDestino;
+	}
+	
+	
 }

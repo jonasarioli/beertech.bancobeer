@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.beertecth.bancobeerconsumer.client.ContaClient;
 import com.beertecth.bancobeerconsumer.config.RabbitConfig;
 import com.beertecth.bancobeerconsumer.model.OperacaoMessage;
+import com.beertecth.bancobeerconsumer.model.TransferenciaDto;
 import com.beertecth.bancobeerconsumer.model.TransferenciaMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,13 +31,11 @@ public class ContaListener {
 		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
 		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {	
 			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
-			client.transferencia(transferenciaMessage);
+			
+			client.transferencia(new TransferenciaDto(transferenciaMessage));
 		} else {
 			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
 			client.sendOperation(operacaoMessage);
 		}
-		
-		
-
 	}
 }
