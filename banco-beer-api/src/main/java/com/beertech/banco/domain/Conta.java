@@ -9,6 +9,7 @@ import com.beertech.banco.domain.exception.ContaException;
 
 public class Conta {
 
+	private Long id;
 	private String hash;
 	private List<Operacao> operacoes;
 	private BigDecimal saldo;
@@ -22,10 +23,19 @@ public class Conta {
 		saldo = new BigDecimal(0.00);
 	}
 
-	public Conta(String hash, List<Operacao> operacoes, BigDecimal saldo) {
+	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo) {
+		this.id = id;
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getHash() {

@@ -81,10 +81,13 @@ public class MySqlConta {
 	private BigDecimal saldo;
 
 	public MySqlConta fromDomain(Conta conta) {
-		return new MySqlConta(conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo());
+		if(conta.getId() != null)
+			return new MySqlConta(conta.getId(), conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo());
+		else 
+			return new MySqlConta(conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo());
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta(mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()), mySqlConta.getSaldo());
+		return new Conta(mySqlConta.getId(), mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()), mySqlConta.getSaldo());
 	}
 }
