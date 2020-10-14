@@ -1,4 +1,4 @@
-banco.url: "http://localhost:8082/banco/"
+banco.url: "http://localhost:8080/banco/"
 
 server:
    port: 8081
