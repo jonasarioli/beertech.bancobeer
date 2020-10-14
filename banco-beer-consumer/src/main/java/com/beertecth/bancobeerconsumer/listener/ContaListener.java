@@ -1,14 +1,19 @@
 package com.beertecth.bancobeerconsumer.listener;
 
-import com.beertecth.bancobeerconsumer.client.ContaClient;
-import com.beertecth.bancobeerconsumer.config.RabbitConfig;
-import com.beertecth.bancobeerconsumer.model.OperacaoMessage;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.beertecth.bancobeerconsumer.client.ContaClient;
+import com.beertecth.bancobeerconsumer.config.RabbitConfig;
+import com.beertecth.bancobeerconsumer.model.OperacaoMessage;
+import com.beertecth.bancobeerconsumer.model.TransferenciaDto;
+import com.beertecth.bancobeerconsumer.model.TransferenciaMessage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Component
 public class ContaListener {
@@ -22,10 +27,15 @@ public class ContaListener {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		String json = new String(message.getBody());
-
-		OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
 		
-		client.sendOperation(operacaoMessage);
-
+		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {	
+			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
+			
+			client.transferencia(new TransferenciaDto(transferenciaMessage));
+		} else {
+			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
+			client.sendOperation(operacaoMessage);
+		}
 	}
 }

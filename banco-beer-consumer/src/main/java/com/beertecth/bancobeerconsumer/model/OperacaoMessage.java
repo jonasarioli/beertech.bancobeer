@@ -18,10 +18,13 @@ public class OperacaoMessage {
 	private String tipo;
 	@JsonProperty(required=false,value="valor")
 	private BigDecimal valor;
-
+	@JsonProperty(required=false,value="hash")
+	private String hash;
+	
+	
 	@Override
 	public String toString() {
-		return "OperacaoMessage [tipo=" + tipo + ", valor=" + valor + "]";
+		return "OperacaoMessage [tipo=" + tipo + ", valor=" + valor + ", hash=" + hash + "]";
 	}
 
 }
