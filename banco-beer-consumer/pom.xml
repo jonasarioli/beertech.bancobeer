@@ -76,13 +76,20 @@
 		</dependency>
 	</dependencies>
 
+
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>beertech/banco-api</name>
+					</image>
+				</configuration>
 			</plugin>
-		</plugins>
+		</plugins>		
 	</build>
 
 </project>
