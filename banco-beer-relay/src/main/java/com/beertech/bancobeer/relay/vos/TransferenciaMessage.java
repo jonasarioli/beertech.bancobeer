@@ -1,21 +1,26 @@
 package com.beertech.bancobeer.relay.vos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiParam;
 
 import java.math.BigDecimal;
 
 public class TransferenciaMessage {
 
   @JsonProperty(value = "tipo")
+  @ApiParam(example = "TRANSFERENCIA")
   private String tipo;
 
   @JsonProperty(value = "origem")
+  @ApiParam(example = "123456")
   private String contaOrigem;
 
   @JsonProperty(value = "valor")
+  @ApiParam(example = "45.15")
   private BigDecimal valor;
 
   @JsonProperty(value = "destino")
+  @ApiParam(example = "654321")
   private String contaDestino;
 
   public String getTipo() {
