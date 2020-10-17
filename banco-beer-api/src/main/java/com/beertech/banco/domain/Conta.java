@@ -13,6 +13,12 @@ public class Conta {
 	private String hash;
 	private List<Operacao> operacoes;
 	private BigDecimal saldo;
+	private String nome;
+	private String email;
+	private String cnpj;
+	private String senha;
+	private Perfil perfil;
+
 
 	public Conta() {
 	}
@@ -23,11 +29,17 @@ public class Conta {
 		saldo = new BigDecimal(0.00);
 	}
 
-	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo) {
+	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+				 String senha, Perfil perfil) {
 		this.id = id;
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
+		this.nome = nome;
+		this.email = email;
+		this.cnpj = cnpj;
+		this.senha = senha;
+		this.perfil = perfil;
 	}
 	
 	public Long getId() {
@@ -68,4 +80,43 @@ public class Conta {
 		this.operacoes.add(operacao);
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 }

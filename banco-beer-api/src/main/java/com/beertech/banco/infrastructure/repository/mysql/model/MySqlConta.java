@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.Perfil;
 
 @Entity
 @Table(name = "conta")
@@ -29,21 +30,43 @@ public class MySqlConta {
 	@CollectionTable(name = "operacoes", joinColumns = @JoinColumn(name = "conta_id"))
 	@Column(name = "operacao")
 	private List<MySqlOperacao> operacoes;
+	@Column(name = "nome")
+	private String nome;
+	@Column(name = "email")
+	private String email;
+	@Column(name = "cnpj")
+	private String cnpj;
+	@Column(name = "senha")
+	private String senha;
+	@Column(name = "perfil")
+	private Perfil perfil;
 	
 	public MySqlConta() {
 	}
 	
-	public MySqlConta(Long id, String hash, List<MySqlOperacao> operacoes, BigDecimal saldo) {
+	public MySqlConta(Long id, String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+					  String senha, Perfil perfil) {
 		this.id = id;
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
+		this.nome = nome;
+		this.email = email;
+		this.cnpj = cnpj;
+		this.senha = senha;
+		this.perfil = perfil;
 	}
 	
-	public MySqlConta(String hash, List<MySqlOperacao> operacoes, BigDecimal saldo) {
+	public MySqlConta(String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+					  String senha, Perfil perfil) {
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
+		this.nome = nome;
+		this.email = email;
+		this.cnpj = cnpj;
+		this.senha = senha;
+		this.perfil = perfil;
 	}
 	
 	public Long getId() {
@@ -82,12 +105,54 @@ public class MySqlConta {
 
 	public MySqlConta fromDomain(Conta conta) {
 		if(conta.getId() != null)
-			return new MySqlConta(conta.getId(), conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo());
+			return new MySqlConta(conta.getId(), conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()),
+					conta.getSaldo(), conta.getNome(), conta.getEmail(), conta.getCnpj(), conta.getSenha(), conta.getPerfil());
 		else 
-			return new MySqlConta(conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo());
+			return new MySqlConta(conta.getId(),conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo(), conta.getNome(), conta.getEmail(), conta.getCnpj(), conta.getSenha(), conta.getPerfil());
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta(mySqlConta.getId(), mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()), mySqlConta.getSaldo());
+		return new Conta( mySqlConta.getId(), mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()),
+				mySqlConta.getSaldo(), mySqlConta.getNome() , mySqlConta.getEmail(), mySqlConta.getCnpj(), mySqlConta.getSenha(), mySqlConta.getPerfil());
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 }
