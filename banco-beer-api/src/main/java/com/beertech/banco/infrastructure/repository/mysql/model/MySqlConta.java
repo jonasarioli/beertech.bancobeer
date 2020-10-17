@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,39 +15,52 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.beertech.banco.domain.Conta;
-import com.beertech.banco.domain.Perfil;
 
 @Entity
-@Table(name = "conta")
+@Table(	name = "conta", 
+uniqueConstraints = { 
+	@UniqueConstraint(columnNames = "hash"),
+	@UniqueConstraint(columnNames = "email") 
+})
 public class MySqlConta implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String hash;
+	
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "operacoes", joinColumns = @JoinColumn(name = "conta_id"))
 	@Column(name = "operacao")
 	private List<MySqlOperacao> operacoes;
 	@Column(name = "nome")
+	@NotBlank
 	private String nome;
 	@Column(name = "email")
+	@NotBlank
 	private String email;
 	@Column(name = "cnpj")
+	@NotBlank
 	private String cnpj;
 	@Column(name = "senha")
+	@NotBlank
 	private String senha;
 	
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "CONTA_PROFILES", joinColumns = {
+            @JoinColumn(name = "CONTA_ID") }, inverseJoinColumns = {
+            @JoinColumn(name = "PROFILE_ID") })
 	private List<MySqlProfile> profiles;
 	
 	public MySqlConta() {

@@ -48,7 +48,7 @@ public class ContaController {
 	}
 
 	@PostMapping(value = "/deposito")
-	@PreAuthorize("hasRole('COMUM')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity deposito(@Valid @RequestBody OperacaoDto operacaoDto) {
 		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.DEPOSITO);
 		try {
