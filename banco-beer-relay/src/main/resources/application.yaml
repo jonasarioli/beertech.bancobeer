@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+amqp:
+  exchange: contas-exchange
+  queue: conta-corrente
+  routeKey: operacao
+
+beertech:
+  swagger:
+    baseUrl: ${SWAGGER_BASE_URL:localhost:${server.port}}
+    apiInfo: REST API for Bank Colorado Service Microservice
+    apiTitle: BeerTech Bank Relay Service

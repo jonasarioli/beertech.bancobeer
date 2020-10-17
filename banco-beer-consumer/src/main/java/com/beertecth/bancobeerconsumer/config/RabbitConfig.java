@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitConfig {
 
   public static final String QUEUE = "conta-corrente";
-  public static final String EXCHANGE_NAME = "Contas";
-  public static final String ROUTING_KEY = "";
+  public static final String EXCHANGE_NAME = "contas-exchange";
+  public static final String ROUTING_KEY = "operacao";
 
   @Bean
   public Exchange contaExchange() {
