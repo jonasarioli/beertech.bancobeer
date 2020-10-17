@@ -1,6 +1,7 @@
 package com.beertech.banco.domain.service.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import com.beertech.banco.domain.Conta;
@@ -81,6 +82,48 @@ public class BancoServiceImpl implements BancoService {
 		
 		contaRepository.save(contaOrigem.get());
 		contaRepository.save(contaDestino.get());
+	}
+
+	@Override
+	public List<Conta> listaTodasAsContas() {
+		return contaRepository.findAll();
+	}
+
+	@Override
+	public Conta contaPeloId(Long id) {
+		Optional<Conta> findById = contaRepository.findById(id);
+		if(!findById.isPresent()) {
+			throw new ContaException("O id da conta não existe!");
+		}
+		return findById.get();
+	}
+
+	@Override
+	public Conta contaPeloHash(String hash) {
+		Optional<Conta> conta = contaRepository.findByHash(hash);
+		if(!conta.isPresent()) {
+			throw new ContaException("O id da conta não existe!");
+		}		
+		return conta.get();
+	}
+
+	@Override
+	public List<Operacao> extrato(String hash) {
+		Optional<Conta> conta = contaRepository.findByHash(hash);
+		if(!conta.isPresent()) {
+			throw new ContaException("O id da conta não existe!");
+		}
+		
+		return conta.get().getOperacoes();
+	}
+
+	@Override
+	public Conta contaPeloEmail(String email) {
+		Optional<Conta> conta = contaRepository.findByEmail(email);
+		if(!conta.isPresent()) {
+			throw new ContaException("O id da conta não existe!");
+		}		
+		return conta.get();
 	}
 
 }

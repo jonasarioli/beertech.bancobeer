@@ -23,7 +23,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
           .select()
-          .apis( RequestHandlerSelectors.basePackage("com.beertech.banco.infrastructure"))
+          .apis(RequestHandlerSelectors.basePackage("com.beertech.banco.infrastructure"))
           .paths(PathSelectors.any())
           .build()
           .ignoredParameterTypes(MySqlConta.class)

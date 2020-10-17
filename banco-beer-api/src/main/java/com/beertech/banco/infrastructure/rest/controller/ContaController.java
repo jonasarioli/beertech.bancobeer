@@ -3,6 +3,8 @@ package com.beertech.banco.infrastructure.rest.controller;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -26,6 +28,7 @@ import com.beertech.banco.domain.service.BancoService;
 import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
 import com.beertech.banco.infrastructure.rest.controller.dto.OperacaoDto;
 import com.beertech.banco.infrastructure.rest.controller.dto.TransferenciaDto;
+import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 
 
 @RestController
@@ -37,7 +40,7 @@ public class ContaController {
 
     @PostMapping(value = "/saque")
 	public ResponseEntity saque(@Valid @RequestBody OperacaoDto operacaoDto, Principal principal) {
-		//Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.SAQUE);
+		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.SAQUE);
 		try {
 			System.out.println(principal.getName());
 			//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
@@ -71,7 +74,7 @@ public class ContaController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity criaContaCorrente(@Valid ContaDto contaDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity criaContaCorrente(@Valid ContaForm contaDto, UriComponentsBuilder uriBuilder) {
     	try {
     		Conta conta = new Conta("1");
     		conta = bancoService.criarConta(conta);
@@ -89,6 +92,42 @@ public class ContaController {
     		return ResponseEntity.ok().build();    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
+    	}
+    }
+    
+    @GetMapping
+    public ResponseEntity<?> listaContas() {
+    	List<ContaDto> listaTodasAsContas = bancoService.listaTodasAsContas().stream().map(ContaDto::new).collect(Collectors.toList());    	
+    	return ResponseEntity.ok(listaTodasAsContas);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> contaPeloId(@PathVariable Long id) {
+    	try {
+    		Conta contaPeloId = bancoService.contaPeloId(id);
+    		return ResponseEntity.ok(new ContaDto(contaPeloId));    		
+    	} catch (ContaException | IllegalArgumentException ex) {
+    		return ResponseEntity.notFound().build();
+    	}
+    }
+    
+    @GetMapping("/hash/{hash}")
+    public ResponseEntity<?> contaPeloHash(@PathVariable String hash) {
+    	try {
+    		Conta contaPeloHash = bancoService.contaPeloHash(hash);
+    		return ResponseEntity.ok(new ContaDto(contaPeloHash));    		
+    	} catch (ContaException | IllegalArgumentException ex) {
+    		return ResponseEntity.notFound().build();
+    	}
+    }
+    
+    @GetMapping("/extrato")
+    public ResponseEntity<?> extrato(Principal principal) {
+    	try {
+    		Conta contaPeloId = bancoService.contaPeloEmail(principal.getName());
+    		return ResponseEntity.ok(contaPeloId.getOperacoes());    		
+    	} catch (ContaException | IllegalArgumentException ex) {
+    		return ResponseEntity.notFound().build();
     	}
     }
 }
