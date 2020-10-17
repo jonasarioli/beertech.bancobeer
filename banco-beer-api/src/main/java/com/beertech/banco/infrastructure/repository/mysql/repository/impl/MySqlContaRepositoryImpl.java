@@ -29,4 +29,14 @@ public class MySqlContaRepositoryImpl implements ContaRepository  {
 		return new MySqlConta().toDomain((contaRepository.save(new MySqlConta().fromDomain(conta))));
 	}
 
+	@Override
+	public Optional<Conta> findByEmail(String email) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Conta> findById(Long id) {
+		return Optional.empty();
+	}
+
 }

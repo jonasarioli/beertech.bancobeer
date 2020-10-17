@@ -26,19 +26,7 @@ services:
         - '3306:3306'
       expose:
         - '3306'
-    banco-beer-api:
-        restart: on-failure
-        build: banco-beer-api/.
-        expose:
-        - "8080"
-        ports:
-        - 8080:8080
-        container_name: banco-beer-api
-        environment:
-            WAIT_HOSTS: mysql:3306
-        depends_on:
-        - db
-        - banco-beer-consume
+   
     banco-beer-consume:
         restart: on-failure
         build: banco-beer-consumer/.

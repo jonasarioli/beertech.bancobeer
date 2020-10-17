@@ -12,8 +12,6 @@ public class ContaDto {
 	private String email;
 	private String cnpj;
 	
-	
-	
 	public ContaDto(String hash, BigDecimal saldo, String nome, String email, String cnpj) {
 		this.hash = hash;
 		this.saldo = saldo;
@@ -45,6 +43,5 @@ public class ContaDto {
 	public String getCnpj() {
 		return cnpj;
 	}
-
-
 }
+
