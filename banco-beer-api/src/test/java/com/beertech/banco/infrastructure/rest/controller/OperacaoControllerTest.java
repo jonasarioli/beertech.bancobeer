@@ -17,9 +17,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.beertech.banco.domain.service.BancoService;
 import static org.junit.jupiter.api.Assertions.*;
 
-@WebMvcTest(controllers = BancoController.class)
+@WebMvcTest(controllers = OperacaoController.class)
 @ActiveProfiles("test")
-class BancoControllerTest {
+class OperacaoControllerTest {
 
 	@Autowired                           
     private MockMvc mockMvc;
