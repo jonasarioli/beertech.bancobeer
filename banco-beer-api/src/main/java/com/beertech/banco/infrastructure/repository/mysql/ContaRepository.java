@@ -10,6 +10,6 @@ import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 public interface ContaRepository extends CrudRepository<MySqlConta, Long> {
 
 	Optional<MySqlConta> findByHash(String hash);
-	Optional<MySqlConta> findByEmail(String username);
+	Optional<MySqlConta> findByEmail(String email);
 	
 }

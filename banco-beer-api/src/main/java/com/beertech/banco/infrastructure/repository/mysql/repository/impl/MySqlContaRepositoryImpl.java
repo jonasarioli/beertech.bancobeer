@@ -1,6 +1,9 @@
 package com.beertech.banco.infrastructure.repository.mysql.repository.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,12 +34,20 @@ public class MySqlContaRepositoryImpl implements ContaRepository  {
 
 	@Override
 	public Optional<Conta> findByEmail(String email) {
-		return Optional.empty();
+		return contaRepository.findByEmail(email).map(new MySqlConta()::toDomain);
 	}
 
 	@Override
 	public Optional<Conta> findById(Long id) {
-		return Optional.empty();
+		return contaRepository.findById(id).map(new MySqlConta()::toDomain);
+	}
+
+	@Override
+	public List<Conta> findAll() {
+		Iterable<MySqlConta> findAll = contaRepository.findAll();
+		return StreamSupport.stream(findAll.spliterator(), false)
+			      .map(new MySqlConta()::toDomain)
+			      .collect(Collectors.toList());
 	}
 
 }
