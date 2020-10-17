@@ -1,5 +1,7 @@
 package com.beertech.banco.infrastructure.rest.controller.dto;
 
+import com.beertech.banco.domain.Perfil;
+
 import javax.validation.constraints.NotBlank;
 
 public class ContaDto {
@@ -11,6 +13,8 @@ public class ContaDto {
 	private String cnpj;
 	@NotBlank
 	private String senha;
+	@NotBlank
+	private Perfil perfil;
 	
 	public String getNome() {
 		return nome;
@@ -36,6 +40,6 @@ public class ContaDto {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	
+	public Perfil getPerfil() {return perfil;}
+	public void setPerfil(Perfil perfil) {this.perfil = perfil;}
 }
