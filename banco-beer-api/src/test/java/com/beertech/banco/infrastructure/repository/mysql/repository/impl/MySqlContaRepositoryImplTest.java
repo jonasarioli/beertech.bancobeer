@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.beertech.banco.domain.Conta;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlOperacao;
+import com.beertech.banco.infrastructure.repository.mysql.model.MySqlProfile;
 
 class MySqlContaRepositoryImplTest {
 	
@@ -28,7 +29,16 @@ class MySqlContaRepositoryImplTest {
 	
 	@Test
 	void findByHashSuccess() {
-		when(contaRepository.findByHash("hash")).thenReturn(Optional.of(new MySqlConta(1l, "hash", new ArrayList<MySqlOperacao>(), new BigDecimal(10.0))));
+		when(contaRepository.findByHash("hash")).thenReturn(
+				Optional.of(new MySqlConta(1l, "hash"
+						, new ArrayList<MySqlOperacao>()
+						, "Nome"
+						, "email@email.com"
+						, "cnpj"
+						, "username"
+						, "password"
+						, new ArrayList<MySqlProfile>()
+						, new BigDecimal(10.0))));
 		Optional<Conta> findByHash = testClass.findByHash("hash");
 		assertNotNull(findByHash.get());
 	}
