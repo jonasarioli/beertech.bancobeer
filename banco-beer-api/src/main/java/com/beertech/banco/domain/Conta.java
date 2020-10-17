@@ -1,11 +1,15 @@
 package com.beertech.banco.domain;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.beertech.banco.domain.exception.ContaException;
+
 
 public class Conta {
 
@@ -30,10 +34,10 @@ public class Conta {
 		saldo = new BigDecimal(0.00);
 	}
 
-	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+	public Conta(Long id, List<Operacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
 				 String senha, List<Profile> profiles) {
 		this.id = id;
-		this.hash = hash;
+		this.hash = getHashMd5(email + cnpj);
 		this.operacoes = operacoes;
 		this.saldo = saldo;
 		this.nome = nome;
@@ -79,6 +83,17 @@ public class Conta {
 		if (this.saldo.compareTo(valor) < 0)
 			throw new ContaException("O valor para saque não pode ser maior do que o saldo!");
 		this.saldo = this.saldo.subtract(valor);
+	}
+
+	public static String getHashMd5(String value) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+		BigInteger hash = new BigInteger(1, md.digest(value.getBytes()));
+		return hash.toString(16);
 	}
 
 	public void addOperacao(Operacao operacao) {
