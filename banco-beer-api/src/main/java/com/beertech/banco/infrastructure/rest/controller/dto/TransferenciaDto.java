@@ -9,19 +9,11 @@ import javax.validation.constraints.NotNull;
 public class TransferenciaDto {
 
 	@NotBlank
-	private String contaOrigem;
-	@NotBlank
 	private String contaDestino;
 	@NotNull
 	@Min(value = 0, message = "Valor deve ser maior do que 0!")
 	private BigDecimal valor;
 	
-	public String getContaOrigem() {
-		return contaOrigem;
-	}
-	public void setContaOrigem(String contaOrigem) {
-		this.contaOrigem = contaOrigem;
-	}
 	public String getContaDestino() {
 		return contaDestino;
 	}

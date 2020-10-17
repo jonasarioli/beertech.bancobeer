@@ -18,8 +18,8 @@ public class AutenticacaoService implements UserDetailsService {
 	private ContaRepository repository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<MySqlConta> usuario = repository.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Optional<MySqlConta> usuario = repository.findByEmail(email);
 		if(usuario.isPresent()) {
 			return usuario.get();			
 		}

@@ -18,6 +18,7 @@ public class Conta {
 	private String cnpj;
 	private String senha;
 	private Perfil perfil;
+	private List<Profile> profiles;
 
 
 	public Conta() {
@@ -30,7 +31,7 @@ public class Conta {
 	}
 
 	public Conta(Long id, String hash, List<Operacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
-				 String senha, Perfil perfil) {
+				 String senha, List<Profile> profiles) {
 		this.id = id;
 		this.hash = hash;
 		this.operacoes = operacoes;
@@ -39,9 +40,13 @@ public class Conta {
 		this.email = email;
 		this.cnpj = cnpj;
 		this.senha = senha;
-		this.perfil = perfil;
+		this.profiles = profiles;
 	}
 	
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -4,16 +4,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 public class LoginForm {
 
-	private String username;
+	private String email;
 	private String password;
 	
-	public void setUsername(String email) {
-		this.username = email;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public void setPassword(String senha) {
 		this.password = senha;
 	}
 	public UsernamePasswordAuthenticationToken converter() {
-		return new UsernamePasswordAuthenticationToken(username, password);
+		return new UsernamePasswordAuthenticationToken(email, password);
 	}
 }

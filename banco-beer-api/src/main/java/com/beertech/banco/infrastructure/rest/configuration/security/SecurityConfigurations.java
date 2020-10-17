@@ -49,7 +49,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/banco/operacoes").permitAll()
 		.antMatchers(HttpMethod.POST, "/banco/operacoes/*").permitAll()
 		.antMatchers(HttpMethod.POST, "/login").permitAll()
-		.antMatchers(HttpMethod.POST, "/conta/deposito/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -32,13 +32,12 @@ class MySqlContaRepositoryImplTest {
 		when(contaRepository.findByHash("hash")).thenReturn(
 				Optional.of(new MySqlConta(1l, "hash"
 						, new ArrayList<MySqlOperacao>()
+						, new BigDecimal(10.0)
 						, "Nome"
 						, "email@email.com"
 						, "cnpj"
-						, "username"
 						, "password"
-						, new ArrayList<MySqlProfile>()
-						, new BigDecimal(10.0))));
+						, new ArrayList<MySqlProfile>())));
 		Optional<Conta> findByHash = testClass.findByHash("hash");
 		assertNotNull(findByHash.get());
 	}

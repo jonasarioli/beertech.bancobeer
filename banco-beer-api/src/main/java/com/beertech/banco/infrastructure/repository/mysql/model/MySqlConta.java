@@ -1,6 +1,7 @@
 package com.beertech.banco.infrastructure.repository.mysql.model;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,17 +14,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.beertech.banco.domain.Conta;
 import com.beertech.banco.domain.Perfil;
 
 @Entity
 @Table(name = "conta")
-public class MySqlConta {
+public class MySqlConta implements UserDetails {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String hash;
 	@ElementCollection(fetch = FetchType.LAZY)
@@ -38,14 +44,16 @@ public class MySqlConta {
 	private String cnpj;
 	@Column(name = "senha")
 	private String senha;
-	@Column(name = "perfil")
-	private Perfil perfil;
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<MySqlProfile> profiles;
 	
 	public MySqlConta() {
 	}
 	
 	public MySqlConta(Long id, String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
-					  String senha, Perfil perfil) {
+					  String senha, List<MySqlProfile> perfil) {
 		this.id = id;
 		this.hash = hash;
 		this.operacoes = operacoes;
@@ -54,11 +62,11 @@ public class MySqlConta {
 		this.email = email;
 		this.cnpj = cnpj;
 		this.senha = senha;
-		this.perfil = perfil;
+		this.profiles = perfil;
 	}
 	
 	public MySqlConta(String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
-					  String senha, Perfil perfil) {
+					  String senha, List<MySqlProfile> perfil) {
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
@@ -66,7 +74,7 @@ public class MySqlConta {
 		this.email = email;
 		this.cnpj = cnpj;
 		this.senha = senha;
-		this.perfil = perfil;
+		this.profiles = perfil;
 	}
 	
 	public Long getId() {
@@ -105,15 +113,37 @@ public class MySqlConta {
 
 	public MySqlConta fromDomain(Conta conta) {
 		if(conta.getId() != null)
-			return new MySqlConta(conta.getId(), conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()),
-					conta.getSaldo(), conta.getNome(), conta.getEmail(), conta.getCnpj(), conta.getSenha(), conta.getPerfil());
+			return new MySqlConta(conta.getId()
+					, conta.getHash()
+					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
+					, conta.getSaldo()
+					, conta.getNome()
+					, conta.getEmail()
+					, conta.getCnpj()
+					, conta.getSenha()
+					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toList()));
 		else 
-			return new MySqlConta(conta.getId(),conta.getHash(), conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList()), conta.getSaldo(), conta.getNome(), conta.getEmail(), conta.getCnpj(), conta.getSenha(), conta.getPerfil());
+			return new MySqlConta(conta.getId()
+					,conta.getHash()
+					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
+					, conta.getSaldo()
+					, conta.getNome()
+					, conta.getEmail()
+					, conta.getCnpj()
+					, conta.getSenha()
+					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toList()));
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta( mySqlConta.getId(), mySqlConta.getHash(), mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList()),
-				mySqlConta.getSaldo(), mySqlConta.getNome() , mySqlConta.getEmail(), mySqlConta.getCnpj(), mySqlConta.getSenha(), mySqlConta.getPerfil());
+		return new Conta( mySqlConta.getId()
+				, mySqlConta.getHash()
+				, mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList())
+				, mySqlConta.getSaldo()
+				, mySqlConta.getNome()
+				, mySqlConta.getEmail()
+				, mySqlConta.getCnpj()
+				, mySqlConta.getSenha()
+				, mySqlConta.getProfiles().stream().map(new MySqlProfile()::toDomain).collect(Collectors.toList()));
 	}
 
 	public String getNome() {
@@ -148,11 +178,46 @@ public class MySqlConta {
 		this.senha = senha;
 	}
 
-	public Perfil getPerfil() {
-		return perfil;
+	public List<MySqlProfile> getProfiles() {
+		return profiles;
 	}
 
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
+	public void setProfiles(List<MySqlProfile> profiles) {
+		this.profiles = profiles;
+	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.profiles;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

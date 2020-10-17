@@ -35,9 +35,9 @@ public class OperacaoController {
 
     @PostMapping(value = "/operacao")
     public ResponseEntity salvaOperacao(@Valid @RequestBody OperacaoDto operacaoDto) {
-    	Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), operacaoDto.getTipo());
+    	//Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), operacaoDto.getTipo());
     	try {
-    		Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
+    		//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
     		return ResponseEntity.ok().build();    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
