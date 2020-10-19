@@ -3,21 +3,18 @@ package com.beertech.banco.infrastructure.rest.controller;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.beertech.banco.domain.Profile;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.beertech.banco.domain.Conta;
@@ -76,7 +73,8 @@ public class ContaController {
     @PostMapping("/cadastro")
     public ResponseEntity criaContaCorrente(@Valid ContaForm contaDto, UriComponentsBuilder uriBuilder) {
     	try {
-    		Conta conta = new Conta("1");
+    		Conta conta = new Conta(new BigDecimal(0), contaDto.getNome(),
+					contaDto.getEmail(), contaDto.getCnpj(), contaDto.getSenha(), Collections.singletonList(new Profile(1L, "USUARIO")));
     		conta = bancoService.criarConta(conta);
     		URI uri = uriBuilder.path("/saldo/{hash}").buildAndExpand(conta.getHash()).toUri();
     		return ResponseEntity.created(uri).body(conta);

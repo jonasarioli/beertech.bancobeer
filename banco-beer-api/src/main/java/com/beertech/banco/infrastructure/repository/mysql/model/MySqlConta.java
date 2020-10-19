@@ -66,11 +66,10 @@ public class MySqlConta implements UserDetails {
 	public MySqlConta() {
 	}
 	
-	public MySqlConta(Long id, String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+	public MySqlConta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
 					  String senha, List<MySqlProfile> perfil) {
 		this.id = id;
 		this.hash = hash;
-		this.operacoes = operacoes;
 		this.saldo = saldo;
 		this.nome = nome;
 		this.email = email;
@@ -79,7 +78,7 @@ public class MySqlConta implements UserDetails {
 		this.profiles = perfil;
 	}
 	
-	public MySqlConta(String hash, List<MySqlOperacao> operacoes, BigDecimal saldo, String nome, String email, String cnpj,
+	public MySqlConta(String hash, BigDecimal saldo, String nome, String email, String cnpj,
 					  String senha, List<MySqlProfile> perfil) {
 		this.hash = hash;
 		this.operacoes = operacoes;
@@ -127,9 +126,7 @@ public class MySqlConta implements UserDetails {
 
 	public MySqlConta fromDomain(Conta conta) {
 		if(conta.getId() != null)
-			return new MySqlConta(conta.getId()
-					, conta.getHash()
-					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
+			return new MySqlConta(conta.getHash()
 					, conta.getSaldo()
 					, conta.getNome()
 					, conta.getEmail()
@@ -139,7 +136,6 @@ public class MySqlConta implements UserDetails {
 		else 
 			return new MySqlConta(conta.getId()
 					,conta.getHash()
-					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
 					, conta.getSaldo()
 					, conta.getNome()
 					, conta.getEmail()
@@ -149,10 +145,7 @@ public class MySqlConta implements UserDetails {
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta( mySqlConta.getId()
-				, mySqlConta.getHash()
-				, mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList())
-				, mySqlConta.getSaldo()
+		return new Conta( mySqlConta.getSaldo()
 				, mySqlConta.getNome()
 				, mySqlConta.getEmail()
 				, mySqlConta.getCnpj()

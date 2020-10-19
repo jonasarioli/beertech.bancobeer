@@ -30,8 +30,8 @@ class MySqlContaRepositoryImplTest {
 	@Test
 	void findByHashSuccess() {
 		when(contaRepository.findByHash("hash")).thenReturn(
-				Optional.of(new MySqlConta(1l, "hash"
-						, new ArrayList<MySqlOperacao>()
+				Optional.of(new MySqlConta(1l
+						, "hash"
 						, new BigDecimal(10.0)
 						, "Nome"
 						, "email@email.com"
