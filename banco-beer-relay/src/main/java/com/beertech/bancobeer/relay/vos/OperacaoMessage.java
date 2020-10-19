@@ -1,7 +1,7 @@
 package com.beertech.bancobeer.relay.vos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,14 +15,14 @@ import java.math.BigDecimal;
 @Builder
 public class OperacaoMessage {
   @JsonProperty(value = "tipo")
-  @ApiParam(example = "SAQUE")
+  @ApiModelProperty(example = "DEPOSITO")
   private String tipo;
 
   @JsonProperty(value = "valor")
-  @ApiParam(example = "12.5")
+  @ApiModelProperty(example = "12.5")
   private BigDecimal valor;
 
   @JsonProperty(value = "hash")
-  @ApiParam(example = "123456")
+  @ApiModelProperty(example = "123456")
   private String hash;
 }

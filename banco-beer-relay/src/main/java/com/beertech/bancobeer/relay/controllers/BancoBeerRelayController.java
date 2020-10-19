@@ -6,6 +6,7 @@ import com.beertech.bancobeer.relay.vos.TransferenciaMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +30,6 @@ public class BancoBeerRelayController {
   @PostMapping(path = "/deposito")
   public ResponseEntity<Void> creditAccount(@RequestBody OperacaoMessage message) {
     message.setTipo("DEPOSITO");
-    relayService.operation(message);
-    return new ResponseEntity<>(HttpStatus.ACCEPTED);
-  }
-
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @PostMapping(path = "/saque")
-  public ResponseEntity<Void> debitAccount(@RequestBody OperacaoMessage message) {
-    message.setTipo("SAQUE");
     relayService.operation(message);
     return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
