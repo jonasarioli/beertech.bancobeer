@@ -5,14 +5,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import com.beertech.banco.domain.Operacao;
 import com.beertech.banco.domain.Profile;
 
 @Entity
-@Table(name = "profile")
+@Table(name = "profile", 
+uniqueConstraints = { 
+		@UniqueConstraint(columnNames = "name")
+})
 public class MySqlProfile implements GrantedAuthority {
 
 	private static final long serialVersionUID = 6280340062208576621L;
@@ -23,21 +26,15 @@ public class MySqlProfile implements GrantedAuthority {
 
 	public MySqlProfile() {
 	}
-	
-	
-	
+		
 	public MySqlProfile(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}
-
-
 
 	public void setId(Long id) {
 		this.id = id;

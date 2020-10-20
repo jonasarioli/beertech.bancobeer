@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beertech.banco.domain.exception.ContaException;
-import com.beertech.banco.domain.service.BancoService;
-import com.beertech.banco.infrastructure.rest.controller.dto.OperacaoDto;
+import com.beertech.banco.domain.service.ContaService;
+import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
 
 import springfox.documentation.annotations.ApiIgnore;
 
 
 
 @RestController
-@RequestMapping("/banco")
+@RequestMapping("/beercoins/banco")
 public class OperacaoController {
 
 	@Autowired
-	BancoService bancoService; 
+	ContaService bancoService; 
 
 	@ApiIgnore
     @PostMapping(value = "/operacao")
-    public ResponseEntity salvaOperacao(@Valid @RequestBody OperacaoDto operacaoDto) {
+    public ResponseEntity salvaOperacao(@Valid @RequestBody SaqueForm operacaoDto) {
     	//Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), operacaoDto.getTipo());
     	try {
     		//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);

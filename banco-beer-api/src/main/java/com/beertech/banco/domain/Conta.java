@@ -6,9 +6,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.beertech.banco.domain.exception.ContaException;
+import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 
 
 public class Conta {
@@ -22,26 +27,20 @@ public class Conta {
 	private String cnpj;
 	private String senha;
 	private Perfil perfil;
-	private List<Profile> profiles;
+	private Set<Profile> profiles;
 
 
 	public Conta() {
-
 		this.operacoes = new ArrayList<Operacao>();
 		saldo = new BigDecimal(0.00);
 		this.hash = getHashMd5(email + cnpj);
 	}
 
-	public Conta(String hash) {
+	public Conta(Long id, String hash, BigDecimal saldo, List<Operacao> operacoes, String nome, String email, String cnpj,
+				 String senha, Set<Profile> profiles) {
+		this.id = id;
 		this.hash = hash;
-		this.operacoes = new ArrayList<Operacao>();
-		saldo = new BigDecimal(0.00);
-	}
-
-	public Conta(BigDecimal saldo, String nome, String email, String cnpj,
-				 String senha, List<Profile> profiles) {
-
-
+		this.operacoes = operacoes;
 		this.saldo = saldo;
 		this.nome = nome;
 		this.email = email;
@@ -50,7 +49,17 @@ public class Conta {
 		this.profiles = profiles;
 	}
 	
-	public List<Profile> getProfiles() {
+	public Conta(ContaForm form) {
+		this.nome = form.getNome();
+		this.cnpj = form.getCnpj();
+		this.email = form.getEmail();
+		this.senha = new BCryptPasswordEncoder().encode(form.getSenha());
+		this.operacoes = new ArrayList<Operacao>();
+		saldo = new BigDecimal(0.00);
+		this.hash = getHashMd5(email + cnpj);
+	}
+	
+	public Set<Profile> getProfiles() {
 		return profiles;
 	}
 
@@ -141,5 +150,11 @@ public class Conta {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	public void addProfile(Profile profile) {
+		if(this.profiles == null)
+			this.profiles = new HashSet<>();
+		this.profiles.add(profile);
 	}
 }

@@ -4,18 +4,24 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.beertech.banco.domain.Conta;
 import com.beertech.banco.domain.Operacao;
+import com.beertech.banco.domain.Profile;
 import com.beertech.banco.domain.TipoOperacao;
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.repository.ContaRepository;
-import com.beertech.banco.domain.service.BancoService;
+import com.beertech.banco.domain.service.ContaService;
+import com.beertech.banco.domain.service.ProfileService;
 
-public class BancoServiceImpl implements BancoService {
+public class ContaServiceImpl implements ContaService {
 
 	private final ContaRepository contaRepository;
+	@Autowired
+	private ProfileService profileService;
 		
-	public BancoServiceImpl(ContaRepository contaRepository) {
+	public ContaServiceImpl(ContaRepository contaRepository) {
 		this.contaRepository = contaRepository;
 	}
 
@@ -24,8 +30,12 @@ public class BancoServiceImpl implements BancoService {
 		Optional<Conta> findByHash = contaRepository.findByHash(conta.getHash());
 		if(findByHash.isPresent())
 			throw new ContaException("Ja existe uma conta com esse valor de Hash");
-		contaRepository.save(conta);
-		return conta;
+		Optional<Profile> profileUser = profileService.findByName("USER");
+		if(!profileUser.isPresent()) {
+			throw new ContaException("Não existe um profile com nome USER");
+		}		
+		conta.addProfile(profileUser.get());
+		return contaRepository.save(conta);
 	}
 
 	@Override

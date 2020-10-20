@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,18 +34,19 @@ class MySqlContaRepositoryImplTest {
 				Optional.of(new MySqlConta(1l
 						, "hash"
 						, new BigDecimal(10.0)
+						, new ArrayList<>()
 						, "Nome"
 						, "email@email.com"
 						, "cnpj"
 						, "password"
-						, new ArrayList<MySqlProfile>())));
+						, new HashSet<MySqlProfile>())));
 		Optional<Conta> findByHash = testClass.findByHash("hash");
 		assertNotNull(findByHash.get());
 	}
 	
 	@Test
 	void save() {
-		Conta conta = new Conta("hash");
+		Conta conta = new Conta();
 		MySqlConta mySqlConta = new MySqlConta().fromDomain(conta);		
 		when(contaRepository.save(mySqlConta)).thenReturn(new MySqlConta());
 		Conta save = testClass.save(conta);			

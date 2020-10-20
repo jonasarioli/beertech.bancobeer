@@ -9,6 +9,10 @@ public class Profile {
 		this.name = name;
 	}
 	
+	public Profile(String name) {
+		this.name = "ROLE_" + name;
+	}
+	
 	public Long getId() {
 		return id;
 	}

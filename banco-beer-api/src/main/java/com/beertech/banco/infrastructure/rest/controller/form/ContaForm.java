@@ -1,11 +1,13 @@
 package com.beertech.banco.infrastructure.rest.controller.form;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class ContaForm {
 	@NotBlank
 	private String nome;
 	@NotBlank
+	@Email
 	private String email;
 	@NotBlank
 	private String cnpj;

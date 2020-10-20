@@ -18,7 +18,7 @@ import com.beertech.banco.infrastructure.rest.controller.dto.TokenDto;
 import com.beertech.banco.infrastructure.rest.controller.form.LoginForm;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/beercoins/login")
 public class AuthenticationController {
 
 	@Autowired

@@ -1,42 +1,47 @@
 package com.beertech.banco.infrastructure.rest.controller;
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.beertech.banco.domain.Profile;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.beertech.banco.domain.Conta;
 import com.beertech.banco.domain.Operacao;
 import com.beertech.banco.domain.TipoOperacao;
 import com.beertech.banco.domain.exception.ContaException;
-import com.beertech.banco.domain.service.BancoService;
+import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
 import com.beertech.banco.infrastructure.rest.controller.dto.OperacaoDto;
-import com.beertech.banco.infrastructure.rest.controller.dto.TransferenciaDto;
+import com.beertech.banco.infrastructure.rest.controller.dto.SaldoDto;
+import com.beertech.banco.infrastructure.rest.controller.dto.TransferenciaForm;
 import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
+import com.beertech.banco.infrastructure.rest.controller.form.DepositoForm;
+import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
 
 
 @RestController
-@RequestMapping("/conta")
+@RequestMapping("/beercoins/conta")
 public class ContaController {
 
 	@Autowired
-	BancoService bancoService; 
+	ContaService contaService; 
 
     @PostMapping(value = "/saque")
-	public ResponseEntity saque(@Valid @RequestBody OperacaoDto operacaoDto, Principal principal) {
+	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm operacaoDto, Principal principal) {
 		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.SAQUE);
 		try {
 			System.out.println(principal.getName());
@@ -49,7 +54,7 @@ public class ContaController {
 
 	@PostMapping(value = "/deposito")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity deposito(@Valid @RequestBody OperacaoDto operacaoDto) {
+	public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm operacaoDto) {
 		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.DEPOSITO);
 		try {
 			//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
@@ -59,24 +64,23 @@ public class ContaController {
 		}
 	}
 
-    @GetMapping(value = "/saldo/{hash}")
-    public ResponseEntity getDataSaldo(@PathVariable String hash) throws JSONException {
+    @GetMapping(value = "/saldo")
+    public ResponseEntity<?> getDataSaldo(Principal principal) throws JSONException {
     	try {
-    		BigDecimal saldo = bancoService.saldo(hash);
-    		return ResponseEntity.ok(saldo);    		
+    		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
+    		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
     	} catch(ContaException ex) {
     		ex.printStackTrace();
     		return ResponseEntity.notFound().build();
     	}
     }
 
-    @PostMapping("/cadastro")
-    public ResponseEntity criaContaCorrente(@Valid ContaForm contaDto, UriComponentsBuilder uriBuilder) {
-    	try {
-    		Conta conta = new Conta(new BigDecimal(0), contaDto.getNome(),
-					contaDto.getEmail(), contaDto.getCnpj(), contaDto.getSenha(), Collections.singletonList(new Profile(1L, "USUARIO")));
-    		conta = bancoService.criarConta(conta);
-    		URI uri = uriBuilder.path("/saldo/{hash}").buildAndExpand(conta.getHash()).toUri();
+    @PostMapping()
+    public ResponseEntity<?> criaConta(@Valid ContaForm contaForm, UriComponentsBuilder uriBuilder) {
+    	try {    		
+    		Conta conta = new Conta(contaForm);    		
+    		conta = contaService.criarConta(conta);
+    		URI uri = uriBuilder.path("/conta/{id}").buildAndExpand(conta.getHash()).toUri();
     		return ResponseEntity.created(uri).body(conta);
     	} catch (ContaException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
@@ -84,7 +88,7 @@ public class ContaController {
     }
     
     @PostMapping("/transferencia")
-    public ResponseEntity transferencia(@Valid @RequestBody TransferenciaDto transferenciaDto) {
+    public ResponseEntity<?> transferencia(@Valid @RequestBody TransferenciaForm transferenciaDto) {
     	try {
     		//bancoService.transferencia(transferenciaDto.getContaOrigem(), transferenciaDto.getContaDestino(), transferenciaDto.getValor());
     		return ResponseEntity.ok().build();    		
@@ -95,14 +99,14 @@ public class ContaController {
     
     @GetMapping
     public ResponseEntity<?> listaContas() {
-    	List<ContaDto> listaTodasAsContas = bancoService.listaTodasAsContas().stream().map(ContaDto::new).collect(Collectors.toList());    	
+    	List<ContaDto> listaTodasAsContas = contaService.listaTodasAsContas().stream().map(ContaDto::new).collect(Collectors.toList());    	
     	return ResponseEntity.ok(listaTodasAsContas);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> contaPeloId(@PathVariable Long id) {
     	try {
-    		Conta contaPeloId = bancoService.contaPeloId(id);
+    		Conta contaPeloId = contaService.contaPeloId(id);
     		return ResponseEntity.ok(new ContaDto(contaPeloId));    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.notFound().build();
@@ -112,7 +116,7 @@ public class ContaController {
     @GetMapping("/hash/{hash}")
     public ResponseEntity<?> contaPeloHash(@PathVariable String hash) {
     	try {
-    		Conta contaPeloHash = bancoService.contaPeloHash(hash);
+    		Conta contaPeloHash = contaService.contaPeloHash(hash);
     		return ResponseEntity.ok(new ContaDto(contaPeloHash));    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.notFound().build();
@@ -122,8 +126,8 @@ public class ContaController {
     @GetMapping("/extrato")
     public ResponseEntity<?> extrato(Principal principal) {
     	try {
-    		Conta contaPeloId = bancoService.contaPeloEmail(principal.getName());
-    		return ResponseEntity.ok(contaPeloId.getOperacoes());    		
+    		Conta contaPeloId = contaService.contaPeloEmail(principal.getName());
+    		return ResponseEntity.ok(contaPeloId.getOperacoes().stream().map(OperacaoDto::new).collect(Collectors.toList()));    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.notFound().build();
     	}

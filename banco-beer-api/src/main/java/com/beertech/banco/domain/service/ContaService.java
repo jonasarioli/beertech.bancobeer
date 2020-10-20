@@ -6,7 +6,7 @@ import java.util.List;
 import com.beertech.banco.domain.Conta;
 import com.beertech.banco.domain.Operacao;
 
-public interface BancoService {
+public interface ContaService {
 	Conta criarConta(Conta conta);
 	BigDecimal saldo(String hash);
 	Conta realizaOperacao(String contaHash, Operacao operacao);

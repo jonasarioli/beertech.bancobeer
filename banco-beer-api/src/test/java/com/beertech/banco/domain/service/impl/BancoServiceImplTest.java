@@ -19,22 +19,23 @@ import com.beertech.banco.domain.Operacao;
 import com.beertech.banco.domain.TipoOperacao;
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.repository.ContaRepository;
+import com.beertech.banco.domain.repository.ProfileRepository;
 
 class BancoServiceImplTest {
 
 	private ContaRepository contaRepository;
-	private BancoServiceImpl tested;
+	private ContaServiceImpl tested;
 	
 	@BeforeEach
     void setUp() {
 		contaRepository = mock(ContaRepository.class);
-		tested = new BancoServiceImpl(contaRepository);
+		tested = new ContaServiceImpl(contaRepository);
     }
 	
 
     @Test
     void criarUmaContaComSucesso() {
-        final Conta conta = new Conta("hash");
+        final Conta conta = new Conta();
  
         final Conta id = tested.criarConta(conta);
  
@@ -43,14 +44,14 @@ class BancoServiceImplTest {
     }
     
     void nãoCriarUmaContaComHahsJaExistente() {
-        final Conta conta = new Conta("hash");
-        when(contaRepository.findByHash("hash")).thenReturn(Optional.of(new Conta("hash")));
+        final Conta conta = new Conta();
+        when(contaRepository.findByHash("hash")).thenReturn(Optional.of(new Conta()));
         assertThrows(ContaException.class, () -> {tested.criarConta(conta);});
     }
     
     @Test
     void retornaSaldoComSucesso() {
-    	final Conta contaComSaldo = new Conta("hashValue");
+    	final Conta contaComSaldo = new Conta();
     	contaComSaldo.deposito(new BigDecimal(100));
     	contaComSaldo.saque(new BigDecimal(10));
     	when(contaRepository.findByHash("hashValue")).thenReturn(Optional.of(contaComSaldo));
@@ -65,7 +66,7 @@ class BancoServiceImplTest {
     
     @Test
     void realizaOperacaoDeposito() {
-    	final Conta conta = new Conta("hash");
+    	final Conta conta = new Conta();
     	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO);
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
@@ -77,7 +78,7 @@ class BancoServiceImplTest {
     
     @Test
     void realizaOperacaoSaque() {
-    	final Conta conta = new Conta("hash");
+    	final Conta conta = new Conta();
     	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO);
     	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
@@ -91,7 +92,7 @@ class BancoServiceImplTest {
     
     @Test
     void naoRealizaOperacaoDepositoComValorInvalido() {
-    	final Conta conta = new Conta("hash");
+    	final Conta conta = new Conta();
     	final Operacao deposito = new Operacao(new BigDecimal("0"), TipoOperacao.DEPOSITO);
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
@@ -101,7 +102,7 @@ class BancoServiceImplTest {
     
     @Test
     void naoRealizaOperacaoSaqueComSaldoInsuficiente() {
-    	final Conta conta = new Conta("hash");
+    	final Conta conta = new Conta();
     	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
@@ -111,8 +112,8 @@ class BancoServiceImplTest {
     
     @Test
     void realizaTransferenciaComSucesso() {
-    	final Conta contaOrigem = new Conta("hashOrigem");
-    	final Conta contaDestino = new Conta("hashDestino");
+    	final Conta contaOrigem = new Conta();
+    	final Conta contaDestino = new Conta();
     	final Operacao deposito = new Operacao(new BigDecimal("50.40"), TipoOperacao.DEPOSITO);
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
@@ -126,8 +127,8 @@ class BancoServiceImplTest {
     
     @Test
     void naoRealizaTransferenciaComSaldoInsuficiente() {
-    	final Conta contaOrigem = new Conta("hashOrigem");
-    	final Conta contaDestino = new Conta("hashDestino");
+    	final Conta contaOrigem = new Conta();
+    	final Conta contaDestino = new Conta();
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());
@@ -143,7 +144,7 @@ class BancoServiceImplTest {
     
     @Test
     void naoRealizaTransferenciaComContaDestinoInvalida() {
-    	final Conta contaOrigem = new Conta("hashOrigem");
+    	final Conta contaOrigem = new Conta();
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.ofNullable(null));;
         assertThrows(ContaException.class, ()-> {tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
@@ -151,8 +152,8 @@ class BancoServiceImplTest {
     
     @Test
     void naoRealizaTransferenciaComValorInvalido() {
-    	final Conta contaOrigem = new Conta("hashOrigem");
-    	final Conta contaDestino = new Conta("hashDestino");
+    	final Conta contaOrigem = new Conta();
+    	final Conta contaDestino = new Conta();
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());

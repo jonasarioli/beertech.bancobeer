@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.beertech.banco.domain.service.BancoService;
+import com.beertech.banco.domain.service.ContaService;
 import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(controllers = OperacaoController.class)
@@ -25,7 +25,7 @@ class OperacaoControllerTest {
     private MockMvc mockMvc;
 	
 	@MockBean
-	BancoService bancoService;
+	ContaService bancoService;
 	
 	@Test
 	void getSaldo() throws Exception {		

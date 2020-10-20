@@ -3,9 +3,9 @@ package com.beertech.banco.infrastructure.repository.mysql.model;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -33,13 +33,14 @@ uniqueConstraints = {
 	@UniqueConstraint(columnNames = "email") 
 })
 public class MySqlConta implements UserDetails {
+	private static final long serialVersionUID = 7512601519773318339L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	private String hash;
 	
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "operacoes", joinColumns = @JoinColumn(name = "conta_id"))
 	@Column(name = "operacao")
 	private List<MySqlOperacao> operacoes;
@@ -57,20 +58,21 @@ public class MySqlConta implements UserDetails {
 	private String senha;
 	
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "CONTA_PROFILES", joinColumns = {
             @JoinColumn(name = "CONTA_ID") }, inverseJoinColumns = {
             @JoinColumn(name = "PROFILE_ID") })
-	private List<MySqlProfile> profiles;
+	private Set<MySqlProfile> profiles;
 	
 	public MySqlConta() {
 	}
 	
-	public MySqlConta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
-					  String senha, List<MySqlProfile> perfil) {
+	public MySqlConta(Long id, String hash, BigDecimal saldo, List<MySqlOperacao> operacoes, String nome, String email, String cnpj,
+					  String senha, Set<MySqlProfile> perfil) {
 		this.id = id;
 		this.hash = hash;
 		this.saldo = saldo;
+		this.operacoes = operacoes;
 		this.nome = nome;
 		this.email = email;
 		this.cnpj = cnpj;
@@ -78,8 +80,8 @@ public class MySqlConta implements UserDetails {
 		this.profiles = perfil;
 	}
 	
-	public MySqlConta(String hash, BigDecimal saldo, String nome, String email, String cnpj,
-					  String senha, List<MySqlProfile> perfil) {
+	public MySqlConta(String hash, BigDecimal saldo, List<MySqlOperacao> operacoes, String nome, String email, String cnpj,
+					  String senha, Set<MySqlProfile> perfil) {
 		this.hash = hash;
 		this.operacoes = operacoes;
 		this.saldo = saldo;
@@ -125,32 +127,37 @@ public class MySqlConta implements UserDetails {
 	private BigDecimal saldo;
 
 	public MySqlConta fromDomain(Conta conta) {
-		if(conta.getId() != null)
+		if(conta.getId() == null)
 			return new MySqlConta(conta.getHash()
 					, conta.getSaldo()
+					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
 					, conta.getNome()
 					, conta.getEmail()
 					, conta.getCnpj()
 					, conta.getSenha()
-					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toList()));
+					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toSet()));
 		else 
 			return new MySqlConta(conta.getId()
 					,conta.getHash()
 					, conta.getSaldo()
+					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
 					, conta.getNome()
 					, conta.getEmail()
 					, conta.getCnpj()
 					, conta.getSenha()
-					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toList()));
+					, conta.getProfiles().stream().map(new MySqlProfile()::fromDomain).collect(Collectors.toSet()));
 	}
 	
 	public Conta toDomain(MySqlConta mySqlConta) {
-		return new Conta( mySqlConta.getSaldo()
+		return new Conta(mySqlConta.id
+				, mySqlConta.hash
+				, mySqlConta.getSaldo()
+				, mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList())
 				, mySqlConta.getNome()
 				, mySqlConta.getEmail()
 				, mySqlConta.getCnpj()
 				, mySqlConta.getSenha()
-				, mySqlConta.getProfiles().stream().map(new MySqlProfile()::toDomain).collect(Collectors.toList()));
+				, mySqlConta.getProfiles().stream().map(new MySqlProfile()::toDomain).collect(Collectors.toSet()));
 	}
 
 	public String getNome() {
@@ -185,11 +192,11 @@ public class MySqlConta implements UserDetails {
 		this.senha = senha;
 	}
 
-	public List<MySqlProfile> getProfiles() {
+	public Set<MySqlProfile> getProfiles() {
 		return profiles;
 	}
 
-	public void setProfiles(List<MySqlProfile> profiles) {
+	public void setProfiles(Set<MySqlProfile> profiles) {
 		this.profiles = profiles;
 	}
 	
