@@ -1,17 +1,10 @@
-package com.beertech.banco.domain;
+package com.beertech.banco.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 
 public class Operacao {	
@@ -37,6 +30,19 @@ public class Operacao {
 	}
 
 	
+	
+	public void setDataHora(LocalDateTime dataHora) {
+		this.dataHora = dataHora;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public void setTipo(TipoOperacao tipo) {
+		this.tipo = tipo;
+	}
+
 	public LocalDateTime getDataHora() {
 		return dataHora;
 	}

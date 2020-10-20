@@ -2,7 +2,7 @@ package com.beertech.banco.domain.repository;
 
 import java.util.Optional;
 
-import com.beertech.banco.domain.Profile;
+import com.beertech.banco.domain.model.Profile;
 
 public interface ProfileRepository {
 

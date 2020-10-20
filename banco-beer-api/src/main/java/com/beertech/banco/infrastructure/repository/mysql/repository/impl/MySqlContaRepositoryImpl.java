@@ -8,7 +8,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 

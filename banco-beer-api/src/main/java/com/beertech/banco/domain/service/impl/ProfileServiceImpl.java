@@ -2,7 +2,7 @@ package com.beertech.banco.domain.service.impl;
 
 import java.util.Optional;
 
-import com.beertech.banco.domain.Profile;
+import com.beertech.banco.domain.model.Profile;
 import com.beertech.banco.domain.repository.ProfileRepository;
 import com.beertech.banco.domain.service.ProfileService;
 

@@ -3,7 +3,7 @@ package com.beertech.banco.infrastructure.rest.controller.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.beertech.banco.domain.Operacao;
+import com.beertech.banco.domain.model.Operacao;
 
 public class OperacaoDto {
 	

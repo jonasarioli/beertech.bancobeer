@@ -12,7 +12,7 @@ import com.beertech.banco.infrastructure.repository.mysql.ContaRepository;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 
 @Service
-public class AutenticacaoService implements UserDetailsService {
+public class AuthenticationService implements UserDetailsService {
 
 	@Autowired
 	private ContaRepository repository;

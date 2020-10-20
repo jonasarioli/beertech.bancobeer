@@ -1,4 +1,4 @@
-package com.beertech.banco.domain;
+package com.beertech.banco.domain.model;
 
 public class Profile {
 
@@ -19,8 +19,4 @@ public class Profile {
 	public String getName() {
 		return name;
 	}
-	
-	
-	
-	
 }

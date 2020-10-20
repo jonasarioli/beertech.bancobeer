@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import com.beertech.banco.domain.Conta;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 
 import io.jsonwebtoken.Claims;
@@ -29,7 +28,7 @@ public class TokenService {
 		Date expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
 		
 		return Jwts.builder()
-				.setIssuer("Banco-Beer API ")
+				.setIssuer("BeerCoins API ")
 				.setSubject(logado.getId().toString())
 				.setIssuedAt(today)
 				.setExpiration(expirationDate)

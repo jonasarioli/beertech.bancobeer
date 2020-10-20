@@ -1,7 +1,5 @@
 package com.beertech.banco.infrastructure;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.boot.CommandLineRunner;
@@ -11,18 +9,17 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.beertech.banco.domain.Conta;
-import com.beertech.banco.domain.Profile;
+import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.Profile;
 import com.beertech.banco.domain.repository.ContaRepository;
-import com.beertech.banco.domain.repository.ProfileRepository;
 import com.beertech.banco.domain.service.ProfileService;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.beertech.banco")
-public class BancoApplication {
+public class BeercoinsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BancoApplication.class, args);
+		SpringApplication.run(BeercoinsApplication.class, args);
 	}
 	
 	@Bean
@@ -39,7 +36,7 @@ public class BancoApplication {
 			Optional<Profile> userProfile = profileService.findByName("USER");
 			if (!userProfile.isPresent()) {
 				Profile newAdminRole = new Profile("USER");
-				adminProfile = Optional.ofNullable(profileService.save(newAdminRole));
+				Optional.ofNullable(profileService.save(newAdminRole));
 			}
 			
 			Optional<Conta> admin = contaRepository.findByEmail("admin@email.com");

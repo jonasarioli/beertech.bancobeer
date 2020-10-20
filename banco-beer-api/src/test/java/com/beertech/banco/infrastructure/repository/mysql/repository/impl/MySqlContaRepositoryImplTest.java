@@ -12,9 +12,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
-import com.beertech.banco.infrastructure.repository.mysql.model.MySqlOperacao;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlProfile;
 
 class MySqlContaRepositoryImplTest {

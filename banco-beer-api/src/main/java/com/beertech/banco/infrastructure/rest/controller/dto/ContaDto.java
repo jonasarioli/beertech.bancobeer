@@ -2,7 +2,7 @@ package com.beertech.banco.infrastructure.rest.controller.dto;
 
 import java.math.BigDecimal;
 
-import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.model.Conta;
 
 public class ContaDto {
 

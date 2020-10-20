@@ -8,6 +8,9 @@ import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.domain.service.ProfileService;
 import com.beertech.banco.domain.service.impl.ContaServiceImpl;
 import com.beertech.banco.domain.service.impl.ProfileServiceImpl;
+import com.beertech.banco.infrastructure.amqp.sender.MessageSender;
+import com.beertech.banco.infrastructure.amqp.service.RelayService;
+import com.beertech.banco.infrastructure.amqp.service.impl.RelayServiceImpl;
 import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlContaRepositoryImpl;
 import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlProfileRepositoryImpl;
 
@@ -20,6 +23,9 @@ public class BeanConfiguration {
 	@Autowired
 	private MySqlProfileRepositoryImpl mySqlProfileRepositoryImpl;
 	
+	@Autowired
+	MessageSender messageSender;
+	
 	@Bean
     public ContaService bancoService() {
         return new ContaServiceImpl(mySqlContaRepositoryImpl);
@@ -28,5 +34,10 @@ public class BeanConfiguration {
 	@Bean
     public ProfileService profileService() {
         return new ProfileServiceImpl(mySqlProfileRepositoryImpl);
+    }
+	
+	@Bean
+    public RelayService relayService() {
+        return new RelayServiceImpl(messageSender);
     }
 }

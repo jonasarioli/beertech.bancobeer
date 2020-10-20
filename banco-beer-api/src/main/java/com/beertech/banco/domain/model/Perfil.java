@@ -1,4 +1,4 @@
-package com.beertech.banco.domain;
+package com.beertech.banco.domain.model;
 
 public enum Perfil {
     USUARIO,

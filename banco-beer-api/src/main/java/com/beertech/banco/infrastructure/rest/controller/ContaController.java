@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,18 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.beertech.banco.domain.Conta;
-import com.beertech.banco.domain.Operacao;
-import com.beertech.banco.domain.TipoOperacao;
 import com.beertech.banco.domain.exception.ContaException;
+import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.service.ContaService;
+import com.beertech.banco.infrastructure.amqp.model.OperacaoMessage;
+import com.beertech.banco.infrastructure.amqp.model.TransferenciaMessage;
+import com.beertech.banco.infrastructure.amqp.service.RelayService;
 import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
 import com.beertech.banco.infrastructure.rest.controller.dto.OperacaoDto;
 import com.beertech.banco.infrastructure.rest.controller.dto.SaldoDto;
-import com.beertech.banco.infrastructure.rest.controller.dto.TransferenciaForm;
 import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 import com.beertech.banco.infrastructure.rest.controller.form.DepositoForm;
 import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
+import com.beertech.banco.infrastructure.rest.controller.form.TransferenciaForm;
 
 
 @RestController
@@ -38,15 +41,18 @@ import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
 public class ContaController {
 
 	@Autowired
-	ContaService contaService; 
+	ContaService contaService;
+	
+	@Autowired
+	private RelayService relayService; 
 
     @PostMapping(value = "/saque")
-	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm operacaoDto, Principal principal) {
-		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.SAQUE);
+	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, Principal principal) {
 		try {
-			System.out.println(principal.getName());
-			//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
-			return ResponseEntity.ok().build();
+			Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
+			OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
+			relayService.operation(message);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		} catch (ContaException | IllegalArgumentException ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
@@ -54,11 +60,11 @@ public class ContaController {
 
 	@PostMapping(value = "/deposito")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm operacaoDto) {
-		Operacao operacaoNaoRealizada = new Operacao(operacaoDto.getValor(), TipoOperacao.DEPOSITO);
+	public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm depositoForm) {
 		try {
-			//Conta conta = bancoService.realizaOperacao(operacaoDto.getHash(), operacaoNaoRealizada);
-			return ResponseEntity.ok().build();
+			OperacaoMessage message = new OperacaoMessage(TipoOperacao.DEPOSITO.name(), depositoForm.getValor(), depositoForm.getHashDaConta());
+			relayService.operation(message);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		} catch (ContaException | IllegalArgumentException ex) {
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
@@ -88,10 +94,12 @@ public class ContaController {
     }
     
     @PostMapping("/transferencia")
-    public ResponseEntity<?> transferencia(@Valid @RequestBody TransferenciaForm transferenciaDto) {
+    public ResponseEntity<?> transferencia(@Valid @RequestBody TransferenciaForm transferenciaForm, Principal principal) {
     	try {
-    		//bancoService.transferencia(transferenciaDto.getContaOrigem(), transferenciaDto.getContaDestino(), transferenciaDto.getValor());
-    		return ResponseEntity.ok().build();    		
+    		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
+    		TransferenciaMessage message = new TransferenciaMessage(TipoOperacao.TRANSFERENCIA.name(), contaPeloEmail.getHash(), transferenciaForm.getValor(), transferenciaForm.getContaDestino());
+    		relayService.transfer(message );
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}

@@ -1,4 +1,4 @@
-package com.beertech.banco.domain;
+package com.beertech.banco.domain.model;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

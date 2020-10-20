@@ -9,7 +9,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import com.beertech.banco.domain.Profile;
+import com.beertech.banco.domain.model.Profile;
 
 @Entity
 @Table(name = "profile", 

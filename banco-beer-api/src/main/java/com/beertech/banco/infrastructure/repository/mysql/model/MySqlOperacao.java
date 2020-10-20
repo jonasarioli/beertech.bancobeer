@@ -4,20 +4,23 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
-import com.beertech.banco.domain.Operacao;
-import com.beertech.banco.domain.TipoOperacao;
+import com.beertech.banco.domain.model.Operacao;
+import com.beertech.banco.domain.model.TipoOperacao;
 
 @Embeddable
 public class MySqlOperacao {
 
 	private LocalDateTime dataHora;
 	private BigDecimal valor;
+	@Enumerated(EnumType.STRING)
 	private TipoOperacao tipo;
-	
+
 	public MySqlOperacao() {
 	}
-	
+
 	public MySqlOperacao(BigDecimal valor, TipoOperacao tipo, LocalDateTime dataHora) {
 		this.valor = valor;
 		this.tipo = tipo;
@@ -27,28 +30,33 @@ public class MySqlOperacao {
 	public LocalDateTime getDataHora() {
 		return dataHora;
 	}
+
 	public void setDataHora(LocalDateTime dataHora) {
 		this.dataHora = dataHora;
 	}
+
 	public BigDecimal getValor() {
 		return valor;
 	}
+
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
+
 	public TipoOperacao getTipo() {
 		return tipo;
 	}
+
 	public void setTipo(TipoOperacao tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	public MySqlOperacao fromDomain(Operacao operacao) {
 		return new MySqlOperacao(operacao.getValor(), operacao.getTipo(), operacao.getDataHora());
 	}
-	
+
 	public Operacao toDomain(MySqlOperacao mySqlOperacao) {
 		return new Operacao(mySqlOperacao.getDataHora(), mySqlOperacao.getValor(), mySqlOperacao.getTipo());
 	}
-	
+
 }

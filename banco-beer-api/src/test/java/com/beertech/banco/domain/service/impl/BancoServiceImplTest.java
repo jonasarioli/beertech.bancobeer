@@ -14,12 +14,11 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.beertech.banco.domain.Conta;
-import com.beertech.banco.domain.Operacao;
-import com.beertech.banco.domain.TipoOperacao;
 import com.beertech.banco.domain.exception.ContaException;
+import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.Operacao;
+import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
-import com.beertech.banco.domain.repository.ProfileRepository;
 
 class BancoServiceImplTest {
 

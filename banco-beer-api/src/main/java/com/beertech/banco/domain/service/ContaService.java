@@ -3,8 +3,8 @@ package com.beertech.banco.domain.service;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.beertech.banco.domain.Conta;
-import com.beertech.banco.domain.Operacao;
+import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.Operacao;
 
 public interface ContaService {
 	Conta criarConta(Conta conta);

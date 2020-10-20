@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.beertech.banco.domain.Profile;
+import com.beertech.banco.domain.model.Profile;
 import com.beertech.banco.domain.repository.ProfileRepository;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlProfile;
 

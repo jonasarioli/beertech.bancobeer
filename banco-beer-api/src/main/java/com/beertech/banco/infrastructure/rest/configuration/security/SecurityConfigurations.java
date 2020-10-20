@@ -24,7 +24,7 @@ import com.beertech.banco.infrastructure.repository.mysql.ContaRepository;
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private AutenticacaoService autenticacaoService;
+	private AuthenticationService autenticacaoService;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -48,9 +48,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/banco/operacoes").permitAll()
-		.antMatchers(HttpMethod.POST, "/banco/operacoes/*").permitAll()
-		.antMatchers(HttpMethod.POST, "/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/beercoins/operacao").permitAll()
+		.antMatchers(HttpMethod.POST, "/beercoins/operacao/*").permitAll()
+		.antMatchers(HttpMethod.POST, "/beercoins/transferencia").permitAll()
+		.antMatchers(HttpMethod.POST, "/beercoins/transferencia/*").permitAll()
+		.antMatchers(HttpMethod.POST, "/beercoins/login").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -24,7 +24,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.model.Conta;
 
 @Entity
 @Table(	name = "conta", 

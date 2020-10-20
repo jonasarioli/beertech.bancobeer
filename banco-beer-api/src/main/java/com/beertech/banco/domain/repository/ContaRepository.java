@@ -3,7 +3,7 @@ package com.beertech.banco.domain.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.beertech.banco.domain.Conta;
+import com.beertech.banco.domain.model.Conta;
 
 public interface ContaRepository {
 	Optional<Conta> findByHash(String hash);

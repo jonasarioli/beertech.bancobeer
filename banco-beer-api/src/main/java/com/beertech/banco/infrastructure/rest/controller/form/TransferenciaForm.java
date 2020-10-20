@@ -3,14 +3,25 @@ package com.beertech.banco.infrastructure.rest.controller.form;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class SaqueForm {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class TransferenciaForm {
+
+	@NotBlank
+	private String contaDestino;
 	@NotNull
 	@Min(value = 0, message = "Valor deve ser maior do que 0!")
 	private BigDecimal valor;
 
+	public String getContaDestino() {
+		return contaDestino;
+	}
+	public void setContaDestino(String contaDestino) {
+		this.contaDestino = contaDestino;
+	}
 	public BigDecimal getValor() {
 		return valor;
 	}
