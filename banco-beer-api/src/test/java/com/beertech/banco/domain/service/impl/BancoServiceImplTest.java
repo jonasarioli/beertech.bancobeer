@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
@@ -24,11 +25,13 @@ class BancoServiceImplTest {
 
 	private ContaRepository contaRepository;
 	private ContaServiceImpl tested;
+	private OperacaoServiceImpl operacao;
 	
 	@BeforeEach
     void setUp() {
 		contaRepository = mock(ContaRepository.class);
 		tested = new ContaServiceImpl(contaRepository);
+		operacao = new OperacaoServiceImpl(contaRepository);
     }
 	
 
@@ -36,7 +39,7 @@ class BancoServiceImplTest {
     void criarUmaContaComSucesso() {
         final Conta conta = new Conta();
  
-        final Conta id = tested.criarConta(conta);
+        final Conta id = tested.criarConta(conta, EPerfil.USER);
  
         verify(contaRepository).save(any(Conta.class));
         assertNotNull(id);
@@ -45,7 +48,7 @@ class BancoServiceImplTest {
     void nãoCriarUmaContaComHahsJaExistente() {
         final Conta conta = new Conta();
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(new Conta()));
-        assertThrows(ContaException.class, () -> {tested.criarConta(conta);});
+        assertThrows(ContaException.class, () -> {tested.criarConta(conta, EPerfil.USER);});
     }
     
     @Test
@@ -69,7 +72,7 @@ class BancoServiceImplTest {
     	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO);
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
-        tested.realizaOperacao("hash", deposito);        
+        operacao.realizaOperacao("hash", deposito);        
         assertEquals(new BigDecimal("1050.90"), conta.getSaldo());
         assertEquals(1, conta.getOperacoes().size());
         
@@ -82,8 +85,8 @@ class BancoServiceImplTest {
     	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
-        tested.realizaOperacao("hash", deposito);    
-        tested.realizaOperacao("hash", saque);    
+        operacao.realizaOperacao("hash", deposito);    
+        operacao.realizaOperacao("hash", saque);    
         assertEquals(new BigDecimal("1000.50"), conta.getSaldo());
         assertEquals(2, conta.getOperacoes().size());
         
@@ -95,7 +98,7 @@ class BancoServiceImplTest {
     	final Operacao deposito = new Operacao(new BigDecimal("0"), TipoOperacao.DEPOSITO);
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
-        assertThrows(ContaException.class, () -> {tested.realizaOperacao("hash", deposito);});
+        assertThrows(ContaException.class, () -> {operacao.realizaOperacao("hash", deposito);});
         
     }
     
@@ -105,7 +108,7 @@ class BancoServiceImplTest {
     	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
-        assertThrows(ContaException.class, () -> {tested.realizaOperacao("hash", saque);});    
+        assertThrows(ContaException.class, () -> {operacao.realizaOperacao("hash", saque);});    
         
     }
     
@@ -118,8 +121,8 @@ class BancoServiceImplTest {
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());
         when(contaRepository.save(contaDestino)).thenReturn(new Conta());
-        tested.realizaOperacao("hashOrigem", deposito);
-        tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));
+        operacao.realizaOperacao("hashOrigem", deposito);
+        operacao.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));
         assertEquals(new BigDecimal("40.40"), contaDestino.getSaldo());
         assertEquals(new BigDecimal("10.00"), contaOrigem.getSaldo());        
     }
@@ -132,13 +135,13 @@ class BancoServiceImplTest {
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());
         when(contaRepository.save(contaDestino)).thenReturn(new Conta());
-        assertThrows(ContaException.class, ()-> {tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
+        assertThrows(ContaException.class, ()-> {operacao.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
     }
     
     @Test
     void naoRealizaTransferenciaComContaOrigemInvalida() {
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.ofNullable(null));
-    	assertThrows(ContaException.class, ()-> {tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
+    	assertThrows(ContaException.class, ()-> {operacao.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
     }
     
     @Test
@@ -146,7 +149,7 @@ class BancoServiceImplTest {
     	final Conta contaOrigem = new Conta();
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.ofNullable(null));;
-        assertThrows(ContaException.class, ()-> {tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
+        assertThrows(ContaException.class, ()-> {operacao.transferencia("hashOrigem", "hashDestino", new BigDecimal("40.40"));});
     }
     
     @Test
@@ -157,7 +160,7 @@ class BancoServiceImplTest {
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());
         when(contaRepository.save(contaDestino)).thenReturn(new Conta());
-        assertThrows(ContaException.class, ()-> {tested.transferencia("hashOrigem", "hashDestino", new BigDecimal("0.00"));});
+        assertThrows(ContaException.class, ()-> {operacao.transferencia("hashOrigem", "hashDestino", new BigDecimal("0.00"));});
     }
 
 }

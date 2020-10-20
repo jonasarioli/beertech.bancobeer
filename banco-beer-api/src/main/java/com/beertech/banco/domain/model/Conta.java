@@ -26,7 +26,7 @@ public class Conta {
 	private String email;
 	private String cnpj;
 	private String senha;
-	private Perfil perfil;
+	private EPerfil perfil;
 	private Set<Profile> profiles;
 
 
@@ -144,11 +144,11 @@ public class Conta {
 		this.senha = senha;
 	}
 
-	public Perfil getPerfil() {
+	public EPerfil getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(Perfil perfil) {
+	public void setPerfil(EPerfil perfil) {
 		this.perfil = perfil;
 	}
 

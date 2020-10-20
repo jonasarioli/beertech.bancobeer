@@ -5,13 +5,12 @@ import java.util.List;
 
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.Operacao;
+import com.beertech.banco.domain.model.EPerfil;
 
 public interface ContaService {
-	Conta criarConta(Conta conta);
-	BigDecimal saldo(String hash);
-	Conta realizaOperacao(String contaHash, Operacao operacao);
-	void atualizaConta(Conta conta);
-	void transferencia(String hahsDaContaOrigem, String hahsDaContaDestino, BigDecimal valor);
+	Conta criarConta(Conta conta, EPerfil perfil);
+	BigDecimal saldo(String hash);	
+	void atualizaConta(Conta conta);	
 	List<Conta> listaTodasAsContas();
 	Conta contaPeloId(Long id);
 	Conta contaPeloHash(String hash);

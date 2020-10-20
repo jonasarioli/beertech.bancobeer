@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.model.Profile;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.domain.service.ProfileService;
@@ -27,15 +28,15 @@ public class BeercoinsApplication {
 
 		return args -> {
 
-			Optional<Profile> adminProfile = profileService.findByName("ADMIN");
+			Optional<Profile> adminProfile = profileService.findByName(EPerfil.ADMIN.name());
 			if (!adminProfile.isPresent()) {
-				Profile newAdminRole = new Profile("ADMIN");
+				Profile newAdminRole = new Profile(EPerfil.ADMIN.name());
 				adminProfile = Optional.ofNullable(profileService.save(newAdminRole));
 			}
 			
-			Optional<Profile> userProfile = profileService.findByName("USER");
+			Optional<Profile> userProfile = profileService.findByName(EPerfil.USER.name());
 			if (!userProfile.isPresent()) {
-				Profile newAdminRole = new Profile("USER");
+				Profile newAdminRole = new Profile(EPerfil.USER.name());
 				Optional.ofNullable(profileService.save(newAdminRole));
 			}
 			

@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.amqp.model.OperacaoMessage;
@@ -34,6 +35,8 @@ import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 import com.beertech.banco.infrastructure.rest.controller.form.DepositoForm;
 import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
 import com.beertech.banco.infrastructure.rest.controller.form.TransferenciaForm;
+
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
@@ -85,7 +88,7 @@ public class ContaController {
     public ResponseEntity<?> criaConta(@Valid ContaForm contaForm, UriComponentsBuilder uriBuilder) {
     	try {    		
     		Conta conta = new Conta(contaForm);    		
-    		conta = contaService.criarConta(conta);
+    		conta = contaService.criarConta(conta, EPerfil.USER);
     		URI uri = uriBuilder.path("/conta/{id}").buildAndExpand(conta.getHash()).toUri();
     		return ResponseEntity.created(uri).body(conta);
     	} catch (ContaException ex) {
@@ -138,6 +141,20 @@ public class ContaController {
     		return ResponseEntity.ok(contaPeloId.getOperacoes().stream().map(OperacaoDto::new).collect(Collectors.toList()));    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.notFound().build();
+    	}
+    }
+    
+    @ApiIgnore
+    @PostMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> criaAdmin(@Valid ContaForm contaForm, UriComponentsBuilder uriBuilder) {
+    	try {    		
+    		Conta conta = new Conta(contaForm);
+    		conta = contaService.criarConta(conta, EPerfil.ADMIN);
+    		URI uri = uriBuilder.path("/conta/{id}").buildAndExpand(conta.getHash()).toUri();
+    		return ResponseEntity.created(uri).body(conta);
+    	} catch (ContaException ex) {
+    		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
     }
 }

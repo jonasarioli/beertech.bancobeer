@@ -18,7 +18,7 @@ import com.beertech.banco.infrastructure.rest.controller.dto.TokenDto;
 import com.beertech.banco.infrastructure.rest.controller.form.LoginForm;
 
 @RestController
-@RequestMapping("/beercoins/login")
+@RequestMapping("/beercoins")
 public class AuthenticationController {
 
 	@Autowired
@@ -27,7 +27,7 @@ public class AuthenticationController {
 	@Autowired
 	private TokenService tokenService;
 	
-	@PostMapping
+	@PostMapping("/login")
 	public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) {
 		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
 		try {

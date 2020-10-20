@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.beertech.banco.domain.service.ContaService;
+import com.beertech.banco.domain.service.OperacaoService;
 import com.beertech.banco.domain.service.ProfileService;
 import com.beertech.banco.domain.service.impl.ContaServiceImpl;
+import com.beertech.banco.domain.service.impl.OperacaoServiceImpl;
 import com.beertech.banco.domain.service.impl.ProfileServiceImpl;
 import com.beertech.banco.infrastructure.amqp.sender.MessageSender;
 import com.beertech.banco.infrastructure.amqp.service.RelayService;
@@ -40,4 +42,9 @@ public class BeanConfiguration {
     public RelayService relayService() {
         return new RelayServiceImpl(messageSender);
     }
+	
+	@Bean
+	public OperacaoService operacaoService() {
+		return new OperacaoServiceImpl(mySqlContaRepositoryImpl);
+	}
 }
