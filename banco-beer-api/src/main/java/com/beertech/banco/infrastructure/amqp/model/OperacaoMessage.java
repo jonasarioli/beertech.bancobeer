@@ -18,10 +18,27 @@ public class OperacaoMessage {
 	@JsonProperty(value = "hash")
 	@ApiModelProperty(example = "123456")
 	private String hash;
+	
+	public OperacaoMessage() {
+	}
 
 	public OperacaoMessage(String tipo, BigDecimal valor, String hash) {
 		this.tipo = tipo;
 		this.valor = valor;
+		this.hash = hash;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public void setHash(String hash) {
 		this.hash = hash;
 	}
 
@@ -35,5 +52,10 @@ public class OperacaoMessage {
 
 	public String getHash() {
 		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return "OperacaoMessage [tipo=" + tipo + ", valor=" + valor + ", hash=" + hash + "]";
 	}
 }

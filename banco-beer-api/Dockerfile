@@ -1,10 +1,6 @@
-FROM maven:3.6.3-jdk-11-slim AS MAVEN_BUILD
-MAINTAINER Grupo Colorado
-COPY pom.xml /build/
-COPY src /build/src/
-WORKDIR /build/
-RUN mvn package -DskipTests
-FROM openjdk:11-jre
-WORKDIR /app
-COPY --from=MAVEN_BUILD /build/target/banco-beer-api-0.0.1-SNAPSHOT.jar /app/
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod" , "banco-beer-api-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:8-jre-alpine
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-Xmx512m", "-jar", "/app.jar"]

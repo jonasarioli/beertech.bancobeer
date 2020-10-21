@@ -1,6 +1,8 @@
 package com.beertech.banco.infrastructure.rest.configuration.security;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -27,8 +29,13 @@ public class TokenService {
 		Date today = new Date();
 		Date expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
 		
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("Nome", logado.getNome());
+		claims.put("Perfil", logado.getProfiles().iterator().next().getName());
+		
 		return Jwts.builder()
 				.setIssuer("BeerCoins API ")
+				.setClaims(claims)
 				.setSubject(logado.getId().toString())
 				.setIssuedAt(today)
 				.setExpiration(expirationDate)
