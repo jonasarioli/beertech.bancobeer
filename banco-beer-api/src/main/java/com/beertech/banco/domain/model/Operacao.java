@@ -2,6 +2,7 @@ package com.beertech.banco.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,20 +14,23 @@ public class Operacao {
 	private BigDecimal valor;
 	@Enumerated(EnumType.STRING)
 	private TipoOperacao tipo;
+	private  String hashContaDestino;
 
 	public Operacao() {
 	}
 	
-	public Operacao(BigDecimal valor, TipoOperacao tipo) {
+	public Operacao(BigDecimal valor, TipoOperacao tipo, String hashContaDestino) {
 		this.dataHora = LocalDateTime.now();
 		this.valor = valor;
 		this.tipo = tipo;
+		this.hashContaDestino = hashContaDestino;
 	}
 
-	public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo) {
+	public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo, String hashContaDestino) {
 		this.dataHora = dataHora;
 		this.valor = valor;
 		this.tipo = tipo;
+		this.hashContaDestino = hashContaDestino;
 	}
 
 	
@@ -43,6 +47,8 @@ public class Operacao {
 		this.tipo = tipo;
 	}
 
+	public void setHashContaDestino(String hashContaDestino) { this.hashContaDestino = hashContaDestino; }
+
 	public LocalDateTime getDataHora() {
 		return dataHora;
 	}
@@ -54,4 +60,6 @@ public class Operacao {
 	public TipoOperacao getTipo() {
 		return tipo;
 	}
+
+	public String getHashContaDestino() { return hashContaDestino; }
 }
