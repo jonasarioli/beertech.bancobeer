@@ -12,6 +12,7 @@ public interface ContaService {
 	BigDecimal saldo(String hash);	
 	void atualizaConta(Conta conta);	
 	List<Conta> listaTodasAsContas();
+	List<Conta> listaTodasAsContasUsuarios();
 	Conta contaPeloId(Long id);
 	Conta contaPeloHash(String hash);
 	List<Operacao> extrato(String hash);

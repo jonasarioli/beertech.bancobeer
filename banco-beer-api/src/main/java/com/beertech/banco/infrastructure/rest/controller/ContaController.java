@@ -110,7 +110,7 @@ public class ContaController {
     
     @GetMapping
     public ResponseEntity<?> listaContas() {
-    	List<ContaDto> listaTodasAsContas = contaService.listaTodasAsContas().stream().map(ContaDto::new).collect(Collectors.toList());    	
+    	List<ContaDto> listaTodasAsContas = contaService.listaTodasAsContasUsuarios().stream().map(ContaDto::new).collect(Collectors.toList());
     	return ResponseEntity.ok(listaTodasAsContas);
     }
     

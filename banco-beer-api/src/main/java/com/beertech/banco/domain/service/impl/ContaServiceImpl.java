@@ -3,6 +3,7 @@ package com.beertech.banco.domain.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -60,6 +61,11 @@ public class ContaServiceImpl implements ContaService {
 	@Override
 	public List<Conta> listaTodasAsContas() {
 		return contaRepository.findAll();
+	}
+
+	@Override
+	public List<Conta> listaTodasAsContasUsuarios() {
+		return contaRepository.findAll().stream().skip(1).collect(Collectors.toList());
 	}
 
 	@Override
