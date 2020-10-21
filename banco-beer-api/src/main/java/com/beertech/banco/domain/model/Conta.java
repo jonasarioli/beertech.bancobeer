@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 
-
 public class Conta {
 
 	private Long id;

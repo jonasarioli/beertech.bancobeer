@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
-import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.EPerfil;
+import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.Profile;
-import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.domain.service.ProfileService;

@@ -12,29 +12,12 @@ services:
          - RABBITMQ_PASS=guest
          - RABBITMQ_DEFAULT_VHOST=/
          - HEALTH_CHECK_CACHE=0
-    db:
-      image: mysql:5.7
-      restart: always
-      container_name: banco-beer-mysql
-      environment:
-        MYSQL_DATABASE: 'bancobeer'
-        MYSQL_USER: 'admin'
-        MYSQL_PASSWORD: 'admin'
-        MYSQL_ROOT_PASSWORD: '123'
-
-      ports:
-        - '3306:3306'
-      expose:
-        - '3306'
-   
-    banco-beer-consume:
-        restart: on-failure
-        build: banco-beer-consumer/.
-        expose:
-        - "8081"
+    dbpostgresql:
+        image: postgres
         ports:
-        - 8081:8081
-        container_name: banco-beer-consume
-        network_mode: "host"        
-        depends_on:
-        - rabbitmq
+          - "5432:5432"
+        environment:
+          - POSTGRES_PASSWORD=password
+          - POSTGRES_USER=postgres
+          - POSTGRES_DB=beercoins_db
+
