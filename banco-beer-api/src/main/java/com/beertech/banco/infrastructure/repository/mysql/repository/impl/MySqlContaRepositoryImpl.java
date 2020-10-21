@@ -6,11 +6,16 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
+import com.beertech.banco.infrastructure.repository.mysql.model.MySqlOperacao;
 
 @Repository
 public class MySqlContaRepositoryImpl implements ContaRepository {
@@ -45,9 +50,14 @@ public class MySqlContaRepositoryImpl implements ContaRepository {
 	}
 
 	@Override
-	public List<Conta> findAll() {
-		Iterable<MySqlConta> findAll = contaRepository.findAll();
-		return StreamSupport.stream(findAll.spliterator(), false).map(new MySqlConta()::toDomain)
-				.collect(Collectors.toList());
+	public Page<Conta> findAll(Pageable page) {
+		Page<MySqlConta> findAll = contaRepository.findAll(page);
+		return findAll.map(new MySqlConta()::toDomain);
+	}
+
+	@Override
+	public Page<Operacao> getExtratoByHash(String hash, Pageable page) {
+		Page<MySqlOperacao> findOperacoesByHash = contaRepository.findOperacoesByHash(hash, page);
+		return findOperacoesByHash.map(new MySqlOperacao()::toDomain);
 	}
 }

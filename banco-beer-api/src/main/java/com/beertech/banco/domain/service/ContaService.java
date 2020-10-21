@@ -3,18 +3,21 @@ package com.beertech.banco.domain.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.beertech.banco.domain.model.Conta;
-import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.EPerfil;
+import com.beertech.banco.domain.model.Operacao;
 
 public interface ContaService {
 	Conta criarConta(Conta conta, EPerfil perfil);
 	BigDecimal saldo(String hash);	
 	void atualizaConta(Conta conta);	
-	List<Conta> listaTodasAsContas();
-	List<Conta> listaTodasAsContasUsuarios();
+	Page<Conta> listaTodasAsContas(Pageable page);
+	Page<Conta> listaTodasAsContasUsuarios(Pageable page);
 	Conta contaPeloId(Long id);
 	Conta contaPeloHash(String hash);
-	List<Operacao> extrato(String hash);
+	Page<Operacao> extrato(String hash, Pageable page);
 	Conta contaPeloEmail(String email);
 }

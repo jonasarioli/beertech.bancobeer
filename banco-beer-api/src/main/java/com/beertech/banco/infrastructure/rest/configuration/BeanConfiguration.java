@@ -40,7 +40,7 @@ public class BeanConfiguration {
 	
 	@Bean
     public RelayService relayService() {
-        return new RelayServiceImpl(messageSender);
+        return new RelayServiceImpl(messageSender, mySqlContaRepositoryImpl);
     }
 	
 	@Bean

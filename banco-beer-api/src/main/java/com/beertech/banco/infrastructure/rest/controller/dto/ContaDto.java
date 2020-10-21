@@ -2,6 +2,8 @@ package com.beertech.banco.infrastructure.rest.controller.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.domain.Page;
+
 import com.beertech.banco.domain.model.Conta;
 
 public class ContaDto {
@@ -42,6 +44,11 @@ public class ContaDto {
 	}
 	public String getCnpj() {
 		return cnpj;
+	}
+	
+	public static Page<ContaDto> convert(Page<Conta> conta) {
+		// TODO Auto-generated method stub
+		return conta.map(ContaDto::new);
 	}
 }
 

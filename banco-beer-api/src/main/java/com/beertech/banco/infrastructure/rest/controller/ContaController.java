@@ -3,12 +3,16 @@ package com.beertech.banco.infrastructure.rest.controller;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.EPerfil;
+import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.amqp.model.OperacaoMessage;
@@ -36,6 +41,8 @@ import com.beertech.banco.infrastructure.rest.controller.form.DepositoForm;
 import com.beertech.banco.infrastructure.rest.controller.form.SaqueForm;
 import com.beertech.banco.infrastructure.rest.controller.form.TransferenciaForm;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import springfox.documentation.annotations.ApiIgnore;
 
 
@@ -50,7 +57,7 @@ public class ContaController {
 	private RelayService relayService; 
 
     @PostMapping(value = "/saque")
-	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, Principal principal) {
+	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, @ApiIgnore Principal principal) {
 		try {
 			Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
 			OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
@@ -74,7 +81,7 @@ public class ContaController {
 	}
 
     @GetMapping(value = "/saldo")
-    public ResponseEntity<?> getDataSaldo(Principal principal) throws JSONException {
+    public ResponseEntity<?> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
     	try {
     		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
     		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
@@ -85,7 +92,7 @@ public class ContaController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> criaConta(@Valid ContaForm contaForm, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> criaConta(@Valid ContaForm contaForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
     	try {    		
     		Conta conta = new Conta(contaForm);    		
     		conta = contaService.criarConta(conta, EPerfil.USER);
@@ -97,7 +104,7 @@ public class ContaController {
     }
     
     @PostMapping("/transferencia")
-    public ResponseEntity<?> transferencia(@Valid @RequestBody TransferenciaForm transferenciaForm, Principal principal) {
+    public ResponseEntity<?> transferencia(@Valid @RequestBody TransferenciaForm transferenciaForm, @ApiIgnore Principal principal) {
     	try {
     		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
     		TransferenciaMessage message = new TransferenciaMessage(TipoOperacao.TRANSFERENCIA.name(), contaPeloEmail.getHash(), transferenciaForm.getValor(), transferenciaForm.getContaDestino());
@@ -107,11 +114,18 @@ public class ContaController {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
     }
-    
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                value = "Pagina a ser carregada", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                value = "Quantidade de registros", defaultValue = "10"),
+        @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                value = "Ordenacao dos registros")
+    })
     @GetMapping
-    public ResponseEntity<?> listaContas() {
-    	List<ContaDto> listaTodasAsContas = contaService.listaTodasAsContasUsuarios().stream().map(ContaDto::new).collect(Collectors.toList());
-    	return ResponseEntity.ok(listaTodasAsContas);
+    public ResponseEntity<?> listaContas(@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable paginable) {
+    	Page<Conta> listaTodasAsContasUsuarios = contaService.listaTodasAsContasUsuarios(paginable);
+    	return ResponseEntity.ok(ContaDto.convert(listaTodasAsContasUsuarios));
     }
     
     @GetMapping("/{id}")
@@ -134,11 +148,21 @@ public class ContaController {
     	}
     }
     
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                value = "Pagina a ser carregada", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                value = "Quantidade de registros", defaultValue = "10"),
+        @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                value = "Ordenacao dos registros")
+    })
     @GetMapping("/extrato")
-    public ResponseEntity<?> extrato(Principal principal) {
+    public ResponseEntity<?> extrato(@ApiIgnore Principal principal,
+    		@PageableDefault(sort = "dataHora", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable page) {
     	try {
     		Conta contaPeloId = contaService.contaPeloEmail(principal.getName());
-    		return ResponseEntity.ok(contaPeloId.getOperacoes().stream().map(OperacaoDto::new).collect(Collectors.toList()));    		
+    		List<Operacao> operacoes = contaPeloId.getOperacoes();
+    		return ResponseEntity.ok(OperacaoDto.converter(operacoes));    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.notFound().build();
     	}
