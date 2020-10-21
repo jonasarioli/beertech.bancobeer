@@ -56,8 +56,8 @@ public class OperacaoServiceImpl implements OperacaoService {
 		contaOrigem.get().saque(valor);
 		contaDestino.get().deposito(valor);
 		
-		contaOrigem.get().addOperacao(new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.TRANSFERENCIA));
-		contaDestino.get().addOperacao(new Operacao(valor, TipoOperacao.TRANSFERENCIA));
+		contaOrigem.get().addOperacao(new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.TRANSFERENCIA, hahsDaContaDestino));
+		contaDestino.get().addOperacao(new Operacao(valor, TipoOperacao.TRANSFERENCIA, null));
 		
 		contaRepository.save(contaOrigem.get());
 		contaRepository.save(contaDestino.get());

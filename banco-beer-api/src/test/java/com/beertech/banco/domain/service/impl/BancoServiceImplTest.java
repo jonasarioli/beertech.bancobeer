@@ -69,7 +69,7 @@ class BancoServiceImplTest {
     @Test
     void realizaOperacaoDeposito() {
     	final Conta conta = new Conta();
-    	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO);
+    	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO, "hash");
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
         operacao.realizaOperacao("hash", deposito);        
@@ -81,8 +81,8 @@ class BancoServiceImplTest {
     @Test
     void realizaOperacaoSaque() {
     	final Conta conta = new Conta();
-    	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO);
-    	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
+    	final Operacao deposito = new Operacao(new BigDecimal("1050.90"), TipoOperacao.DEPOSITO, "hash");
+    	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE, "hash");
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
         operacao.realizaOperacao("hash", deposito);    
@@ -95,7 +95,7 @@ class BancoServiceImplTest {
     @Test
     void naoRealizaOperacaoDepositoComValorInvalido() {
     	final Conta conta = new Conta();
-    	final Operacao deposito = new Operacao(new BigDecimal("0"), TipoOperacao.DEPOSITO);
+    	final Operacao deposito = new Operacao(new BigDecimal("0"), TipoOperacao.DEPOSITO, "hash");
         when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
         assertThrows(ContaException.class, () -> {operacao.realizaOperacao("hash", deposito);});
@@ -105,7 +105,7 @@ class BancoServiceImplTest {
     @Test
     void naoRealizaOperacaoSaqueComSaldoInsuficiente() {
     	final Conta conta = new Conta();
-    	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE);
+    	final Operacao saque = new Operacao(new BigDecimal("50.40"), TipoOperacao.SAQUE, "hash");
     	when(contaRepository.findByHash("hash")).thenReturn(Optional.of(conta));
         when(contaRepository.save(conta)).thenReturn(new Conta());
         assertThrows(ContaException.class, () -> {operacao.realizaOperacao("hash", saque);});    
@@ -116,7 +116,7 @@ class BancoServiceImplTest {
     void realizaTransferenciaComSucesso() {
     	final Conta contaOrigem = new Conta();
     	final Conta contaDestino = new Conta();
-    	final Operacao deposito = new Operacao(new BigDecimal("50.40"), TipoOperacao.DEPOSITO);
+    	final Operacao deposito = new Operacao(new BigDecimal("50.40"), TipoOperacao.DEPOSITO, "hashDestino");
     	when(contaRepository.findByHash("hashOrigem")).thenReturn(Optional.of(contaOrigem));
     	when(contaRepository.findByHash("hashDestino")).thenReturn(Optional.of(contaDestino));
         when(contaRepository.save(contaOrigem)).thenReturn(new Conta());
