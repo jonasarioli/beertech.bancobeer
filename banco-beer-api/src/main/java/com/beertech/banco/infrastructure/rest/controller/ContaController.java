@@ -86,7 +86,7 @@ public class ContaController {
 	}
 
     @GetMapping(value = "/saldo")
-    public ResponseEntity<?> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
+    public ResponseEntity<SaldoDto> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
     	try {
     		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
     		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
@@ -97,14 +97,14 @@ public class ContaController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> criaConta(@Valid ContaForm contaForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Conta> criaConta(@Valid ContaForm contaForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
     	try {    		
     		Conta conta = new Conta(contaForm);    		
     		conta = contaService.criarConta(conta, EPerfil.USER);
     		URI uri = uriBuilder.path("/beercoins/conta/{id}").buildAndExpand(conta.getId()).toUri();
     		return ResponseEntity.created(uri).body(conta);
     	} catch (ContaException ex) {
-    		return ResponseEntity.badRequest().body(ex.getMessage());
+    		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     	}
     }
     
@@ -128,13 +128,13 @@ public class ContaController {
                 value = "Ordenacao dos registros")
     })
     @GetMapping
-    public ResponseEntity<?> listaContas(@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
+    public ResponseEntity<Page<ContaDto>> listaContas(@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
     	Page<Conta> listaTodasAsContasUsuarios = contaService.listaTodasAsContasUsuarios(pageable);
     	return ResponseEntity.ok(ContaDto.convert(listaTodasAsContasUsuarios));
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> contaPeloId(@PathVariable Long id) {
+    public ResponseEntity<ContaDto> contaPeloId(@PathVariable Long id) {
     	try {
     		Conta contaPeloId = contaService.contaPeloId(id);
     		return ResponseEntity.ok(new ContaDto(contaPeloId));    		
@@ -144,7 +144,7 @@ public class ContaController {
     }
     
     @GetMapping("/hash/{hash}")
-    public ResponseEntity<?> contaPeloHash(@PathVariable String hash) {
+    public ResponseEntity<ContaDto> contaPeloHash(@PathVariable String hash) {
     	try {
     		Conta contaPeloHash = contaService.contaPeloHash(hash);
     		return ResponseEntity.ok(new ContaDto(contaPeloHash));    		
@@ -162,7 +162,7 @@ public class ContaController {
                 value = "Ordenacao dos registros")
     })
     @GetMapping("/extrato")
-    public ResponseEntity<?> extrato(@RequestParam(required = false) String tipoOperacao, @ApiIgnore Principal principal,
+    public ResponseEntity<Page<OperacaoDto>> extrato(@RequestParam(required = false) String tipoOperacao, @ApiIgnore Principal principal,
     		@PageableDefault(sort = "dataHora", direction = Direction.DESC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
     	try {
     		Conta contaPeloId = contaService.contaPeloEmail(principal.getName());
