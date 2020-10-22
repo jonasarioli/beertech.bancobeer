@@ -46,4 +46,11 @@ class ContaTest {
 		assertThrows(ContaException.class, ()-> {conta.saque(new BigDecimal("1000.00"));});		
 	}
 
+	@Test
+	void getHashMd5() {
+		Conta conta = new Conta();
+		String hash = "abc@gmail.com" + "1234560480001";
+		assertEquals("93be724e0ea60fa7f6cf5d3c01c200e5", conta.getHashMd5(hash));
+	}
+
 }
