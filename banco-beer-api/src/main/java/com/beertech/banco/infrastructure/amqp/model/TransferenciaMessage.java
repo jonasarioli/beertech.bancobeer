@@ -23,6 +23,9 @@ public class TransferenciaMessage {
 	@ApiModelProperty(example = "654321")
 	private String contaDestino;
 
+	public TransferenciaMessage() {
+	}
+	
 	public TransferenciaMessage(String tipo, String contaOrigem, BigDecimal valor, String contaDestino) {
 		this.tipo = tipo;
 		this.contaOrigem = contaOrigem;

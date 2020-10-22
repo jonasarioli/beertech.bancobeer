@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -40,9 +40,8 @@ public class MySqlConta implements UserDetails {
 	private Long id;
 	private String hash;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "operacoes", joinColumns = @JoinColumn(name = "conta_id"))
-	@Column(name = "operacao")
+	@OneToMany(mappedBy = "conta", fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
 	private List<MySqlOperacao> operacoes;
 	@Column(name = "nome")
 	@NotBlank
@@ -67,7 +66,7 @@ public class MySqlConta implements UserDetails {
 	public MySqlConta() {
 	}
 	
-	public MySqlConta(Long id, String hash, BigDecimal saldo, List<MySqlOperacao> operacoes, String nome, String email, String cnpj,
+	public MySqlConta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
 					  String senha, Set<MySqlProfile> perfil) {
 		this.id = id;
 		this.hash = hash;
@@ -80,7 +79,7 @@ public class MySqlConta implements UserDetails {
 		this.profiles = perfil;
 	}
 	
-	public MySqlConta(String hash, BigDecimal saldo, List<MySqlOperacao> operacoes, String nome, String email, String cnpj,
+	public MySqlConta(String hash, BigDecimal saldo, String nome, String email, String cnpj,
 					  String senha, Set<MySqlProfile> perfil) {
 		this.hash = hash;
 		this.operacoes = operacoes;
@@ -130,7 +129,6 @@ public class MySqlConta implements UserDetails {
 		if(conta.getId() == null)
 			return new MySqlConta(conta.getHash()
 					, conta.getSaldo()
-					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
 					, conta.getNome()
 					, conta.getEmail()
 					, conta.getCnpj()
@@ -140,7 +138,6 @@ public class MySqlConta implements UserDetails {
 			return new MySqlConta(conta.getId()
 					,conta.getHash()
 					, conta.getSaldo()
-					, conta.getOperacoes().stream().map(new MySqlOperacao()::fromDomain).collect(Collectors.toList())
 					, conta.getNome()
 					, conta.getEmail()
 					, conta.getCnpj()
@@ -152,7 +149,6 @@ public class MySqlConta implements UserDetails {
 		return new Conta(mySqlConta.id
 				, mySqlConta.hash
 				, mySqlConta.getSaldo()
-				, mySqlConta.getOperacoes().stream().map(new MySqlOperacao()::toDomain).collect(Collectors.toList())
 				, mySqlConta.getNome()
 				, mySqlConta.getEmail()
 				, mySqlConta.getCnpj()

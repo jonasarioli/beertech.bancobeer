@@ -14,11 +14,13 @@ public class OperacaoDto {
 	private String tipo;
 	private BigDecimal valor;
 	private LocalDateTime dataHora;
+	private String nomeContaOrigemOuDestino;
 	
 	public OperacaoDto(Operacao operacao) {
 		this.tipo = operacao.getTipo().name();
 		this.valor = operacao.getValor();
 		this.dataHora = operacao.getDataHora();
+		this.nomeContaOrigemOuDestino = operacao.getNomeContaDestino();
 	}
 
 	public String getTipo() {
@@ -33,8 +35,12 @@ public class OperacaoDto {
 		return dataHora;
 	}
 
-	public static List<OperacaoDto> converter(List<Operacao> operacoes) {
-		return operacoes.stream().map(OperacaoDto::new).collect(Collectors.toList());
+	public String getNomeContaOrigemOuDestino() {
+		return nomeContaOrigemOuDestino;
+	}
+
+	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
+		return operacoes.map(OperacaoDto::new);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.beertech.banco.infrastructure;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.springframework.boot.CommandLineRunner;
@@ -11,8 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.EPerfil;
+import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.Profile;
+import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
+import com.beertech.banco.domain.repository.OperacaoRepository;
 import com.beertech.banco.domain.service.ProfileService;
 
 @SpringBootApplication
@@ -24,7 +28,7 @@ public class BeercoinsApplication {
 	}
 	
 	@Bean
-	CommandLineRunner init(ProfileService profileService, ContaRepository contaRepository) {
+	CommandLineRunner init(ProfileService profileService, ContaRepository contaRepository, OperacaoRepository operacaoRepository) {
 
 		return args -> {
 
@@ -37,7 +41,7 @@ public class BeercoinsApplication {
 			Optional<Profile> userProfile = profileService.findByName(EPerfil.USER.name());
 			if (!userProfile.isPresent()) {
 				Profile newAdminRole = new Profile(EPerfil.USER.name());
-				Optional.ofNullable(profileService.save(newAdminRole));
+				userProfile = Optional.ofNullable(profileService.save(newAdminRole));
 			}
 			
 			Optional<Conta> admin = contaRepository.findByEmail("admin@email.com");
@@ -48,7 +52,25 @@ public class BeercoinsApplication {
 				newAdmin.setNome("Admin");
 				newAdmin.setSenha(new BCryptPasswordEncoder().encode("grupocolorado"));
 				newAdmin.addProfile(adminProfile.get());
+				newAdmin.setHash();
 				contaRepository.save(newAdmin);				
+			}
+			
+			Optional<Conta> user = contaRepository.findByEmail("user@email.com");
+			if(!user.isPresent()) {
+				Conta userNew = new Conta();
+				userNew.setCnpj("01.234.567/0001-00");
+				userNew.setEmail("user@email.com");
+				userNew.setNome("USER");
+				userNew.setSenha(new BCryptPasswordEncoder().encode("user"));
+				userNew.addProfile(userProfile.get());
+				userNew.setHash();
+				
+				userNew = contaRepository.save(userNew);
+				
+				Operacao operacao = new Operacao(new BigDecimal(100), TipoOperacao.DEPOSITO, null);
+				operacao.setConta(userNew);
+				operacaoRepository.save(operacao);
 			}
 		};
 	}

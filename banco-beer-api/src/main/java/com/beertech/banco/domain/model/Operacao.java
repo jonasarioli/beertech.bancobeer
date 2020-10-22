@@ -10,11 +10,13 @@ import javax.persistence.Enumerated;
 
 public class Operacao {	
 
+	private Long id;
 	private LocalDateTime dataHora;
 	private BigDecimal valor;
 	@Enumerated(EnumType.STRING)
 	private TipoOperacao tipo;
-	private  String hashContaDestino;
+	private  String nomeContaDestino;
+	private Conta conta;
 
 	public Operacao() {
 	}
@@ -23,18 +25,30 @@ public class Operacao {
 		this.dataHora = LocalDateTime.now();
 		this.valor = valor;
 		this.tipo = tipo;
-		this.hashContaDestino = hashContaDestino;
+		this.nomeContaDestino = hashContaDestino;
 	}
 
 	public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo, String hashContaDestino) {
 		this.dataHora = dataHora;
 		this.valor = valor;
 		this.tipo = tipo;
-		this.hashContaDestino = hashContaDestino;
+		this.nomeContaDestino = hashContaDestino;		
 	}
 
 	
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Conta getConta() {
+		return conta;
+	}
+
 	public void setDataHora(LocalDateTime dataHora) {
 		this.dataHora = dataHora;
 	}
@@ -47,7 +61,7 @@ public class Operacao {
 		this.tipo = tipo;
 	}
 
-	public void setHashContaDestino(String hashContaDestino) { this.hashContaDestino = hashContaDestino; }
+	public void setNomeContaDestino(String hashContaDestino) { this.nomeContaDestino = hashContaDestino; }
 
 	public LocalDateTime getDataHora() {
 		return dataHora;
@@ -61,5 +75,9 @@ public class Operacao {
 		return tipo;
 	}
 
-	public String getHashContaDestino() { return hashContaDestino; }
+	public void setConta(Conta conta) {
+		this.conta = conta;
+	}
+	
+	public String getNomeContaDestino() { return nomeContaDestino; }
 }

@@ -20,20 +20,22 @@ import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
+import com.beertech.banco.domain.repository.OperacaoRepository;
 
 class BancoServiceImplTest {
 
 	private ContaRepository contaRepository;
+	private OperacaoRepository operacaoRepository;
 	private ContaServiceImpl tested;
 	private OperacaoServiceImpl operacao;
 	
 	@BeforeEach
     void setUp() {
 		contaRepository = mock(ContaRepository.class);
+		operacaoRepository = mock(OperacaoRepository.class);
 		tested = new ContaServiceImpl(contaRepository);
-		operacao = new OperacaoServiceImpl(contaRepository);
-    }
-	
+		operacao = new OperacaoServiceImpl(contaRepository, operacaoRepository);
+    }	
 
     @Test
     void criarUmaContaComSucesso() {

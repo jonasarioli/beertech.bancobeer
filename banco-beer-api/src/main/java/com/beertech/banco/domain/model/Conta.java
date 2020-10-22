@@ -31,15 +31,13 @@ public class Conta {
 
 	public Conta() {
 		this.operacoes = new ArrayList<Operacao>();
-		saldo = new BigDecimal(0.00);
-		this.hash = getHashMd5(email + cnpj);
+		saldo = new BigDecimal(0.00);		
 	}
 
-	public Conta(Long id, String hash, BigDecimal saldo, List<Operacao> operacoes, String nome, String email, String cnpj,
+	public Conta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
 				 String senha, Set<Profile> profiles) {
 		this.id = id;
 		this.hash = hash;
-		this.operacoes = operacoes;
 		this.saldo = saldo;
 		this.nome = nome;
 		this.email = email;
@@ -74,7 +72,13 @@ public class Conta {
 		return hash;
 	}
 
+	public void setHash() {
+		this.hash = getHashMd5(email + cnpj);
+	}
+	
 	public List<Operacao> getOperacoes() {
+		if(operacoes == null)
+			operacoes = new ArrayList<Operacao>();
 		return Collections.unmodifiableList(operacoes);
 	}
 

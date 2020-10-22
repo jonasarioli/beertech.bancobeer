@@ -15,6 +15,7 @@ import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.Profile;
+import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.domain.service.ProfileService;
@@ -85,16 +86,6 @@ public class ContaServiceImpl implements ContaService {
 			throw new ContaException("O id da conta não existe!");
 		}
 		return conta.get();
-	}
-
-	@Override
-	public Page<Operacao> extrato(String hash, Pageable page) {
-		Optional<Conta> conta = contaRepository.findByHash(hash);
-		if (!conta.isPresent()) {
-			throw new ContaException("O id da conta não existe!");
-		}
-
-		return contaRepository.getExtratoByHash(hash, page);
 	}
 
 	@Override

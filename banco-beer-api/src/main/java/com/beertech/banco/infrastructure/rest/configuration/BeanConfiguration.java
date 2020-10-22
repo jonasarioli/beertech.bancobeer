@@ -14,6 +14,7 @@ import com.beertech.banco.infrastructure.amqp.sender.MessageSender;
 import com.beertech.banco.infrastructure.amqp.service.RelayService;
 import com.beertech.banco.infrastructure.amqp.service.impl.RelayServiceImpl;
 import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlContaRepositoryImpl;
+import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlOperacaoRepositoryImpl;
 import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlProfileRepositoryImpl;
 
 @Configuration
@@ -24,6 +25,9 @@ public class BeanConfiguration {
 	
 	@Autowired
 	private MySqlProfileRepositoryImpl mySqlProfileRepositoryImpl;
+	
+	@Autowired
+	private MySqlOperacaoRepositoryImpl mySqlOperacaoRepositoryImpl;
 	
 	@Autowired
 	MessageSender messageSender;
@@ -45,6 +49,6 @@ public class BeanConfiguration {
 	
 	@Bean
 	public OperacaoService operacaoService() {
-		return new OperacaoServiceImpl(mySqlContaRepositoryImpl);
+		return new OperacaoServiceImpl(mySqlContaRepositoryImpl, mySqlOperacaoRepositoryImpl);
 	}
 }

@@ -33,7 +33,6 @@ class MySqlContaRepositoryImplTest {
 				Optional.of(new MySqlConta(1l
 						, "hash"
 						, new BigDecimal(10.0)
-						, new ArrayList<>()
 						, "Nome"
 						, "email@email.com"
 						, "cnpj"

@@ -3,19 +3,25 @@ package com.beertech.banco.domain.service.impl;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
+import com.beertech.banco.domain.repository.OperacaoRepository;
 import com.beertech.banco.domain.service.OperacaoService;
 
 public class OperacaoServiceImpl implements OperacaoService {
 	
 	private final ContaRepository contaRepository;
+	private final OperacaoRepository operacaoRepository;
 	
-	public OperacaoServiceImpl(ContaRepository contaRepository) {
+	public OperacaoServiceImpl(ContaRepository contaRepository, OperacaoRepository operacaoRepository) {
 		this.contaRepository = contaRepository;
+		this.operacaoRepository = operacaoRepository;
 	}
 
 	@Override
@@ -34,8 +40,10 @@ public class OperacaoServiceImpl implements OperacaoService {
 		else 
 			throw new IllegalArgumentException("Operação não existente!");
 		
-		conta.addOperacao(operacao);
-		contaRepository.save(conta);		
+		operacao.setConta(conta);
+		operacaoRepository.save(operacao);
+		
+		contaRepository.save(conta);
 		return conta;		
 	}
 	
@@ -55,11 +63,30 @@ public class OperacaoServiceImpl implements OperacaoService {
 		
 		contaOrigem.get().saque(valor);
 		contaDestino.get().deposito(valor);
-		
-		contaOrigem.get().addOperacao(new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.TRANSFERENCIA, hahsDaContaDestino));
-		contaDestino.get().addOperacao(new Operacao(valor, TipoOperacao.TRANSFERENCIA, null));
+		Operacao operacaoNaContOrigem = new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.TRANSFERENCIA, contaDestino.get().getNome());
+		Operacao operacaoNaContaDestino = new Operacao(valor, TipoOperacao.TRANSFERENCIA, contaOrigem.get().getNome());
+		operacaoNaContOrigem.setConta(contaOrigem.get());
+		operacaoNaContaDestino.setConta(contaDestino.get());
+						
+		operacaoRepository.save(operacaoNaContOrigem);
+		operacaoRepository.save(operacaoNaContaDestino);
 		
 		contaRepository.save(contaOrigem.get());
 		contaRepository.save(contaDestino.get());
+	}
+
+	@Override
+	public Page<Operacao> extrato(Long contaId, Pageable page) {
+		return operacaoRepository.getByContaId(contaId, page);
+	}
+
+	@Override
+	public Page<Operacao> extratoPorTipo(Long contaId, TipoOperacao tipo, Pageable page) {
+		return operacaoRepository.getByContaIdAndTipo(contaId, tipo, page);
+	}
+
+	@Override
+	public Operacao save(Operacao operacao) {
+		return operacaoRepository.save(operacao);
 	}
 }

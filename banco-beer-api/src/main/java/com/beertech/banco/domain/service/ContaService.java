@@ -18,6 +18,6 @@ public interface ContaService {
 	Page<Conta> listaTodasAsContasUsuarios(Pageable page);
 	Conta contaPeloId(Long id);
 	Conta contaPeloHash(String hash);
-	Page<Operacao> extrato(String hash, Pageable page);
+	
 	Conta contaPeloEmail(String email);
 }

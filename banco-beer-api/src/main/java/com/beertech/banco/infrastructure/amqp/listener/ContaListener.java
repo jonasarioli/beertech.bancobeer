@@ -34,7 +34,7 @@ public class ContaListener {
 			operacaoService.transferencia(transferenciaMessage.getContaOrigem(), transferenciaMessage.getContaDestino(), transferenciaMessage.getValor());
 		} else {
 			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
-			Operacao operacao = new Operacao(operacaoMessage.getValor(), TipoOperacao.valueOf(operacaoMessage.getTipo()));
+			Operacao operacao = new Operacao(operacaoMessage.getValor(), TipoOperacao.valueOf(operacaoMessage.getTipo()), null);
 			operacaoService.realizaOperacao(operacaoMessage.getHash(), operacao);
 		}
 	}
