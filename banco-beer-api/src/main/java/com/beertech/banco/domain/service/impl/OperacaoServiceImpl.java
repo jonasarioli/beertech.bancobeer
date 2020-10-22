@@ -61,6 +61,9 @@ public class OperacaoServiceImpl implements OperacaoService {
 		if(contaOrigem.get().getSaldo().compareTo(valor) < 0)
 			throw new ContaException("O valor de transferencia deve ser menor ou igual ao saldo da conta de origem!");
 		
+		if(hahsDaContaOrigem.equals(hahsDaContaOrigem))
+			throw new ContaException("Não se pode fazer transferencia para a mesma conta!");
+		
 		contaOrigem.get().saque(valor);
 		contaDestino.get().deposito(valor);
 		Operacao operacaoNaContOrigem = new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.TRANSFERENCIA, contaDestino.get().getNome());

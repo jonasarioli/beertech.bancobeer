@@ -2,7 +2,6 @@ package com.beertech.banco.infrastructure.rest.controller;
 
 import java.net.URI;
 import java.security.Principal;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -102,7 +101,7 @@ public class ContaController {
     	try {    		
     		Conta conta = new Conta(contaForm);    		
     		conta = contaService.criarConta(conta, EPerfil.USER);
-    		URI uri = uriBuilder.path("/conta/{id}").buildAndExpand(conta.getHash()).toUri();
+    		URI uri = uriBuilder.path("/beercoins/conta/{id}").buildAndExpand(conta.getId()).toUri();
     		return ResponseEntity.created(uri).body(conta);
     	} catch (ContaException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());

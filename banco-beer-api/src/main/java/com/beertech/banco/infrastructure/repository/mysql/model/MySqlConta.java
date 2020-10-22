@@ -71,7 +71,6 @@ public class MySqlConta implements UserDetails {
 		this.id = id;
 		this.hash = hash;
 		this.saldo = saldo;
-		this.operacoes = operacoes;
 		this.nome = nome;
 		this.email = email;
 		this.cnpj = cnpj;
@@ -82,7 +81,6 @@ public class MySqlConta implements UserDetails {
 	public MySqlConta(String hash, BigDecimal saldo, String nome, String email, String cnpj,
 					  String senha, Set<MySqlProfile> perfil) {
 		this.hash = hash;
-		this.operacoes = operacoes;
 		this.saldo = saldo;
 		this.nome = nome;
 		this.email = email;

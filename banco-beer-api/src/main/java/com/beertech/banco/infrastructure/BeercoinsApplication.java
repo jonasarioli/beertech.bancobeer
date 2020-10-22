@@ -65,10 +65,11 @@ public class BeercoinsApplication {
 				userNew.setSenha(new BCryptPasswordEncoder().encode("user"));
 				userNew.addProfile(userProfile.get());
 				userNew.setHash();
-				
+				BigDecimal valor = new BigDecimal(100);
+				userNew.deposito(valor);				
 				userNew = contaRepository.save(userNew);
 				
-				Operacao operacao = new Operacao(new BigDecimal(100), TipoOperacao.DEPOSITO, null);
+				Operacao operacao = new Operacao(valor, TipoOperacao.DEPOSITO, null);
 				operacao.setConta(userNew);
 				operacaoRepository.save(operacao);
 			}

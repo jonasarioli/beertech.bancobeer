@@ -1,19 +1,21 @@
 package com.beertech.banco.infrastructure.rest.controller;
 
+import java.net.URI;
+
 import javax.validation.Valid;
 
-import com.beertech.banco.domain.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.Operacao;
-import com.beertech.banco.domain.service.ContaService;
+import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.domain.service.OperacaoService;
 import com.beertech.banco.infrastructure.rest.controller.form.OperacaoForm;
 import com.beertech.banco.infrastructure.rest.controller.form.OperacaoTransferenciaForm;
@@ -32,11 +34,12 @@ public class OperacaoController {
 
 	@ApiIgnore
     @PostMapping(value = "/operacao")
-    public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm) {
+    public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
 		try {
     		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
     		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);
-    		return ResponseEntity.ok().build();    		
+    		URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
+    		return ResponseEntity.created(uri).body(conta);    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
@@ -44,18 +47,13 @@ public class OperacaoController {
 	
 	@ApiIgnore
     @PostMapping(value = "/transferencia")
-    public ResponseEntity<?> transferenciao(@Valid @RequestBody OperacaoTransferenciaForm operacaoForm) {
+    public ResponseEntity<?> transferenciao(@Valid @RequestBody OperacaoTransferenciaForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
 		try {
 			operacaoService.transferencia(operacaoForm.getContaOrigem(), operacaoForm.getContaDestino(), operacaoForm.getValor());
-    		return ResponseEntity.ok().build();    		
+			URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
+			return ResponseEntity.created(uri).build();    		
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
     }
-
-
-    
-    
-    
-    
 }

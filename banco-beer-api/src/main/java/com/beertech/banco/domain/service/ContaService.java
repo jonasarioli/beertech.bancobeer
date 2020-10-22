@@ -1,14 +1,12 @@
 package com.beertech.banco.domain.service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.EPerfil;
-import com.beertech.banco.domain.model.Operacao;
 
 public interface ContaService {
 	Conta criarConta(Conta conta, EPerfil perfil);

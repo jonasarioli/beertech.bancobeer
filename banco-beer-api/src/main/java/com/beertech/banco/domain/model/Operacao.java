@@ -2,7 +2,6 @@ package com.beertech.banco.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

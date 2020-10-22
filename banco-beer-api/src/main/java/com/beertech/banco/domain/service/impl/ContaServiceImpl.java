@@ -1,7 +1,6 @@
 package com.beertech.banco.domain.service.impl;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,9 +12,7 @@ import org.springframework.data.domain.Pageable;
 import com.beertech.banco.domain.exception.ContaException;
 import com.beertech.banco.domain.model.Conta;
 import com.beertech.banco.domain.model.EPerfil;
-import com.beertech.banco.domain.model.Operacao;
 import com.beertech.banco.domain.model.Profile;
-import com.beertech.banco.domain.model.TipoOperacao;
 import com.beertech.banco.domain.repository.ContaRepository;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.domain.service.ProfileService;
