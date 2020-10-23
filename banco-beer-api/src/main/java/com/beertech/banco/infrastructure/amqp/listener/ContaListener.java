@@ -18,24 +18,24 @@ import com.google.gson.JsonParser;
 @Component
 public class ContaListener {
 
-	@Autowired
-	OperacaoService operacaoService;
-	
-	@RabbitListener(queues = "${amqp.queue}")
-	public void consumer(Message message) throws JsonProcessingException {
+    @Autowired
+    OperacaoService operacaoService;
 
-		ObjectMapper objectMapper = new ObjectMapper();
+    @RabbitListener(queues = "${amqp.queue}")
+    public void consumer(Message message) throws JsonProcessingException {
 
-		String json = new String(message.getBody());
+        ObjectMapper objectMapper = new ObjectMapper();
 
-		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		if (jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
-			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
-			operacaoService.transferencia(transferenciaMessage.getContaOrigem(), transferenciaMessage.getContaDestino(), transferenciaMessage.getValor());
-		} else {
-			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
-			Operacao operacao = new Operacao(operacaoMessage.getValor(), TipoOperacao.valueOf(operacaoMessage.getTipo()), null);
-			operacaoService.realizaOperacao(operacaoMessage.getHash(), operacao);
-		}
-	}
+        String json = new String(message.getBody());
+
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        if (jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
+            TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
+            operacaoService.transferencia(transferenciaMessage.getContaOrigem(), transferenciaMessage.getContaDestino(), transferenciaMessage.getValor());
+        } else {
+            OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
+            Operacao operacao = new Operacao(operacaoMessage.getValor(), TipoOperacao.valueOf(operacaoMessage.getTipo()), null);
+            operacaoService.realizaOperacao(operacaoMessage.getHash(), operacao);
+        }
+    }
 }

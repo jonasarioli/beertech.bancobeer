@@ -19,22 +19,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	@Bean
+    @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-          .select()
-          .apis(RequestHandlerSelectors.basePackage("com.beertech.banco.infrastructure"))
-          .paths(PathSelectors.any())
-          .build()
-          .ignoredParameterTypes(MySqlConta.class)
-          .globalOperationParameters(
-                  Arrays.asList(
-                          new ParameterBuilder()
-                              .name("Authorization")
-                              .description("Header para Token JWT")
-                              .modelRef(new ModelRef("string"))
-                              .parameterType("header")
-                              .required(false)
-                              .build()));
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.beertech.banco.infrastructure"))
+                .paths(PathSelectors.any())
+                .build()
+                .ignoredParameterTypes(MySqlConta.class)
+                .globalOperationParameters(
+                        Arrays.asList(
+                                new ParameterBuilder()
+                                        .name("Authorization")
+                                        .description("Header para Token JWT")
+                                        .modelRef(new ModelRef("string"))
+                                        .parameterType("header")
+                                        .required(false)
+                                        .build()));
     }
 }

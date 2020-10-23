@@ -18,24 +18,24 @@ import com.google.gson.JsonParser;
 @Component
 public class ContaListener {
 
-	@Autowired
-	ContaClient client;
+    @Autowired
+    ContaClient client;
 
-	@RabbitListener(queues = RabbitConfig.QUEUE)
-	public void consumer(Message message) throws JsonProcessingException {
+    @RabbitListener(queues = RabbitConfig.QUEUE)
+    public void consumer(Message message) throws JsonProcessingException {
 
-		ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-		String json = new String(message.getBody());
-		
-		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {	
-			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
-			
-			client.transferencia(new TransferenciaDto(transferenciaMessage));
-		} else {
-			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
-			client.sendOperation(operacaoMessage);
-		}
-	}
+        String json = new String(message.getBody());
+
+        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+        if (jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
+            TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
+
+            client.transferencia(new TransferenciaDto(transferenciaMessage));
+        } else {
+            OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
+            client.sendOperation(operacaoMessage);
+        }
+    }
 }

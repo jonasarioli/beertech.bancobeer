@@ -1,8 +1,8 @@
 banco.url: "http://https://beertech-banco.herokuapp.com/banco/"
 
 server:
-   port: 8081
-   
+  port: 8081
+
 spring:
-   rabbitmq:
-      addresses: amqps://iwrzstjf:VvGXv99Rl4xQf6ZMrCuBUlmlvb7apSpd@woodpecker.rmq.cloudamqp.com/iwrzstjf
+  rabbitmq:
+    addresses: amqps://iwrzstjf:VvGXv99Rl4xQf6ZMrCuBUlmlvb7apSpd@woodpecker.rmq.cloudamqp.com/iwrzstjf

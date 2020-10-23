@@ -20,35 +20,35 @@ import com.beertech.banco.infrastructure.repository.mysql.repository.impl.MySqlP
 @Configuration
 public class BeanConfiguration {
 
-	@Autowired
-	private MySqlContaRepositoryImpl mySqlContaRepositoryImpl;
-	
-	@Autowired
-	private MySqlProfileRepositoryImpl mySqlProfileRepositoryImpl;
-	
-	@Autowired
-	private MySqlOperacaoRepositoryImpl mySqlOperacaoRepositoryImpl;
-	
-	@Autowired
-	MessageSender messageSender;
-	
-	@Bean
+    @Autowired
+    private MySqlContaRepositoryImpl mySqlContaRepositoryImpl;
+
+    @Autowired
+    private MySqlProfileRepositoryImpl mySqlProfileRepositoryImpl;
+
+    @Autowired
+    private MySqlOperacaoRepositoryImpl mySqlOperacaoRepositoryImpl;
+
+    @Autowired
+    MessageSender messageSender;
+
+    @Bean
     public ContaService bancoService() {
         return new ContaServiceImpl(mySqlContaRepositoryImpl);
     }
-	
-	@Bean
+
+    @Bean
     public ProfileService profileService() {
         return new ProfileServiceImpl(mySqlProfileRepositoryImpl);
     }
-	
-	@Bean
+
+    @Bean
     public RelayService relayService() {
         return new RelayServiceImpl(messageSender, mySqlContaRepositoryImpl);
     }
-	
-	@Bean
-	public OperacaoService operacaoService() {
-		return new OperacaoServiceImpl(mySqlContaRepositoryImpl, mySqlOperacaoRepositoryImpl);
-	}
+
+    @Bean
+    public OperacaoService operacaoService() {
+        return new OperacaoServiceImpl(mySqlContaRepositoryImpl, mySqlOperacaoRepositoryImpl);
+    }
 }

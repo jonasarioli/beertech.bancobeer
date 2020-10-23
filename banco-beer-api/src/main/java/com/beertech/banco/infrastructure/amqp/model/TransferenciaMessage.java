@@ -7,61 +7,61 @@ import java.math.BigDecimal;
 
 public class TransferenciaMessage {
 
-	@JsonProperty(value = "tipo")
-	@ApiModelProperty(example = "TRANSFERENCIA")
-	private String tipo;
+    @JsonProperty(value = "tipo")
+    @ApiModelProperty(example = "TRANSFERENCIA")
+    private String tipo;
 
-	@JsonProperty(value = "origem")
-	@ApiModelProperty(example = "123456")
-	private String contaOrigem;
+    @JsonProperty(value = "origem")
+    @ApiModelProperty(example = "123456")
+    private String contaOrigem;
 
-	@JsonProperty(value = "valor")
-	@ApiModelProperty(example = "45.15")
-	private BigDecimal valor;
+    @JsonProperty(value = "valor")
+    @ApiModelProperty(example = "45.15")
+    private BigDecimal valor;
 
-	@JsonProperty(value = "destino")
-	@ApiModelProperty(example = "654321")
-	private String contaDestino;
+    @JsonProperty(value = "destino")
+    @ApiModelProperty(example = "654321")
+    private String contaDestino;
 
-	public TransferenciaMessage() {
-	}
-	
-	public TransferenciaMessage(String tipo, String contaOrigem, BigDecimal valor, String contaDestino) {
-		this.tipo = tipo;
-		this.contaOrigem = contaOrigem;
-		this.valor = valor;
-		this.contaDestino = contaDestino;
-	}
+    public TransferenciaMessage() {
+    }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public TransferenciaMessage(String tipo, String contaOrigem, BigDecimal valor, String contaDestino) {
+        this.tipo = tipo;
+        this.contaOrigem = contaOrigem;
+        this.valor = valor;
+        this.contaDestino = contaDestino;
+    }
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public String getContaOrigem() {
-		return contaOrigem;
-	}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-	public void setContaOrigem(String contaOrigem) {
-		this.contaOrigem = contaOrigem;
-	}
+    public String getContaOrigem() {
+        return contaOrigem;
+    }
 
-	public BigDecimal getValor() {
-		return valor;
-	}
+    public void setContaOrigem(String contaOrigem) {
+        this.contaOrigem = contaOrigem;
+    }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	public String getContaDestino() {
-		return contaDestino;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	public void setContaDestino(String contaDestino) {
-		this.contaDestino = contaDestino;
-	}
+    public String getContaDestino() {
+        return contaDestino;
+    }
+
+    public void setContaDestino(String contaDestino) {
+        this.contaDestino = contaDestino;
+    }
 }
