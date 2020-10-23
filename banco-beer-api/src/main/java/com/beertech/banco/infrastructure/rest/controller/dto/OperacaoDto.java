@@ -40,7 +40,4 @@ public class OperacaoDto {
 	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
 		return operacoes.map(OperacaoDto::new);
 	}
-	
-	
-
 }

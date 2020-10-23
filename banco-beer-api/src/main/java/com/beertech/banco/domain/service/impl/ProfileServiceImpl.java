@@ -8,19 +8,19 @@ import com.beertech.banco.domain.service.ProfileService;
 
 public class ProfileServiceImpl implements ProfileService {
 
-	private final ProfileRepository profileRepository;
-	
-	public ProfileServiceImpl(ProfileRepository profileaRepository) {
-		this.profileRepository = profileaRepository;
-	}
+    private final ProfileRepository profileRepository;
 
-	@Override
-	public Optional<Profile> findByName(String name) {
-		return profileRepository.findByName("ROLE_" + name);
-	}
+    public ProfileServiceImpl(ProfileRepository profileaRepository) {
+        this.profileRepository = profileaRepository;
+    }
 
-	@Override
-	public Profile save(Profile profile) {
-		return profileRepository.save(profile);
-	}
+    @Override
+    public Optional<Profile> findByName(String name) {
+        return profileRepository.findByName("ROLE_" + name);
+    }
+
+    @Override
+    public Profile save(Profile profile) {
+        return profileRepository.save(profile);
+    }
 }

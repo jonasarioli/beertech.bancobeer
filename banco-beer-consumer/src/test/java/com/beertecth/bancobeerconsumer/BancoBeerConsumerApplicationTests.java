@@ -7,9 +7,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootTest
 class BancoBeerConsumerApplicationTests {
 
-	@Bean
-	public RestTemplate restTemplate() {
-	    return new RestTemplate();
-	}
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
 }

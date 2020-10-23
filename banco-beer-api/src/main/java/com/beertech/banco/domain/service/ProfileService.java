@@ -6,6 +6,7 @@ import com.beertech.banco.domain.model.Profile;
 
 public interface ProfileService {
 
-	Optional<Profile> findByName(String name);
-	Profile save(Profile profile);
+    Optional<Profile> findByName(String name);
+
+    Profile save(Profile profile);
 }

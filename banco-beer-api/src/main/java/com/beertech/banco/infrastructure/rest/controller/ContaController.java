@@ -127,13 +127,14 @@ public class ContaController {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
     }
+
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
-                value = "Pagina a ser carregada", defaultValue = "0"),
-        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-                value = "Quantidade de registros", defaultValue = "10"),
-        @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
-                value = "Ordenacao dos registros")
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Pagina a ser carregada", defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Quantidade de registros", defaultValue = "10"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Ordenacao dos registros")
     })
     @GetMapping
     public ResponseEntity<Page<ContaDto>> listaContas(@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
