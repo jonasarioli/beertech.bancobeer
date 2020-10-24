@@ -18,6 +18,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -47,8 +48,19 @@ public class ProductController {
                     value = "Ordenacao dos registros")
     })
     @GetMapping(produces = "application/json")
-    public ResponseEntity<Page<Product>> allProducts(@PageableDefault(sort = "name", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
+    public ResponseEntity<Page<Product>> allProducts(@ApiIgnore UriComponentsBuilder uriBuilder, @PageableDefault(sort = "name", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
         Page<Product> products = productService.findAllProducts(pageable);
+
+        for(Product product : products ) {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/beercoins/product/image/")
+                    .path(product.getImageName())
+                    .toUriString();
+            product.setImageName(fileDownloadUri);
+        }
+
+
         return ResponseEntity.ok(products);
     }
     @ApiIgnore
@@ -105,5 +117,18 @@ public class ProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ApiIgnore
+    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> getImage( @PathVariable String name) throws IOException {
+
+        ClassPathResource classPathResource = new ClassPathResource("image/"+name);
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new InputStreamResource(classPathResource.getInputStream()));
     }
 }
