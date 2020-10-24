@@ -25,7 +25,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.beertech.product"))
                 .paths(PathSelectors.any())
                 .build()
-                .ignoredParameterTypes(Product.class)
                 .globalOperationParameters(
                         Arrays.asList(
                                 new ParameterBuilder()
@@ -47,4 +46,7 @@ public class SwaggerConfig {
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
                         .build();
     }
+
+
+
 }

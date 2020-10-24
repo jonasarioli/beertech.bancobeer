@@ -38,7 +38,7 @@ public class OperacaoController {
 	@ApiIgnore
     @PostMapping(value = "/operacao")
     public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
-		log.info("operacaoForm");
+//		log.info("operacaoForm");
 		try {
     		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
     		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);

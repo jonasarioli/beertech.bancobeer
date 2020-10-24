@@ -32,6 +32,10 @@ public class RewardListener {
 
         System.out.println(rewardMessage);
 
-        client.reward(rewardMessage);
+        try {
+            client.reward(rewardMessage);
+        }catch (Exception exception){
+            System.out.println("RewardListener.exception: " +  exception.getMessage());
+        }
     }
 }
