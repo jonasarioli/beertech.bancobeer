@@ -30,11 +30,11 @@ public class ContaListener {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		String json = new String(message.getBody());
-		
+
 		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {	
+		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
 			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
-			
+
 			client.transferencia(new TransferenciaDto(transferenciaMessage));
 		} else {
 			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);

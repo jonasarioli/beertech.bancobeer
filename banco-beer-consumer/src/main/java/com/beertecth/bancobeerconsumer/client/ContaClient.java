@@ -1,5 +1,6 @@
 package com.beertecth.bancobeerconsumer.client;
 
+import com.beertecth.bancobeerconsumer.model.RewardMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -28,5 +29,10 @@ public class ContaClient {
     public void transferencia(TransferenciaDto transferenciaDto) {
         HttpEntity<TransferenciaDto> request = new HttpEntity<>(transferenciaDto);
         restTemplate.exchange(bancoUrl + "transferencia", HttpMethod.POST, request, TransferenciaMessage.class);
+    }
+
+    public void reward(RewardMessage message) {
+        HttpEntity<RewardMessage> request = new HttpEntity<>(message);
+        restTemplate.exchange(bancoUrl + "reward", HttpMethod.POST, request, RewardMessage.class);
     }
 }

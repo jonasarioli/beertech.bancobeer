@@ -23,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class ProductController {
                     .toUriString();
             product.setImageName(fileDownloadUri);
         }
+
 
 
         return ResponseEntity.ok(products);
@@ -109,11 +111,11 @@ public class ProductController {
     }
 
     @PostMapping("/reward/{id}")
-    public ResponseEntity rewardProoduct(@PathVariable Long producId, @ApiIgnore Principal principal) {
-        Optional<Product> productById = productService.findProductById(producId);
+    public ResponseEntity rewardProoduct(@PathVariable Long id, @ApiIgnore Principal principal) {
+        Optional<Product> productById = productService.findProductById(id);
         if(productById.isPresent()) {
-            productService.rewardProduct(productById.get(), new Conta());
-            return ResponseEntity.ok().build();
+            productService.rewardProduct(productById.get(), "5c47d25e3e98b53abc532a3e7723037f", new BigDecimal("100000"));
+            return ResponseEntity.accepted().build();
         } else {
             return ResponseEntity.notFound().build();
         }

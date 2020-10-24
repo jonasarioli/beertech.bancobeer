@@ -32,6 +32,8 @@ public class TokenService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("Nome", logado.getNome());
         claims.put("Perfil", logado.getProfiles().iterator().next().getName());
+        claims.put("Saldo", logado.getSaldo());
+        claims.put("Hash", logado.getHash());
 
         return Jwts.builder()
                 .setIssuer("BeerCoins API ")

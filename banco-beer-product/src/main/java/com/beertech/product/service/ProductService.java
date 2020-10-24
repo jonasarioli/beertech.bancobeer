@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -21,7 +23,8 @@ public class ProductService {
     private MessageSender messageSender;
 
     public Page<Product> findAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        Page<Product> products = productRepository.findAll(pageable);
+        return products;
     }
 
     public Optional<Product> findProductById(Long id) {
@@ -36,10 +39,10 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public void rewardProduct(Product product, Conta conta) {
-        if(conta.getSaldo().compareTo(product.getPrice()) >= 0) {
+    public void rewardProduct(Product product, String hash, BigDecimal saldo) {
+        if(saldo.compareTo(product.getPrice()) >= 0) {
             RewardMessage message = new RewardMessage();
-            message.setHash(conta.getHash());
+            message.setHash(hash);
             message.setProductName(product.getName());
             message.setProductPrice(product.getPrice());
             messageSender.sendRewardMessage(message);
