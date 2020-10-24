@@ -27,6 +27,8 @@ public class Product {
     private String description;
     @ApiModelProperty(value = "Preço do produto")
     private BigDecimal price;
+    @ApiModelProperty(value = "Nome da imagem")
+    private String imageName;
 
     public Product(ProductForm form) {
         this.name = form.getName();
