@@ -53,6 +53,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/application.properties">
           <value>
             <set />
@@ -64,6 +69,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/com/beertech/banco/domain/service/impl/BancoServiceImplTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/config/RabbitConfig.java">
           <value>
             <set />
           </value>

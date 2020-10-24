@@ -25,8 +25,6 @@ Esrc/main/java/com/beertech/banco/domain/exception/ContaException.java,0/4/04b0
 Tsrc/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java,c/9/c972f93fd21c7be87bdc4a4cf5506bce509eb4fe
 f
 6src/test/java/com/beertech/banco/domain/ContaTest.java,f/2/f28fb888ab7941ca53755ad2315a2c42f91f1adb
-€
-Psrc/main/java/com/beertech/banco/infrastructure/amqp/listener/ContaListener.java,c/b/cbe27f7b40ca4cab989c2057e68b5bdbf8ca3ca0
 ~
 Nsrc/main/java/com/beertech/banco/infrastructure/amqp/sender/MessageSender.java,e/e/eea6ec58cabc4fbc352ee95c25519c08bb5a27b1
 ‡
@@ -54,3 +52,11 @@ Wsrc/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoControl
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+q
+Asrc/main/java/com/beertech/banco/domain/service/ContaService.java,0/9/09591293c36d29aa317ed79da64ff0792ae7d898
+
+Osrc/main/java/com/beertech/banco/infrastructure/amqp/model/OperacaoMessage.java,b/9/b92df5120de058b3090001ba9bdbf0fcd7e213bc
+7
+pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
+}
+Msrc/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java,9/0/90f47eb178d8500033ba7fbfec6b52bcc676c16d

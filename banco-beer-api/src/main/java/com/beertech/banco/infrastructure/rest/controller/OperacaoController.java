@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/beercoins")
+@Slf4j
 public class OperacaoController {
 
 	@Autowired
@@ -35,6 +37,7 @@ public class OperacaoController {
 	@ApiIgnore
     @PostMapping(value = "/operacao")
     public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
+		log.info("operacaoForm");
 		try {
     		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
     		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);

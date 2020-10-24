@@ -66,7 +66,9 @@ public class ContaController {
     @PostMapping(value = "/saque")
 	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, @ApiIgnore Principal principal) {
 		try {
-			log.info("saque {}:", saque);
+
+			System.out.println(String.format("saque {}:", saque));
+
 			Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
 			OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
 			relayService.operation(message);
@@ -79,7 +81,7 @@ public class ContaController {
 	@PostMapping(value = "/deposito")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm depositoForm) {
-		log.info("deposito {}:", depositoForm);
+		System.out.println(String.format("deposito {}:", depositoForm));
 		try {
 			OperacaoMessage message = new OperacaoMessage(TipoOperacao.DEPOSITO.name(), depositoForm.getValor(), depositoForm.getHashDaConta());
 			relayService.operation(message);
@@ -92,7 +94,7 @@ public class ContaController {
 
     @GetMapping(value = "/saldo")
     public ResponseEntity<SaldoDto> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
-		log.info("getDataSaldo {}:");
+		System.out.println(String.format("getDataSaldo {}:"));
     	try {
     		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
     		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
