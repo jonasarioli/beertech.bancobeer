@@ -14,7 +14,7 @@ public class Operacao {
 	private BigDecimal valor;
 	@Enumerated(EnumType.STRING)
 	private TipoOperacao tipo;
-	private  String nomeContaDestino;
+	private String nomeContaDestino;
 	private Conta conta;
 
 	public Operacao() {
@@ -31,11 +31,17 @@ public class Operacao {
 		this.dataHora = dataHora;
 		this.valor = valor;
 		this.tipo = tipo;
-		this.nomeContaDestino = hashContaDestino;		
+		this.nomeContaDestino = hashContaDestino;
 	}
 
-	
-	
+	public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo, String hashContaDestino, Conta conta) {
+		this.dataHora = dataHora;
+		this.valor = valor;
+		this.tipo = tipo;
+		this.nomeContaDestino = hashContaDestino;
+		this.conta = conta;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -88,7 +88,7 @@ public class MySqlOperacao {
 	}
 
 	public Operacao toDomain(MySqlOperacao mySqlOperacao) {
-		return new Operacao(mySqlOperacao.getDataHora(), mySqlOperacao.getValor(), mySqlOperacao.getTipo(), mySqlOperacao.getHashContaDestino());
+		return new Operacao(mySqlOperacao.getDataHora(), mySqlOperacao.getValor(), mySqlOperacao.getTipo(), mySqlOperacao.getHashContaDestino(), mySqlOperacao.getConta().toDomain(mySqlOperacao.getConta()));
 	}
 
 }
