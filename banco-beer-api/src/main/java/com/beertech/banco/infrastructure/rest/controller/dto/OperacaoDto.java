@@ -9,37 +9,35 @@ import com.beertech.banco.domain.model.Operacao;
 
 public class OperacaoDto {
 
-    private String tipo;
-    private BigDecimal valor;
-    private LocalDateTime dataHora;
-    private String nomeContaOrigemOuDestino;
+	private String tipo;
+	private BigDecimal valor;
+	private LocalDateTime dataHora;
+	private String nomeContaOrigemOuDestino;
 
-    public OperacaoDto(Operacao operacao) {
-        this.tipo = operacao.getTipo().name();
-        this.valor = operacao.getValor();
-        this.dataHora = operacao.getDataHora();
-        this.nomeContaOrigemOuDestino = operacao.getDescricao();
-    }
+	public OperacaoDto(Operacao operacao) {
+		this.tipo = operacao.getTipo().name();
+		this.valor = operacao.getValor();
+		this.dataHora = operacao.getDataHora();
+		this.nomeContaOrigemOuDestino = operacao.getConta().getNome();
+	}
 
-    public String getTipo() {
-        return tipo;
-    }
+	public String getTipo() {
+		return tipo;
+	}
 
-    public BigDecimal getValor() {
-        return valor;
-    }
+	public BigDecimal getValor() {
+		return valor;
+	}
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
-    }
+	public LocalDateTime getDataHora() {
+		return dataHora;
+	}
 
-    public String getNomeContaOrigemOuDestino() {
-        return nomeContaOrigemOuDestino;
-    }
+	public String getNomeContaOrigemOuDestino() {
+		return nomeContaOrigemOuDestino;
+	}
 
-    public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
-        return operacoes.map(OperacaoDto::new);
-    }
-
-
+	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
+		return operacoes.map(OperacaoDto::new);
+	}
 }

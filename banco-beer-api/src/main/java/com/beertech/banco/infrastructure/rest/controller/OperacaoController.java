@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import com.beertech.banco.infrastructure.rest.controller.form.RewardForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,37 +26,39 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/beercoins")
+@Slf4j
 public class OperacaoController {
 
-    @Autowired
-    OperacaoService operacaoService;
+	@Autowired
+	OperacaoService operacaoService;
 
-    @Autowired
-    ContaRepository contaRepository;
+	@Autowired
+	ContaRepository contaRepository;
 
-    @ApiIgnore
+	@ApiIgnore
     @PostMapping(value = "/operacao")
     public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
-        try {
-            Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
-            Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);
-            URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
-            return ResponseEntity.created(uri).body(conta);
-        } catch (ContaException | IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+		log.info("operacaoForm");
+		try {
+    		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
+    		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);
+    		URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
+    		return ResponseEntity.created(uri).body(conta);
+    	} catch (ContaException | IllegalArgumentException ex) {
+    		return ResponseEntity.badRequest().body(ex.getMessage());
+    	}
     }
 
-    @ApiIgnore
+	@ApiIgnore
     @PostMapping(value = "/transferencia")
     public ResponseEntity<?> transferenciao(@Valid @RequestBody OperacaoTransferenciaForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
-        try {
-            operacaoService.transferencia(operacaoForm.getContaOrigem(), operacaoForm.getContaDestino(), operacaoForm.getValor());
-            URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
-            return ResponseEntity.created(uri).build();
-        } catch (ContaException | IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
+		try {
+			operacaoService.transferencia(operacaoForm.getContaOrigem(), operacaoForm.getContaDestino(), operacaoForm.getValor());
+			URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
+			return ResponseEntity.created(uri).build();
+    	} catch (ContaException | IllegalArgumentException ex) {
+    		return ResponseEntity.badRequest().body(ex.getMessage());
+    	}
     }
 
     @ApiIgnore

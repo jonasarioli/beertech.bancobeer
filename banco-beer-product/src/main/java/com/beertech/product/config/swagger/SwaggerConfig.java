@@ -25,6 +25,16 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.beertech.product"))
                 .paths(PathSelectors.any())
                 .build()
+                .ignoredParameterTypes(Product.class)
+                .globalOperationParameters(
+                        Arrays.asList(
+                                new ParameterBuilder()
+                                        .name("Authorization")
+                                        .description("Header para Token JWT")
+                                        .modelRef(new ModelRef("string"))
+                                        .parameterType("header")
+                                        .required(false)
+                                        .build()))
                 .apiInfo(apiInfo());
     }
 
