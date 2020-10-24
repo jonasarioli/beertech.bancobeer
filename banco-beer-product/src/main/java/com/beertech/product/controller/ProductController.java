@@ -9,15 +9,19 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Optional;
@@ -43,7 +47,7 @@ public class ProductController {
                     value = "Ordenacao dos registros")
     })
     @GetMapping(produces = "application/json")
-    public ResponseEntity<Page<Product>> allProducts(@PageableDefault(sort = "nome", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
+    public ResponseEntity<Page<Product>> allProducts(@PageableDefault(sort = "name", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
         Page<Product> products = productService.findAllProducts(pageable);
         return ResponseEntity.ok(products);
     }
