@@ -51,3 +51,6 @@ jsrc/main/java/com/beertech/banco/infrastructure/rest/configuration/security/Aut
 Wsrc/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoController.java,b/c/bcd1892c5d8dd19b01a2fe7d5164526ac3939f6a
 ç
 ]src/main/java/com/beertech/banco/infrastructure/rest/controller/AuthenticationController.java,8/1/81db7eb14fbc2f7034d32483af327d9b7705fe6b
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

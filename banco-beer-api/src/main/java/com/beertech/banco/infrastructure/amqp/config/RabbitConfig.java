@@ -48,30 +48,33 @@ public class RabbitConfig {
   private Queue createQueue(final String queueName) {
     return QueueBuilder.durable(queueName)
         .withArgument("x-dead-letter-exchange", exchangeName + "-deadLetter")
+            .maxLength(10)
+            .ttl(30_000)
         .build();
   }
 
+  /*
   private Queue createDeadLetterQueue(final String queueName) {
 
     return QueueBuilder.durable(queueName + "-dlq").build();
-  }
+  }*/
 
   @Bean
   public Declarables declarableBeans() {
     final List<Declarable> declarables = new ArrayList<>();
 
     final Queue queue = createQueue(queueName);
-    final Queue deadLetterQueue = createDeadLetterQueue(queueName);
+    //final Queue deadLetterQueue = createDeadLetterQueue(queueName);
     final TopicExchange queueExchange = getExchange();
     final TopicExchange queueDeadLetterExchange = getDeadLetterExchange();
     final Binding queueBinding = BindingBuilder.bind(queue).to(queueExchange).with(routeKey);
-    final Binding deadLetterBinding =
-        BindingBuilder.bind(deadLetterQueue).to(queueDeadLetterExchange).with(routeKey);
+    //final Binding deadLetterBinding =
+    //    BindingBuilder.bind(deadLetterQueue).to(queueDeadLetterExchange).with(routeKey);
 
     declarables.add(queue);
     declarables.add(queueBinding);
-    declarables.add(deadLetterQueue);
-    declarables.add(deadLetterBinding);
+   // declarables.add(deadLetterQueue);
+    //declarables.add(deadLetterBinding);
 
     return new Declarables(declarables);
   }

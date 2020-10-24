@@ -1,5 +1,6 @@
 package com.beertecth.bancobeerconsumer.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+@Slf4j
 @Component
 public class ContaListener {
 
@@ -23,6 +25,7 @@ public class ContaListener {
 
 	@RabbitListener(queues = RabbitConfig.QUEUE)
 	public void consumer(Message message) throws JsonProcessingException {
+		log.info("conta listener -- message = {}", message);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 

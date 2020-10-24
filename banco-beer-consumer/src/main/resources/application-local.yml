@@ -1,9 +1,13 @@
 spring:
-   profiles: prod
+   profiles: local
 
    rabbitmq:
       addresses: amqps://uykzmnzp:H-oC5AMy3wvGoYTrV01dWEqwu8sdciDm@woodpecker.rmq.cloudamqp.com/uykzmnzp
 
-server.port: ${PORT:8080}
-banco.url: "https://beertech-banco.herokuapp.com/banco/"
+server.port: 8081
+
+banco.url: "http://localhost:8080/beercoins/"
+
+
+
 
