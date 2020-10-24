@@ -18,7 +18,7 @@ public class OperacaoDto {
 		this.tipo = operacao.getTipo().name();
 		this.valor = operacao.getValor();
 		this.dataHora = operacao.getDataHora();
-		this.nomeContaOrigemOuDestino = operacao.getNomeContaDestino();
+		this.nomeContaOrigemOuDestino = operacao.getConta().getNome();
 	}
 
 	public String getTipo() {
