@@ -29,7 +29,7 @@ public class MySqlOperacao {
     private BigDecimal valor;
     @Enumerated(EnumType.STRING)
     private TipoOperacao tipo;
-    private String nomeContaDestino;
+    private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "conta_id", nullable = false)
@@ -42,7 +42,7 @@ public class MySqlOperacao {
         this.valor = valor;
         this.tipo = tipo;
         this.dataHora = dataHora;
-        this.nomeContaDestino = hashContaDestino;
+        this.descricao = hashContaDestino;
         this.id = id;
         this.conta = conta;
     }
@@ -80,15 +80,15 @@ public class MySqlOperacao {
     }
 
     public String getHashContaDestino() {
-        return nomeContaDestino;
+        return descricao;
     }
 
     public void setHashContaDestino(String hashContaDestino) {
-        this.nomeContaDestino = hashContaDestino;
+        this.descricao = hashContaDestino;
     }
 
     public MySqlOperacao fromDomain(Operacao operacao) {
-        return new MySqlOperacao(operacao.getId(), operacao.getValor(), operacao.getTipo(), operacao.getDataHora(), operacao.getNomeContaDestino(), new MySqlConta().fromDomain(operacao.getConta()));
+        return new MySqlOperacao(operacao.getId(), operacao.getValor(), operacao.getTipo(), operacao.getDataHora(), operacao.getDescricao(), new MySqlConta().fromDomain(operacao.getConta()));
     }
 
     public Operacao toDomain(MySqlOperacao mySqlOperacao) {

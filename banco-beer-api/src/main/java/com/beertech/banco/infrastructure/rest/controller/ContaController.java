@@ -97,7 +97,7 @@ public class ContaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Conta> criaConta(@Valid ContaForm contaForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Conta> criaConta(@Valid @RequestBody ContaForm contaForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
         try {
             Conta conta = new Conta(contaForm);
             conta = contaService.criarConta(conta, EPerfil.USER);

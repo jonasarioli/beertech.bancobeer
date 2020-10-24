@@ -88,6 +88,25 @@ public class OperacaoServiceImpl implements OperacaoService {
     }
 
     @Override
+    public Conta realizaResgate(String hash, String nomeProduto, BigDecimal valor) {
+        Optional<Conta> contaByHash = contaRepository.findByHash(hash);
+        if (!contaByHash.isPresent()) {
+            throw new ContaException("O hash da conta não existe!");
+        }
+        Conta conta = contaByHash.get();
+        if(conta.getSaldo().compareTo(valor) < 0) {
+            throw new ContaException("Saldo insuficiente para o resgate!");
+        }
+        Operacao operacao = new Operacao(valor, TipoOperacao.RESGATE, nomeProduto);
+        operacao.setConta(conta);
+        operacaoRepository.save(operacao);
+
+        conta.saque(valor);
+        contaRepository.save(conta);
+        return conta;
+    }
+
+    @Override
     public Operacao save(Operacao operacao) {
         return operacaoRepository.save(operacao);
     }

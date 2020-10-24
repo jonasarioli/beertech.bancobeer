@@ -21,7 +21,7 @@ public class ContaListener {
     @Autowired
     ContaClient client;
 
-    @RabbitListener(queues = RabbitConfig.QUEUE)
+    @RabbitListener(queues = RabbitConfig.CONTA_QUEUE)
     public void consumer(Message message) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();

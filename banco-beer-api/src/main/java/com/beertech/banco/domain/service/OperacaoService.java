@@ -18,5 +18,7 @@ public interface OperacaoService {
 
     Page<Operacao> extratoPorTipo(Long contaId, TipoOperacao tipo, Pageable page);
 
+    Conta realizaResgate(String hash, String nomeProduto, BigDecimal valor);
+
     Operacao save(Operacao operacao);
 }
