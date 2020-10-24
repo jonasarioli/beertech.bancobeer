@@ -14,7 +14,7 @@ public class Operacao {
     private BigDecimal valor;
     @Enumerated(EnumType.STRING)
     private TipoOperacao tipo;
-    private String nomeContaDestino;
+    private String descricao;
     private Conta conta;
 
     public Operacao() {
@@ -24,14 +24,14 @@ public class Operacao {
         this.dataHora = LocalDateTime.now();
         this.valor = valor;
         this.tipo = tipo;
-        this.nomeContaDestino = hashContaDestino;
+        this.descricao = hashContaDestino;
     }
 
     public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo, String hashContaDestino) {
         this.dataHora = dataHora;
         this.valor = valor;
         this.tipo = tipo;
-        this.nomeContaDestino = hashContaDestino;
+        this.descricao = hashContaDestino;
     }
 
 
@@ -59,8 +59,8 @@ public class Operacao {
         this.tipo = tipo;
     }
 
-    public void setNomeContaDestino(String hashContaDestino) {
-        this.nomeContaDestino = hashContaDestino;
+    public void setDescricao(String hashContaDestino) {
+        this.descricao = hashContaDestino;
     }
 
     public LocalDateTime getDataHora() {
@@ -79,7 +79,7 @@ public class Operacao {
         this.conta = conta;
     }
 
-    public String getNomeContaDestino() {
-        return nomeContaDestino;
+    public String getDescricao() {
+        return descricao;
     }
 }

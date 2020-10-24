@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 public class DepositoForm {
 
     @NotNull
-    @Min(value = 0, message = "Valor deve ser maior do que 0!")
+    @Min(value = 1, message = "Valor deve ser maior do que 0!")
     private BigDecimal valor;
     @NotBlank
     private String hashDaConta;

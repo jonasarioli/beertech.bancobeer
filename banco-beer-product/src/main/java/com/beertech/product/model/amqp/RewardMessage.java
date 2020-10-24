@@ -6,11 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
-public class RewardMessage {
+public class RewardMessage implements Serializable {
     @JsonProperty(value = "tipo")
     private String type;
 
@@ -20,7 +21,7 @@ public class RewardMessage {
     @JsonProperty(value = "hash")
     private String hash;
 
-    @JsonProperty(value = "productName")
+    @JsonProperty(value = "nomeProduto")
     private String productName;
 
     public RewardMessage() {

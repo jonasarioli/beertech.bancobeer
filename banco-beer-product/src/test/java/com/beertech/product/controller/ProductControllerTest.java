@@ -49,15 +49,15 @@ class ProductControllerTest {
     @Test
     void prooductById() throws Exception {
         Long id = 1l;
-        given(productService.findProductById(id)).willReturn(Optional.of(new Product(id, "produto", "produto de teste", new BigDecimal(100))));
+        given(productService.findProductById(id)).willReturn(Optional.of(new Product(id, "produto", "produto de teste", new BigDecimal(100), "")));
         MvcResult andReturn = this.mockMvc.perform(get("/beercoins/product/1"))
                 .andExpect(status().isOk()).andReturn();
     }
 
     @Test
     void createProduct() throws Exception {
-        Product product = new Product(null, "produto", "produto de teste", new BigDecimal(100));
-        Product productSaved = new Product(null, "produto", "produto de teste", new BigDecimal(100));
+        Product product = new Product(null, "produto", "produto de teste", new BigDecimal(100), "");
+        Product productSaved = new Product(null, "produto", "produto de teste", new BigDecimal(100), "");
         given(productService.saveOrUpdateProduct(product)).willReturn(productSaved);
         MvcResult andReturn = this.mockMvc.perform(post("/beercoins/product")
                 .content(asJsonString(new ProductForm("produto", "produto de teste", new BigDecimal(100))))
@@ -67,9 +67,9 @@ class ProductControllerTest {
 
     @Test
     void updateProduct() throws Exception {
-        Product product = new Product(1l, "produto", "produto de teste", new BigDecimal(100));
-        Product producUpdated = new Product(null, "produto alterado", "produto de teste alterado", new BigDecimal(100));
-        given(productService.findProductById(1l)).willReturn(Optional.of(new Product(1l, "produto", "produto de teste", new BigDecimal(100))));
+        Product product = new Product(1l, "produto", "produto de teste", new BigDecimal(100), "");
+        Product producUpdated = new Product(null, "produto alterado", "produto de teste alterado", new BigDecimal(100), "");
+        given(productService.findProductById(1l)).willReturn(Optional.of(new Product(1l, "produto", "produto de teste", new BigDecimal(100), "")));
         given(productService.saveOrUpdateProduct(product)).willReturn(producUpdated);
         MvcResult andReturn = this.mockMvc.perform(put("/beercoins/product/1")
                 .content(asJsonString(new ProductForm("produto", "produto de teste", new BigDecimal(100))))
@@ -79,7 +79,7 @@ class ProductControllerTest {
 
     @Test
     void deleteProduct() throws Exception {
-        given(productService.findProductById(1l)).willReturn(Optional.of(new Product(1l, "produto", "produto de teste", new BigDecimal(100))));
+        given(productService.findProductById(1l)).willReturn(Optional.of(new Product(1l, "produto", "produto de teste", new BigDecimal(100), "")));
         MvcResult andReturn = this.mockMvc.perform(delete("/beercoins/product/1")).andExpect(status().isAccepted()).andReturn();
     }
 

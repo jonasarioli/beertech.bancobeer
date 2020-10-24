@@ -18,10 +18,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Optional;
@@ -47,8 +49,20 @@ public class ProductController {
                     value = "Ordenacao dos registros")
     })
     @GetMapping(produces = "application/json")
-    public ResponseEntity<Page<Product>> allProducts(@PageableDefault(sort = "name", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
+    public ResponseEntity<Page<Product>> allProducts(@ApiIgnore UriComponentsBuilder uriBuilder, @PageableDefault(sort = "name", direction = Sort.Direction.ASC, page = 0, size = 10) @ApiIgnore Pageable pageable) {
         Page<Product> products = productService.findAllProducts(pageable);
+
+        for(Product product : products ) {
+            String fileDownloadUri = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/beercoins/product/image/")
+                    .path(product.getImageName())
+                    .toUriString();
+            product.setImageName(fileDownloadUri);
+        }
+
+
+
         return ResponseEntity.ok(products);
     }
     @ApiIgnore
@@ -97,13 +111,26 @@ public class ProductController {
     }
 
     @PostMapping("/reward/{id}")
-    public ResponseEntity rewardProoduct(@PathVariable Long producId, @ApiIgnore Principal principal) {
-        Optional<Product> productById = productService.findProductById(producId);
+    public ResponseEntity rewardProoduct(@PathVariable Long id, @ApiIgnore Principal principal) {
+        Optional<Product> productById = productService.findProductById(id);
         if(productById.isPresent()) {
-            productService.rewardProduct(productById.get(), new Conta());
-            return ResponseEntity.ok().build();
+            productService.rewardProduct(productById.get(), "5c47d25e3e98b53abc532a3e7723037f", new BigDecimal("100000"));
+            return ResponseEntity.accepted().build();
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ApiIgnore
+    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> getImage( @PathVariable String name) throws IOException {
+
+        ClassPathResource classPathResource = new ClassPathResource("image/"+name);
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new InputStreamResource(classPathResource.getInputStream()));
     }
 }
