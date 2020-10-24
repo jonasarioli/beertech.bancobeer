@@ -5,6 +5,7 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +51,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 @RequestMapping("/beercoins/conta")
 @CrossOrigin
+@Slf4j
 public class ContaController {
 
 	@Autowired
@@ -64,6 +66,7 @@ public class ContaController {
     @PostMapping(value = "/saque")
 	public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, @ApiIgnore Principal principal) {
 		try {
+			log.info("saque {}:", saque);
 			Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
 			OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
 			relayService.operation(message);
@@ -76,17 +79,20 @@ public class ContaController {
 	@PostMapping(value = "/deposito")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm depositoForm) {
+		log.info("deposito {}:", depositoForm);
 		try {
 			OperacaoMessage message = new OperacaoMessage(TipoOperacao.DEPOSITO.name(), depositoForm.getValor(), depositoForm.getHashDaConta());
 			relayService.operation(message);
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		} catch (ContaException | IllegalArgumentException ex) {
+			log.error("error deposito: {}" , ex.getMessage());
 			return ResponseEntity.badRequest().body(ex.getMessage());
 		}
 	}
 
     @GetMapping(value = "/saldo")
     public ResponseEntity<SaldoDto> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
+		log.info("getDataSaldo {}:");
     	try {
     		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
     		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
