@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -24,8 +21,17 @@
   <component name="ChangeListManager">
     <list default="true" id="c09ff716-4151-4621-93e6-2655fadf6c4f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/banco-beer-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/banco-beer-api.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/listener/ContaListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,11 +42,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\plugins\maven\lib\maven3" />
-      </MavenGeneralSettings>
-    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="vmOptionsForImporter" value="-Xmx768m" />
@@ -60,8 +61,6 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../banco-beer-consumer" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -126,7 +125,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -137,13 +135,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1603231283140</updated>
-      <workItem from="1603490879846" duration="174000" />
-      <workItem from="1603491082692" duration="11000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -166,27 +159,30 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state width="468" height="465" key="DebuggerActiveHint/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603324401943" />
-    <state x="2663" y="286" width="424" height="479" key="FileChooserDialogImpl" timestamp="1603491053853">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="2109" y="297" width="424" height="479" key="FileChooserDialogImpl" timestamp="1603412865377">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="2109" y="297" width="424" height="479" key="FileChooserDialogImpl/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412865376" />
-    <state x="2663" y="286" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1603491053853" />
-    <state width="1878" height="326" key="GridCell.Tab.0.bottom" timestamp="1603412868135">
-      <screen x="1366" y="0" width="1920" height="1080" />
+    <state width="1878" height="385" key="GridCell.Tab.0.bottom" timestamp="1603496785280">
+      <screen x="0" y="0" width="1366" height="725" />
     </state>
-    <state width="1878" height="326" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412868135" />
-    <state width="1878" height="326" key="GridCell.Tab.0.center" timestamp="1603412868134">
-      <screen x="1366" y="0" width="1920" height="1080" />
+    <state width="1878" height="385" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
+    <state width="1878" height="481" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266765" />
+    <state width="1878" height="385" key="GridCell.Tab.0.center" timestamp="1603496785280">
+      <screen x="0" y="0" width="1366" height="725" />
     </state>
-    <state width="1878" height="326" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412868134" />
-    <state width="1878" height="326" key="GridCell.Tab.0.left" timestamp="1603412868134">
-      <screen x="1366" y="0" width="1920" height="1080" />
+    <state width="1878" height="385" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
+    <state width="1878" height="481" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
+    <state width="1878" height="385" key="GridCell.Tab.0.left" timestamp="1603496785280">
+      <screen x="0" y="0" width="1366" height="725" />
     </state>
-    <state width="1878" height="326" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412868134" />
-    <state width="1878" height="326" key="GridCell.Tab.0.right" timestamp="1603412868135">
-      <screen x="1366" y="0" width="1920" height="1080" />
+    <state width="1878" height="385" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
+    <state width="1878" height="481" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
+    <state width="1878" height="385" key="GridCell.Tab.0.right" timestamp="1603496785280">
+      <screen x="0" y="0" width="1366" height="725" />
     </state>
-    <state width="1878" height="326" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412868135" />
+    <state width="1878" height="385" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
+    <state width="1878" height="481" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
     <state width="1878" height="357" key="GridCell.Tab.1.bottom" timestamp="1603326104761">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
@@ -215,9 +211,10 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="1830" y="174" key="SettingsEditor/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603318346845" />
-    <state x="2032" y="288" width="674" height="560" key="find.popup" timestamp="1603323621016">
-      <screen x="1366" y="0" width="1920" height="1080" />
+    <state x="284" y="203" width="724" height="502" key="find.popup" timestamp="1603493329656">
+      <screen x="0" y="0" width="1366" height="725" />
     </state>
+    <state x="284" y="203" width="724" height="502" key="find.popup/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603493329656" />
     <state x="2032" y="288" width="674" height="560" key="find.popup/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603323621016" />
   </component>
 </project>

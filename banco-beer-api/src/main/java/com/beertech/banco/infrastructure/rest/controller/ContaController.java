@@ -5,6 +5,7 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,36 +65,40 @@ public class ContaController {
     @PostMapping(value = "/saque")
     public ResponseEntity<?> saque(@Valid @RequestBody SaqueForm saque, @ApiIgnore Principal principal) {
         try {
-            Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
-            OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
-            relayService.operation(message);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } catch (ContaException | IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-    }
+            log.info("saque {}:", saque);
+			Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
+			OperacaoMessage message = new OperacaoMessage(TipoOperacao.SAQUE.name(), saque.getValor(), contaPeloEmail.getHash());
+			relayService.operation(message);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		} catch (ContaException | IllegalArgumentException ex) {
+			return ResponseEntity.badRequest().body(ex.getMessage());
+		}
+	}
 
     @PostMapping(value = "/deposito")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deposito(@Valid @RequestBody DepositoForm depositoForm) {
-        try {
-            OperacaoMessage message = new OperacaoMessage(TipoOperacao.DEPOSITO.name(), depositoForm.getValor(), depositoForm.getHashDaConta());
-            relayService.operation(message);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } catch (ContaException | IllegalArgumentException ex) {
+        log.info("deposito {}:", depositoForm);
+		try {
+			OperacaoMessage message = new OperacaoMessage(TipoOperacao.DEPOSITO.name(), depositoForm.getValor(), depositoForm.getHashDaConta());
+			relayService.operation(message);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		} catch (ContaException | IllegalArgumentException ex) {
+			log.error("error deposito: {}" , ex.getMessage());
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
     @GetMapping(value = "/saldo")
     public ResponseEntity<SaldoDto> getDataSaldo(@ApiIgnore Principal principal) throws JSONException {
-        try {
-            Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
-            return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));
-        } catch (ContaException ex) {
-            ex.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
+		log.info("getDataSaldo {}:");
+    	try {
+    		Conta contaPeloEmail = contaService.contaPeloEmail(principal.getName());
+    		return ResponseEntity.ok(new SaldoDto(contaPeloEmail.getSaldo()));    		
+    	} catch(ContaException ex) {
+    		ex.printStackTrace();
+    		return ResponseEntity.notFound().build();
+    	}
     }
 
     @PostMapping()

@@ -55,6 +55,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/beercoins/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/beercoins/validacao/token").permitAll()
                 .anyRequest().authenticated()
+                .antMatchers(HttpMethod.GET, "/beercoins/validacao/token").permitAll()
+				.anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AuthenticationTokenFilter(tokenService, contaRepository), UsernamePasswordAuthenticationFilter.class)
