@@ -53,8 +53,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/beercoins/transferencia").permitAll()
                 .antMatchers(HttpMethod.POST, "/beercoins/transferencia/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/beercoins/login").permitAll()
-                .antMatchers(HttpMethod.GET,"/beercoins/validacao/token").permitAll()
-                .anyRequest().authenticated()
                 .antMatchers(HttpMethod.GET, "/beercoins/validacao/token").permitAll()
 				.anyRequest().authenticated()
                 .and().csrf().disable()

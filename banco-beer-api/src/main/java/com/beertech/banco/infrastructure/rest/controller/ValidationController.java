@@ -1,6 +1,9 @@
 package com.beertech.banco.infrastructure.rest.controller;
 
+import antlr.TokenStreamException;
+import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.rest.configuration.security.AuthenticationTokenFilter;
+import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,12 +28,22 @@ public class ValidationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private ContaService contaService;
+
     @GetMapping("/token")
-    public ResponseEntity<TokenDto> validar(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<ContaDto> validar(@RequestHeader("Authorization") String token) {
 
         try {
             tokenService.isTokenValido(token);
-            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            token = token.substring(7);
+            Long contaId = tokenService.getIdConta(token);
+            ContaDto contaResponse = new ContaDto(contaService.contaPeloId(contaId));
+            return ResponseEntity.ok(contaResponse);
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }
