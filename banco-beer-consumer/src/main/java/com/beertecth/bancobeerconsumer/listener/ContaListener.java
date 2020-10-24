@@ -27,18 +27,23 @@ public class ContaListener {
 	public void consumer(Message message) throws JsonProcessingException {
 		log.info("conta listener -- message = {}", message);
 
+		System.out.println("conta listener -- message: " + message);
+
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		String json = new String(message.getBody());
 
-		JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-		if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
-			TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
+		try{
+			JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+			if(jsonObject.get("tipo").getAsString().equals("TRANSFERENCIA")) {
+				TransferenciaMessage transferenciaMessage = objectMapper.readValue(json, TransferenciaMessage.class);
 
-			client.transferencia(new TransferenciaDto(transferenciaMessage));
-		} else {
-			OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
-			client.sendOperation(operacaoMessage);
+				client.transferencia(new TransferenciaDto(transferenciaMessage));
+			} else {
+				OperacaoMessage operacaoMessage = objectMapper.readValue(json, OperacaoMessage.class);
+				client.sendOperation(operacaoMessage);
+			}}catch (Exception exception){
+			System.out.println("conta listener -- exception: " + exception);
 		}
 	}
 }
