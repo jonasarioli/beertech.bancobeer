@@ -1,7 +1,8 @@
 package com.beertech.banco.domain.model;
 
 public enum TipoOperacao {
-	SAQUE,
-	DEPOSITO,
-	TRANSFERENCIA
+    SAQUE,
+    DEPOSITO,
+    TRANSFERENCIA,
+    RESGATE
 }

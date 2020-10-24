@@ -21,21 +21,21 @@ import com.beertech.banco.infrastructure.rest.controller.form.LoginForm;
 @CrossOrigin
 public class AuthenticationController {
 
-	@Autowired
-	private AuthenticationManager authManager;
-	
-	@Autowired
-	private TokenService tokenService;
-	
-	@PostMapping("/login")
-	public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) {
-		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
-		try {
-			Authentication authentication = authManager.authenticate(dadosLogin);
-			String token = tokenService.createTokan(authentication);
-			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-		} catch (AuthenticationException e) {
-			return ResponseEntity.badRequest().build();
-		}
-	}
+    @Autowired
+    private AuthenticationManager authManager;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm form) {
+        UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+        try {
+            Authentication authentication = authManager.authenticate(dadosLogin);
+            String token = tokenService.createTokan(authentication);
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

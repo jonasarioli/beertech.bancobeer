@@ -1,10 +1,7 @@
 spring:
    profiles: local
 
-   rabbitmq:
-      addresses: amqps://uykzmnzp:H-oC5AMy3wvGoYTrV01dWEqwu8sdciDm@woodpecker.rmq.cloudamqp.com/uykzmnzp
-
-server.port: 8081
+server.port: 8083
 
 banco.url: "http://localhost:8080/beercoins/"
 

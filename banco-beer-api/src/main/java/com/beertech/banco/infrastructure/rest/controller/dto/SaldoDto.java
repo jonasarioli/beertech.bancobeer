@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 public class SaldoDto {
 
-	private BigDecimal saldo;
+    private BigDecimal saldo;
 
-	public SaldoDto(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
+    public SaldoDto(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
 
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
 }

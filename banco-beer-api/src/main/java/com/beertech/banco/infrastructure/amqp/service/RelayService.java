@@ -5,6 +5,7 @@ import com.beertech.banco.infrastructure.amqp.model.TransferenciaMessage;
 
 public interface RelayService {
 
-	public void transfer(TransferenciaMessage transferenciaMessage);
-	public void operation(OperacaoMessage operacaoMessage);
+    public void transfer(TransferenciaMessage transferenciaMessage);
+
+    public void operation(OperacaoMessage operacaoMessage);
 }

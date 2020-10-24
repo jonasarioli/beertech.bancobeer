@@ -14,15 +14,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class OperacaoMessage {
-  @JsonProperty(value = "tipo")
-  @ApiModelProperty(example = "DEPOSITO")
-  private String tipo;
+    @JsonProperty(value = "tipo")
+    @ApiModelProperty(example = "DEPOSITO")
+    private String tipo;
 
-  @JsonProperty(value = "valor")
-  @ApiModelProperty(example = "12.5")
-  private BigDecimal valor;
+    @JsonProperty(value = "valor")
+    @ApiModelProperty(example = "12.5")
+    private BigDecimal valor;
 
-  @JsonProperty(value = "hash")
-  @ApiModelProperty(example = "123456")
-  private String hash;
+    @JsonProperty(value = "hash")
+    @ApiModelProperty(example = "123456")
+    private String hash;
 }

@@ -17,147 +17,147 @@ import com.beertech.banco.infrastructure.rest.controller.form.ContaForm;
 
 public class Conta {
 
-	private Long id;
-	private String hash;
-	private List<Operacao> operacoes;
-	private BigDecimal saldo;
-	private String nome;
-	private String email;
-	private String cnpj;
-	private String senha;
-	private EPerfil perfil;
-	private Set<Profile> profiles;
+    private Long id;
+    private String hash;
+    private List<Operacao> operacoes;
+    private BigDecimal saldo;
+    private String nome;
+    private String email;
+    private String cnpj;
+    private String senha;
+    private EPerfil perfil;
+    private Set<Profile> profiles;
 
 
-	public Conta() {
-		this.operacoes = new ArrayList<Operacao>();
-		saldo = new BigDecimal(0.00);		
-	}
+    public Conta() {
+        this.operacoes = new ArrayList<Operacao>();
+        saldo = new BigDecimal(0.00);
+    }
 
-	public Conta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
-				 String senha, Set<Profile> profiles) {
-		this.id = id;
-		this.hash = hash;
-		this.saldo = saldo;
-		this.nome = nome;
-		this.email = email;
-		this.cnpj = cnpj;
-		this.senha = senha;
-		this.profiles = profiles;
-	}
-	
-	public Conta(ContaForm form) {
-		this.nome = form.getNome();
-		this.cnpj = form.getCnpj();
-		this.email = form.getEmail();
-		this.senha = new BCryptPasswordEncoder().encode(form.getSenha());
-		this.operacoes = new ArrayList<Operacao>();
-		saldo = new BigDecimal(0.00);
-		this.hash = getHashMd5(email + cnpj);
-	}
-	
-	public Set<Profile> getProfiles() {
-		return profiles;
-	}
+    public Conta(Long id, String hash, BigDecimal saldo, String nome, String email, String cnpj,
+                 String senha, Set<Profile> profiles) {
+        this.id = id;
+        this.hash = hash;
+        this.saldo = saldo;
+        this.nome = nome;
+        this.email = email;
+        this.cnpj = cnpj;
+        this.senha = senha;
+        this.profiles = profiles;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Conta(ContaForm form) {
+        this.nome = form.getNome();
+        this.cnpj = form.getCnpj();
+        this.email = form.getEmail();
+        this.senha = new BCryptPasswordEncoder().encode(form.getSenha());
+        this.operacoes = new ArrayList<Operacao>();
+        saldo = new BigDecimal(0.00);
+        this.hash = getHashMd5(email + cnpj);
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Set<Profile> getProfiles() {
+        return profiles;
+    }
 
-	public String getHash() {
-		return hash;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setHash() {
-		this.hash = getHashMd5(email + cnpj);
-	}
-	
-	public List<Operacao> getOperacoes() {
-		if(operacoes == null)
-			operacoes = new ArrayList<Operacao>();
-		return Collections.unmodifiableList(operacoes);
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
+    public String getHash() {
+        return hash;
+    }
 
-	public void deposito(BigDecimal valor) {
-		if (valor.compareTo(new BigDecimal(0)) <= 0)
-			throw new ContaException("O valor para depósito deve ser maior do que 0!");
-		this.saldo = saldo.add(valor);
-	}
+    public void setHash() {
+        this.hash = getHashMd5(email + cnpj);
+    }
 
-	public void saque(BigDecimal valor) {
-		if (valor.compareTo(new BigDecimal(0)) <= 0)
-			throw new ContaException("O valor para saque deve ser maior do que 0!");
-		if (this.saldo.compareTo(valor) < 0)
-			throw new ContaException("O valor para saque não pode ser maior do que o saldo!");
-		this.saldo = this.saldo.subtract(valor);
-	}
+    public List<Operacao> getOperacoes() {
+        if (operacoes == null)
+            operacoes = new ArrayList<Operacao>();
+        return Collections.unmodifiableList(operacoes);
+    }
 
-	public static String getHashMd5(String value) {
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-		BigInteger hash = new BigInteger(1, md.digest(value.getBytes()));
-		return hash.toString(16);
-	}
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
 
-	public void addOperacao(Operacao operacao) {
-		this.operacoes.add(operacao);
-	}
+    public void deposito(BigDecimal valor) {
+        if (valor.compareTo(new BigDecimal(0)) <= 0)
+            throw new ContaException("O valor para depósito deve ser maior do que 0!");
+        this.saldo = saldo.add(valor);
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public void saque(BigDecimal valor) {
+        if (valor.compareTo(new BigDecimal(0)) <= 0)
+            throw new ContaException("O valor para saque deve ser maior do que 0!");
+        if (this.saldo.compareTo(valor) < 0)
+            throw new ContaException("O valor para saque não pode ser maior do que o saldo!");
+        this.saldo = this.saldo.subtract(valor);
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public static String getHashMd5(String value) {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        BigInteger hash = new BigInteger(1, md.digest(value.getBytes()));
+        return hash.toString(16);
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void addOperacao(Operacao operacao) {
+        this.operacoes.add(operacao);
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String getCnpj() {
-		return cnpj;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public String getCnpj() {
+        return cnpj;
+    }
 
-	public EPerfil getPerfil() {
-		return perfil;
-	}
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
 
-	public void setPerfil(EPerfil perfil) {
-		this.perfil = perfil;
-	}
+    public String getSenha() {
+        return senha;
+    }
 
-	public void addProfile(Profile profile) {
-		if(this.profiles == null)
-			this.profiles = new HashSet<>();
-		this.profiles.add(profile);
-	}
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public EPerfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(EPerfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public void addProfile(Profile profile) {
+        if (this.profiles == null)
+            this.profiles = new HashSet<>();
+        this.profiles.add(profile);
+    }
 }

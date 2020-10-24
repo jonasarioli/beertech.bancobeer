@@ -14,18 +14,18 @@ import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 @Service
 public class AuthenticationService implements UserDetailsService {
 
-	@Autowired
-	private ContaRepository repository;
-	
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Optional<MySqlConta> usuario = repository.findByEmail(email);
-		if(usuario.isPresent()) {
-			return usuario.get();			
-		}
-			
-		throw new UsernameNotFoundException("Dados invalidos");
-		
-	}
-	
+    @Autowired
+    private ContaRepository repository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<MySqlConta> usuario = repository.findByEmail(email);
+        if (usuario.isPresent()) {
+            return usuario.get();
+        }
+
+        throw new UsernameNotFoundException("Dados invalidos");
+
+    }
+
 }

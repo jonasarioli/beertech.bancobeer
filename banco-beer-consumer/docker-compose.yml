@@ -1,28 +1,28 @@
 version: '2.1'
 services:
-    rabbitmq:
-       image: rabbitmq:3-management
-       ports:
-         - 15672:15672
-         - 5672:5672
-       container_name: rabbitmq
-       environment:
-         - RABBITMQ_HOST=rabbitmq
-         - RABBITMQ_USER=guest
-         - RABBITMQ_PASS=guest
-         - RABBITMQ_DEFAULT_VHOST=/
-         - HEALTH_CHECK_CACHE=0
-    db:
-      image: mysql:5.7
-      restart: always
-      environment:
-        MYSQL_DATABASE: 'bancobeer'
-        MYSQL_USER: 'admin'
-        MYSQL_PASSWORD: 'admin'
-        MYSQL_ROOT_PASSWORD: '123'
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+      - HEALTH_CHECK_CACHE=0
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'bancobeer'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: '123'
 
 
-      ports:
-        - '3306:3306'
-      expose:
-        - '3306'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'

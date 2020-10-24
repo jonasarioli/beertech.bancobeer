@@ -10,24 +10,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class BancoBeerMessageSender {
 
-  @Value("${amqp.exchange}")
-  private String exchangeName;
+    @Value("${amqp.exchange}")
+    private String exchangeName;
 
-  @Value("${amqp.routeKey}")
-  private String routeKey;
+    @Value("${amqp.routeKey}")
+    private String routeKey;
 
-  private AmqpTemplate amqpTemplate;
+    private AmqpTemplate amqpTemplate;
 
-  @Autowired
-  public BancoBeerMessageSender(final AmqpTemplate amqpTemplate) {
-    this.amqpTemplate = amqpTemplate;
-  }
+    @Autowired
+    public BancoBeerMessageSender(final AmqpTemplate amqpTemplate) {
+        this.amqpTemplate = amqpTemplate;
+    }
 
-  public void sendOperationMessage(final OperacaoMessage operacaoMessage) {
-    amqpTemplate.convertAndSend(exchangeName, routeKey, operacaoMessage);
-  }
+    public void sendOperationMessage(final OperacaoMessage operacaoMessage) {
+        amqpTemplate.convertAndSend(exchangeName, routeKey, operacaoMessage);
+    }
 
-  public void sendTransferMessage(final TransferenciaMessage transferenciaMessage) {
-    amqpTemplate.convertAndSend(exchangeName, routeKey, transferenciaMessage);
-  }
+    public void sendTransferMessage(final TransferenciaMessage transferenciaMessage) {
+        amqpTemplate.convertAndSend(exchangeName, routeKey, transferenciaMessage);
+    }
 }

@@ -8,12 +8,12 @@ import org.springframework.data.domain.Page;
 import com.beertech.banco.domain.model.Operacao;
 
 public class OperacaoDto {
-	
+
 	private String tipo;
 	private BigDecimal valor;
 	private LocalDateTime dataHora;
 	private String nomeContaOrigemOuDestino;
-	
+
 	public OperacaoDto(Operacao operacao) {
 		this.tipo = operacao.getTipo().name();
 		this.valor = operacao.getValor();
@@ -40,7 +40,4 @@ public class OperacaoDto {
 	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
 		return operacoes.map(OperacaoDto::new);
 	}
-	
-	
-
 }
