@@ -35,6 +35,14 @@ public class Operacao {
     }
 
 
+	public Operacao(LocalDateTime dataHora, BigDecimal valor, TipoOperacao tipo, String hashContaDestino, Conta conta) {
+		this.dataHora = dataHora;
+		this.valor = valor;
+		this.tipo = tipo;
+		this.descricao = hashContaDestino;
+		this.conta = conta;
+	}
+
     public Long getId() {
         return id;
     }
