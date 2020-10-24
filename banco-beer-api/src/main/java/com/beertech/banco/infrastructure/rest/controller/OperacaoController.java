@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import lombok.extern.slf4j.Slf4j;
+import com.beertech.banco.infrastructure.rest.controller.form.RewardForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,21 +43,33 @@ public class OperacaoController {
     		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
     		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);
     		URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
-    		return ResponseEntity.created(uri).body(conta);    		
+    		return ResponseEntity.created(uri).body(conta);
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
     }
-	
+
 	@ApiIgnore
     @PostMapping(value = "/transferencia")
     public ResponseEntity<?> transferenciao(@Valid @RequestBody OperacaoTransferenciaForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
 		try {
 			operacaoService.transferencia(operacaoForm.getContaOrigem(), operacaoForm.getContaDestino(), operacaoForm.getValor());
 			URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
-			return ResponseEntity.created(uri).build();    		
+			return ResponseEntity.created(uri).build();
     	} catch (ContaException | IllegalArgumentException ex) {
     		return ResponseEntity.badRequest().body(ex.getMessage());
     	}
+    }
+
+    @ApiIgnore
+    @PostMapping(value = "/reward")
+    public ResponseEntity<?> reward(@Valid @RequestBody RewardForm form, @ApiIgnore UriComponentsBuilder uriBuilder) {
+        try {
+            operacaoService.realizaResgate(form.getHash(), form.getNomeProduto(), form.getPreco());
+            URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
+            return ResponseEntity.created(uri).build();
+        } catch (ContaException | IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 }

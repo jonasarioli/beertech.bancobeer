@@ -17,45 +17,47 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class TokenService {
 
-	@Value("${forum.jwt.expiration}")
-	private String expiration;
-	
-	@Value("${forum.jwt.secret}")
-	private String secret;
-	
+    @Value("${forum.jwt.expiration}")
+    private String expiration;
 
-	public String createTokan(Authentication authentication) {
-		MySqlConta logado = (MySqlConta) authentication.getPrincipal();
-		Date today = new Date();
-		Date expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
-		
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("Nome", logado.getNome());
-		claims.put("Perfil", logado.getProfiles().iterator().next().getName());
-		
-		return Jwts.builder()
-				.setIssuer("BeerCoins API ")
-				.setClaims(claims)
-				.setSubject(logado.getId().toString())
-				.setIssuedAt(today)
-				.setExpiration(expirationDate)
-				.signWith(SignatureAlgorithm.HS256, secret)
-				.compact();
-	}
+    @Value("${forum.jwt.secret}")
+    private String secret;
 
 
-	public boolean isTokenValido(String token) {
-		try {
-			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}		
-	}
+    public String createTokan(Authentication authentication) {
+        MySqlConta logado = (MySqlConta) authentication.getPrincipal();
+        Date today = new Date();
+        Date expirationDate = new Date(today.getTime() + Long.parseLong(expiration));
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("Nome", logado.getNome());
+        claims.put("Perfil", logado.getProfiles().iterator().next().getName());
+        claims.put("Saldo", logado.getSaldo());
+        claims.put("Hash", logado.getHash());
+
+        return Jwts.builder()
+                .setIssuer("BeerCoins API ")
+                .setClaims(claims)
+                .setSubject(logado.getId().toString())
+                .setIssuedAt(today)
+                .setExpiration(expirationDate)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
 
 
-	public Long getIdConta(String token) {
-		Claims body = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-		return Long.parseLong(body.getSubject());
-	}
+    public boolean isTokenValido(String token) {
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public Long getIdConta(String token) {
+        Claims body = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Long.parseLong(body.getSubject());
+    }
 }

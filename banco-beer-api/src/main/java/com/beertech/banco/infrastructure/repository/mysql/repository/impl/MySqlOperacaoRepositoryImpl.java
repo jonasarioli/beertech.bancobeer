@@ -13,29 +13,29 @@ import com.beertech.banco.infrastructure.repository.mysql.model.MySqlOperacao;
 @Repository
 public class MySqlOperacaoRepositoryImpl implements OperacaoRepository {
 
-	private com.beertech.banco.infrastructure.repository.mysql.OperacaoRepository operacaoRepository;
+    private com.beertech.banco.infrastructure.repository.mysql.OperacaoRepository operacaoRepository;
 
-	@Autowired
-	public MySqlOperacaoRepositoryImpl(
-			com.beertech.banco.infrastructure.repository.mysql.OperacaoRepository operacaoRepository) {
-		this.operacaoRepository = operacaoRepository;
-	}
-	
-	@Override
-	public Page<Operacao> getByContaId(Long contaId, Pageable page) {
-		Page<MySqlOperacao> findByContaId = operacaoRepository.findByConta_Id(contaId, page);
-		return findByContaId.map(new MySqlOperacao()::toDomain);
-	}
+    @Autowired
+    public MySqlOperacaoRepositoryImpl(
+            com.beertech.banco.infrastructure.repository.mysql.OperacaoRepository operacaoRepository) {
+        this.operacaoRepository = operacaoRepository;
+    }
 
-	@Override
-	public Page<Operacao> getByContaIdAndTipo(Long contaId, TipoOperacao tipo, Pageable page) {
-		Page<MySqlOperacao> findByContaId = operacaoRepository.findByTipoAndConta_Id(tipo, contaId, page);
-		return findByContaId.map(new MySqlOperacao()::toDomain);
-	}
+    @Override
+    public Page<Operacao> getByContaId(Long contaId, Pageable page) {
+        Page<MySqlOperacao> findByContaId = operacaoRepository.findByConta_Id(contaId, page);
+        return findByContaId.map(new MySqlOperacao()::toDomain);
+    }
 
-	@Override
-	public Operacao save(Operacao operacao) {		
-		return new MySqlOperacao().toDomain(operacaoRepository.save(new MySqlOperacao().fromDomain(operacao)));
-	}
+    @Override
+    public Page<Operacao> getByContaIdAndTipo(Long contaId, TipoOperacao tipo, Pageable page) {
+        Page<MySqlOperacao> findByContaId = operacaoRepository.findByTipoAndConta_Id(tipo, contaId, page);
+        return findByContaId.map(new MySqlOperacao()::toDomain);
+    }
+
+    @Override
+    public Operacao save(Operacao operacao) {
+        return new MySqlOperacao().toDomain(operacaoRepository.save(new MySqlOperacao().fromDomain(operacao)));
+    }
 
 }

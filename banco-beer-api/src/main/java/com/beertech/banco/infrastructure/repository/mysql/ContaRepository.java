@@ -10,9 +10,12 @@ import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlOperacao;
 
 public interface ContaRepository extends JpaRepository<MySqlConta, Long> {
-	Page<MySqlConta> findAll(Pageable page);
-	Page<MySqlOperacao> findOperacoesByHash (String hash, Pageable page);
-	Optional<MySqlConta> findByHash(String hash);
-	Optional<MySqlConta> findByEmail(String email);
-	
+    Page<MySqlConta> findAll(Pageable page);
+
+    Page<MySqlOperacao> findOperacoesByHash(String hash, Pageable page);
+
+    Optional<MySqlConta> findByHash(String hash);
+
+    Optional<MySqlConta> findByEmail(String email);
+
 }

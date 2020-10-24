@@ -32,36 +32,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 public class ContaClientTest {
 
-	@Value("${banco.url}")
-	private String bancoUrl;
-	
-	@Autowired
+    @Value("${banco.url}")
+    private String bancoUrl;
+
+    @Autowired
     RestTemplate restTemplate;
-	
-	@Autowired
+
+    @Autowired
     private ContaClient contaClient;
-	
-	private ObjectMapper mapper = new ObjectMapper();
-	private MockRestServiceServer mockServer;
-	
-	@BeforeEach
+
+    private ObjectMapper mapper = new ObjectMapper();
+    private MockRestServiceServer mockServer;
+
+    @BeforeEach
     public void setUp() {
-		mockServer = MockRestServiceServer.createServer(restTemplate);
+        mockServer = MockRestServiceServer.createServer(restTemplate);
     }
-	
-	@Test
-	void testSendOperationSuccess() throws URISyntaxException, JsonProcessingException {
-		OperacaoMessage operacaoMessage = new OperacaoMessage();
-		
-		mockServer.expect(ExpectedCount.once(), 
-		          requestTo(new URI("http://localhost:8080/conta/operacao")))
-		          .andExpect(method(HttpMethod.POST))
-		          .andRespond(withStatus(HttpStatus.OK)
-		          .contentType(MediaType.APPLICATION_JSON)
-		          .body(mapper.writeValueAsString(operacaoMessage))
-		        );
-		
-		contaClient.sendOperation(operacaoMessage);
-	}
+
+    @Test
+    void testSendOperationSuccess() throws URISyntaxException, JsonProcessingException {
+        OperacaoMessage operacaoMessage = new OperacaoMessage();
+
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(new URI("http://localhost:8080/conta/operacao")))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(operacaoMessage))
+                );
+
+        contaClient.sendOperation(operacaoMessage);
+    }
 
 }

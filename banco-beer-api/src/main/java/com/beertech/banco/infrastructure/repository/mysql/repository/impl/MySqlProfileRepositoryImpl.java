@@ -10,24 +10,24 @@ import com.beertech.banco.domain.repository.ProfileRepository;
 import com.beertech.banco.infrastructure.repository.mysql.model.MySqlProfile;
 
 @Repository
-public class MySqlProfileRepositoryImpl implements ProfileRepository{
+public class MySqlProfileRepositoryImpl implements ProfileRepository {
 
-	private com.beertech.banco.infrastructure.repository.mysql.ProfileRepository profileRepository;
+    private com.beertech.banco.infrastructure.repository.mysql.ProfileRepository profileRepository;
 
-	  @Autowired
-	  public MySqlProfileRepositoryImpl(
-			  com.beertech.banco.infrastructure.repository.mysql.ProfileRepository profileRepository) {
-	    this.profileRepository = profileRepository;
-	  }
-	
-	@Override
-	public Profile save(Profile profile) {
-		return new MySqlProfile().toDomain((profileRepository.save(new MySqlProfile().fromDomain(profile))));
-	}
+    @Autowired
+    public MySqlProfileRepositoryImpl(
+            com.beertech.banco.infrastructure.repository.mysql.ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+    }
 
-	@Override
-	public Optional<Profile> findByName(String name) {
-		return profileRepository.findByName(name).map(new MySqlProfile()::toDomain);
-	}
+    @Override
+    public Profile save(Profile profile) {
+        return new MySqlProfile().toDomain((profileRepository.save(new MySqlProfile().fromDomain(profile))));
+    }
+
+    @Override
+    public Optional<Profile> findByName(String name) {
+        return profileRepository.findByName(name).map(new MySqlProfile()::toDomain);
+    }
 
 }

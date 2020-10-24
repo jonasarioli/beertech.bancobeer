@@ -23,56 +23,56 @@ import com.beertech.banco.domain.service.ProfileService;
 @EntityScan(basePackages = "com.beertech.banco")
 public class BeercoinsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BeercoinsApplication.class, args);
-	}
-	
-	@Bean
-	CommandLineRunner init(ProfileService profileService, ContaRepository contaRepository, OperacaoRepository operacaoRepository) {
+    public static void main(String[] args) {
+        SpringApplication.run(BeercoinsApplication.class, args);
+    }
 
-		return args -> {
+    @Bean
+    CommandLineRunner init(ProfileService profileService, ContaRepository contaRepository, OperacaoRepository operacaoRepository) {
 
-			Optional<Profile> adminProfile = profileService.findByName(EPerfil.ADMIN.name());
-			if (!adminProfile.isPresent()) {
-				Profile newAdminRole = new Profile(EPerfil.ADMIN.name());
-				adminProfile = Optional.ofNullable(profileService.save(newAdminRole));
-			}
-			
-			Optional<Profile> userProfile = profileService.findByName(EPerfil.USER.name());
-			if (!userProfile.isPresent()) {
-				Profile newAdminRole = new Profile(EPerfil.USER.name());
-				userProfile = Optional.ofNullable(profileService.save(newAdminRole));
-			}
-			
-			Optional<Conta> admin = contaRepository.findByEmail("admin@email.com");
-			if(!admin.isPresent()) {
-				Conta newAdmin = new Conta();
-				newAdmin.setCnpj("12.345.6789/0001-90");
-				newAdmin.setEmail("admin@email.com");
-				newAdmin.setNome("Admin");
-				newAdmin.setSenha(new BCryptPasswordEncoder().encode("grupocolorado"));
-				newAdmin.addProfile(adminProfile.get());
-				newAdmin.setHash();
-				contaRepository.save(newAdmin);				
-			}
-			
-			Optional<Conta> user = contaRepository.findByEmail("user@email.com");
-			if(!user.isPresent()) {
-				Conta userNew = new Conta();
-				userNew.setCnpj("01.234.567/0001-00");
-				userNew.setEmail("user@email.com");
-				userNew.setNome("USER");
-				userNew.setSenha(new BCryptPasswordEncoder().encode("user"));
-				userNew.addProfile(userProfile.get());
-				userNew.setHash();
-				BigDecimal valor = new BigDecimal(100);
-				userNew.deposito(valor);				
-				userNew = contaRepository.save(userNew);
-				
-				Operacao operacao = new Operacao(valor, TipoOperacao.DEPOSITO, null);
-				operacao.setConta(userNew);
-				operacaoRepository.save(operacao);
-			}
-		};
-	}
+        return args -> {
+
+            Optional<Profile> adminProfile = profileService.findByName(EPerfil.ADMIN.name());
+            if (!adminProfile.isPresent()) {
+                Profile newAdminRole = new Profile(EPerfil.ADMIN.name());
+                adminProfile = Optional.ofNullable(profileService.save(newAdminRole));
+            }
+
+            Optional<Profile> userProfile = profileService.findByName(EPerfil.USER.name());
+            if (!userProfile.isPresent()) {
+                Profile newAdminRole = new Profile(EPerfil.USER.name());
+                userProfile = Optional.ofNullable(profileService.save(newAdminRole));
+            }
+
+            Optional<Conta> admin = contaRepository.findByEmail("admin@email.com");
+            if (!admin.isPresent()) {
+                Conta newAdmin = new Conta();
+                newAdmin.setCnpj("12.345.6789/0001-90");
+                newAdmin.setEmail("admin@email.com");
+                newAdmin.setNome("Admin");
+                newAdmin.setSenha(new BCryptPasswordEncoder().encode("grupocolorado"));
+                newAdmin.addProfile(adminProfile.get());
+                newAdmin.setHash();
+                contaRepository.save(newAdmin);
+            }
+
+            Optional<Conta> user = contaRepository.findByEmail("user@email.com");
+            if (!user.isPresent()) {
+                Conta userNew = new Conta();
+                userNew.setCnpj("01.234.567/0001-00");
+                userNew.setEmail("user@email.com");
+                userNew.setNome("USER");
+                userNew.setSenha(new BCryptPasswordEncoder().encode("user"));
+                userNew.addProfile(userProfile.get());
+                userNew.setHash();
+                BigDecimal valor = new BigDecimal(100);
+                userNew.deposito(valor);
+                userNew = contaRepository.save(userNew);
+
+                Operacao operacao = new Operacao(valor, TipoOperacao.DEPOSITO, null);
+                operacao.setConta(userNew);
+                operacaoRepository.save(operacao);
+            }
+        };
+    }
 }

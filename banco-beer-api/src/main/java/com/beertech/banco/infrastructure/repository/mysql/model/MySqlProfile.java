@@ -12,54 +12,55 @@ import org.springframework.security.core.GrantedAuthority;
 import com.beertech.banco.domain.model.Profile;
 
 @Entity
-@Table(name = "profile", 
-uniqueConstraints = { 
-		@UniqueConstraint(columnNames = "name")
-})
+@Table(name = "profile",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
 public class MySqlProfile implements GrantedAuthority {
 
-	private static final long serialVersionUID = 6280340062208576621L;
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
+    private static final long serialVersionUID = 6280340062208576621L;
 
-	public MySqlProfile() {
-	}
-		
-	public MySqlProfile(Long id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
-	public Long getId() {
-		return id;
-	}
+    public MySqlProfile() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public MySqlProfile(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
-	public String getAuthority() {
-		return this.name;
-	}
-	
-	public MySqlProfile fromDomain(Profile profile) {
-		return new MySqlProfile(profile.getId(), profile.getName());
-	}
-	
-	public Profile toDomain(MySqlProfile profile) {
-		return new Profile(profile.getId(), profile.getName());
-	}
-	
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getAuthority() {
+        return this.name;
+    }
+
+    public MySqlProfile fromDomain(Profile profile) {
+        return new MySqlProfile(profile.getId(), profile.getName());
+    }
+
+    public Profile toDomain(MySqlProfile profile) {
+        return new Profile(profile.getId(), profile.getName());
+    }
+
 
 }

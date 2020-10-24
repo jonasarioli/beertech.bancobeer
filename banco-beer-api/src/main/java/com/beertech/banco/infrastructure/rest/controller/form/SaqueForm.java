@@ -7,14 +7,15 @@ import javax.validation.constraints.NotNull;
 
 public class SaqueForm {
 
-	@NotNull
-	@Min(value = 1, message = "Valor deve ser maior do que 0!")
-	private BigDecimal valor;
+    @NotNull
+    @Min(value = 1, message = "Valor deve ser maior do que 0!")
+    private BigDecimal valor;
 
-	public BigDecimal getValor() {
-		return valor;
-	}
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 }
