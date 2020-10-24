@@ -14,28 +14,28 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitConfig {
 
-  public static final String QUEUE = "conta-corrente";
-  public static final String EXCHANGE_NAME = "contas-exchange";
-  public static final String ROUTING_KEY = "operacao";
+    public static final String QUEUE = "conta-corrente";
+    public static final String EXCHANGE_NAME = "contas-exchange";
+    public static final String ROUTING_KEY = "operacao";
 
-  @Bean
-  public Exchange contaExchange() {
-    return ExchangeBuilder.directExchange(EXCHANGE_NAME)
-        .durable(true)
-        .build();
-  }
+    @Bean
+    public Exchange contaExchange() {
+        return ExchangeBuilder.directExchange(EXCHANGE_NAME)
+                .durable(true)
+                .build();
+    }
 
-  @Bean
-  public Queue declareQueue() {
-    return QueueBuilder.durable(QUEUE)
-        .build();
-  }
+    @Bean
+    public Queue declareQueue() {
+        return QueueBuilder.durable(QUEUE)
+                .build();
+    }
 
-  @Bean
-  public Binding declareBinding(Exchange exchange, Queue queue) {
-    return BindingBuilder.bind(queue)
-        .to(exchange)
-        .with(ROUTING_KEY)
-        .noargs();
-  }
+    @Bean
+    public Binding declareBinding(Exchange exchange, Queue queue) {
+        return BindingBuilder.bind(queue)
+                .to(exchange)
+                .with(ROUTING_KEY)
+                .noargs();
+    }
 }

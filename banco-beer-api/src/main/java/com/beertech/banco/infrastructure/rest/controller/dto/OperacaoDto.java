@@ -8,39 +8,38 @@ import org.springframework.data.domain.Page;
 import com.beertech.banco.domain.model.Operacao;
 
 public class OperacaoDto {
-	
-	private String tipo;
-	private BigDecimal valor;
-	private LocalDateTime dataHora;
-	private String nomeContaOrigemOuDestino;
-	
-	public OperacaoDto(Operacao operacao) {
-		this.tipo = operacao.getTipo().name();
-		this.valor = operacao.getValor();
-		this.dataHora = operacao.getDataHora();
-		this.nomeContaOrigemOuDestino = operacao.getNomeContaDestino();
-	}
 
-	public String getTipo() {
-		return tipo;
-	}
+    private String tipo;
+    private BigDecimal valor;
+    private LocalDateTime dataHora;
+    private String nomeContaOrigemOuDestino;
 
-	public BigDecimal getValor() {
-		return valor;
-	}
+    public OperacaoDto(Operacao operacao) {
+        this.tipo = operacao.getTipo().name();
+        this.valor = operacao.getValor();
+        this.dataHora = operacao.getDataHora();
+        this.nomeContaOrigemOuDestino = operacao.getNomeContaDestino();
+    }
 
-	public LocalDateTime getDataHora() {
-		return dataHora;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public String getNomeContaOrigemOuDestino() {
-		return nomeContaOrigemOuDestino;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
-		return operacoes.map(OperacaoDto::new);
-	}
-	
-	
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public String getNomeContaOrigemOuDestino() {
+        return nomeContaOrigemOuDestino;
+    }
+
+    public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
+        return operacoes.map(OperacaoDto::new);
+    }
+
 
 }

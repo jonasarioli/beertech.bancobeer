@@ -9,19 +9,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class BancoBeerRelayService {
 
-  private final BancoBeerMessageSender messageSender;
+    private final BancoBeerMessageSender messageSender;
 
-  @Autowired
-  public BancoBeerRelayService(BancoBeerMessageSender messageSender) {
-    this.messageSender = messageSender;
-  }
+    @Autowired
+    public BancoBeerRelayService(BancoBeerMessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
 
-  public void transfer(TransferenciaMessage transferenciaMessage) {
-    transferenciaMessage.setTipo("TRANSFERENCIA");
-    messageSender.sendTransferMessage(transferenciaMessage);
-  }
+    public void transfer(TransferenciaMessage transferenciaMessage) {
+        transferenciaMessage.setTipo("TRANSFERENCIA");
+        messageSender.sendTransferMessage(transferenciaMessage);
+    }
 
-  public void operation(OperacaoMessage operacaoMessage) {
-    messageSender.sendOperationMessage(operacaoMessage);
-  }
+    public void operation(OperacaoMessage operacaoMessage) {
+        messageSender.sendOperationMessage(operacaoMessage);
+    }
 }

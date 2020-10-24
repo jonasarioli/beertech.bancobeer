@@ -21,74 +21,78 @@ import com.beertech.banco.domain.model.TipoOperacao;
 @Table(name = "operacao")
 public class MySqlOperacao {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	private LocalDateTime dataHora;
-	private BigDecimal valor;
-	@Enumerated(EnumType.STRING)
-	private TipoOperacao tipo;
-	private String nomeContaDestino;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+
+    private LocalDateTime dataHora;
+    private BigDecimal valor;
+    @Enumerated(EnumType.STRING)
+    private TipoOperacao tipo;
+    private String nomeContaDestino;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "conta_id", nullable = false)
     private MySqlConta conta;
 
-	public MySqlOperacao() {
-	}
+    public MySqlOperacao() {
+    }
 
-	public MySqlOperacao(Long id, BigDecimal valor, TipoOperacao tipo, LocalDateTime dataHora, String hashContaDestino, MySqlConta conta) {
-		this.valor = valor;
-		this.tipo = tipo;
-		this.dataHora = dataHora;
-		this.nomeContaDestino = hashContaDestino;
-		this.id = id;
-		this.conta = conta;
-	}
+    public MySqlOperacao(Long id, BigDecimal valor, TipoOperacao tipo, LocalDateTime dataHora, String hashContaDestino, MySqlConta conta) {
+        this.valor = valor;
+        this.tipo = tipo;
+        this.dataHora = dataHora;
+        this.nomeContaDestino = hashContaDestino;
+        this.id = id;
+        this.conta = conta;
+    }
 
-	public LocalDateTime getDataHora() {
-		return dataHora;
-	}
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
 
-	public void setDataHora(LocalDateTime dataHora) {
-		this.dataHora = dataHora;
-	}
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
 
-	public BigDecimal getValor() {
-		return valor;
-	}
+    public BigDecimal getValor() {
+        return valor;
+    }
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 
-	public TipoOperacao getTipo() {
-		return tipo;
-	}
+    public TipoOperacao getTipo() {
+        return tipo;
+    }
 
-	public void setTipo(TipoOperacao tipo) {
-		this.tipo = tipo;
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    public void setTipo(TipoOperacao tipo) {
+        this.tipo = tipo;
+    }
 
-	public MySqlConta getConta() {
-		return conta;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getHashContaDestino() { return nomeContaDestino; }
+    public MySqlConta getConta() {
+        return conta;
+    }
 
-	public void setHashContaDestino(String hashContaDestino) { this.nomeContaDestino = hashContaDestino; }
+    public String getHashContaDestino() {
+        return nomeContaDestino;
+    }
 
-	public MySqlOperacao fromDomain(Operacao operacao) {
-		return new MySqlOperacao(operacao.getId(), operacao.getValor(), operacao.getTipo(), operacao.getDataHora(), operacao.getNomeContaDestino(), new MySqlConta().fromDomain(operacao.getConta()));
-	}
+    public void setHashContaDestino(String hashContaDestino) {
+        this.nomeContaDestino = hashContaDestino;
+    }
 
-	public Operacao toDomain(MySqlOperacao mySqlOperacao) {
-		return new Operacao(mySqlOperacao.getDataHora(), mySqlOperacao.getValor(), mySqlOperacao.getTipo(), mySqlOperacao.getHashContaDestino());
-	}
+    public MySqlOperacao fromDomain(Operacao operacao) {
+        return new MySqlOperacao(operacao.getId(), operacao.getValor(), operacao.getTipo(), operacao.getDataHora(), operacao.getNomeContaDestino(), new MySqlConta().fromDomain(operacao.getConta()));
+    }
+
+    public Operacao toDomain(MySqlOperacao mySqlOperacao) {
+        return new Operacao(mySqlOperacao.getDataHora(), mySqlOperacao.getValor(), mySqlOperacao.getTipo(), mySqlOperacao.getHashContaDestino());
+    }
 
 }

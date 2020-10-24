@@ -17,20 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping()
 public class BancoBeerRelayController {
 
-  @Autowired BancoBeerRelayService relayService;
+    @Autowired
+    BancoBeerRelayService relayService;
 
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @PostMapping(path = "/transferencia")
-  public ResponseEntity<Void> transferBalance(@RequestBody TransferenciaMessage message) {
-    relayService.transfer(message);
-    return new ResponseEntity<>(HttpStatus.ACCEPTED);
-  }
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping(path = "/transferencia")
+    public ResponseEntity<Void> transferBalance(@RequestBody TransferenciaMessage message) {
+        relayService.transfer(message);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  @PostMapping(path = "/deposito")
-  public ResponseEntity<Void> creditAccount(@RequestBody OperacaoMessage message) {
-    message.setTipo("DEPOSITO");
-    relayService.operation(message);
-    return new ResponseEntity<>(HttpStatus.ACCEPTED);
-  }
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping(path = "/deposito")
+    public ResponseEntity<Void> creditAccount(@RequestBody OperacaoMessage message) {
+        message.setTipo("DEPOSITO");
+        relayService.operation(message);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 }
