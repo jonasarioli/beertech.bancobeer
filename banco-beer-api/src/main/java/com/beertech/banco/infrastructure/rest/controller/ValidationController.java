@@ -31,7 +31,7 @@ public class ValidationController {
     @Autowired
     private ContaService contaService;
 
-    @GetMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<ContaDto> validar(@RequestHeader("Authorization") String token) {
 
         try {
