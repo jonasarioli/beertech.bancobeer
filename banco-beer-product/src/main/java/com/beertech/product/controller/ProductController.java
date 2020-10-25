@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,6 +31,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/beercoins/product")
+@CrossOrigin
 public class ProductController {
 
     @Autowired
@@ -60,9 +62,6 @@ public class ProductController {
                     .toUriString();
             product.setImageName(fileDownloadUri);
         }
-
-
-
         return ResponseEntity.ok(products);
     }
     @ApiIgnore
@@ -122,15 +121,14 @@ public class ProductController {
     }
 
     @ApiIgnore
-    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET,
-            produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<InputStreamResource> getImage( @PathVariable String name) throws IOException {
+    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getImage(@PathVariable String name) throws IOException {
 
-        ClassPathResource classPathResource = new ClassPathResource("image/"+name);
+        ClassPathResource classPathResource = new ClassPathResource("META-INF/resources/" + name);
 
         return ResponseEntity
                 .ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.IMAGE_PNG)
                 .body(new InputStreamResource(classPathResource.getInputStream()));
     }
 }
