@@ -47,6 +47,7 @@ public class Interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String accessToken = request.getHeader("Authorization");
+
        if (accessToken != null){
            if (accessToken.contains("Basic")){return true;}
            HttpHeaders headers = new HttpHeaders();
@@ -64,6 +65,7 @@ public class Interceptor implements HandlerInterceptor {
 
         } else {
 
+           if (request.getRequestURI() == "/swagger-ui.html"){return true;}
            return false;
         }
 
