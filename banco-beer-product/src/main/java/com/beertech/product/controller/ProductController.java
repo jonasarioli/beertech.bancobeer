@@ -1,6 +1,7 @@
 package com.beertech.product.controller;
 
 import com.beertech.product.controller.form.ProductForm;
+import com.beertech.product.controller.form.RewardForm;
 import com.beertech.product.model.Conta;
 import com.beertech.product.model.Product;
 import com.beertech.product.service.ProductService;
@@ -110,10 +111,10 @@ public class ProductController {
     }
 
     @PostMapping("/reward/{id}")
-    public ResponseEntity rewardProoduct(@PathVariable Long id, @ApiIgnore Principal principal) {
-        Optional<Product> productById = productService.findProductById(id);
+    public ResponseEntity rewardProoduct(@RequestBody RewardForm form) {
+        Optional<Product> productById = productService.findProductById(form.getProdutoId());
         if(productById.isPresent()) {
-            productService.rewardProduct(productById.get(), "5c47d25e3e98b53abc532a3e7723037f", new BigDecimal("100000"));
+            productService.rewardProduct(productById.get(), form.getContaHash(), form.getSaldo());
             return ResponseEntity.accepted().build();
         } else {
             return ResponseEntity.notFound().build();
