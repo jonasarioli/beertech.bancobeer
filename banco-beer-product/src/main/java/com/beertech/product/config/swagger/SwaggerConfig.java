@@ -22,9 +22,10 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                //.apis(RequestHandlerSelectors.basePackage("com.beertech.product"))
+                .apis(RequestHandlerSelectors.basePackage("com.beertech.product"))
                 .paths(PathSelectors.any())
                 .build()
+                .ignoredParameterTypes(Product.class)
                 .globalOperationParameters(
                         Arrays.asList(
                                 new ParameterBuilder()

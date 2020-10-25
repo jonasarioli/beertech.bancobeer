@@ -4,6 +4,9 @@ import antlr.TokenStreamException;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.rest.configuration.security.AuthenticationTokenFilter;
 import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +19,8 @@ import com.beertech.banco.infrastructure.rest.configuration.security.TokenServic
 import com.beertech.banco.infrastructure.rest.controller.dto.TokenDto;
 import com.beertech.banco.infrastructure.rest.controller.form.LoginForm;
 import org.springframework.web.servlet.function.ServerRequest;
+
+import static io.jsonwebtoken.Jwts.parser;
 
 @RestController
 @RequestMapping("/validacao")
@@ -42,6 +47,8 @@ public class ValidationController {
         try {
             token = token.substring(7);
             Long contaId = tokenService.getIdConta(token);
+
+
             ContaDto contaResponse = new ContaDto(contaService.contaPeloId(contaId));
             return ResponseEntity.ok(contaResponse);
         } catch (AuthenticationException e) {

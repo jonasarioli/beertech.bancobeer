@@ -19,10 +19,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URLEncoder;
 import java.util.Enumeration;
@@ -47,8 +50,8 @@ public class Interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String accessToken = request.getHeader("Authorization");
-
-       if (accessToken != null){
+        Object result = null;
+        if (accessToken != null){
            if (accessToken.contains("Basic")){return true;}
            HttpHeaders headers = new HttpHeaders();
            RestTemplate restTemplate = new RestTemplate();
@@ -56,19 +59,25 @@ public class Interceptor implements HandlerInterceptor {
            headers.set("Authorization", accessToken);
            HttpEntity<String> entity = new HttpEntity<String>(null,headers);
            try {
-               Object result = restTemplate.postForObject("http://localhost:8080/validacao/token", entity, Object.class);
+               result = restTemplate.postForObject("http://localhost:8080/validacao/token", entity, Object.class);
            } catch (RestClientException e) {
                e.printStackTrace();
                return false;
            }
+           Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
            return true;
 
         } else {
-
+           if (request.getRequestURI().contains("swagger") || request.getRequestURI().contains("webjars")){return true;}
            if (request.getRequestURI() == "/swagger-ui.html"){return true;}
            return false;
         }
 
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
 }
