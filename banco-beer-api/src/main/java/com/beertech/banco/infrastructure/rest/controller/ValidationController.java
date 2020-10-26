@@ -22,6 +22,7 @@ import com.beertech.banco.infrastructure.rest.configuration.security.TokenServic
 import com.beertech.banco.infrastructure.rest.controller.dto.TokenDto;
 import com.beertech.banco.infrastructure.rest.controller.form.LoginForm;
 import org.springframework.web.servlet.function.ServerRequest;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static io.jsonwebtoken.Jwts.parser;
 
@@ -39,6 +40,7 @@ public class ValidationController {
     @Autowired
     private ContaService contaService;
 
+    @ApiIgnore
     @PostMapping("/token")
     public ResponseEntity<ContaDto> validar(@RequestHeader("Authorization") String token) {
 

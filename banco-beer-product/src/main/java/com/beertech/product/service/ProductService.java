@@ -7,6 +7,7 @@ import com.beertech.product.model.amqp.RewardMessage;
 import com.beertech.product.repository.ProductRepository;
 import com.beertech.product.service.amqp.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
@@ -23,6 +24,10 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
+
+    @Value("${server.validation}")
+    private String bancoUrl;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -68,7 +73,7 @@ public class ProductService {
         headers.set("Authorization", token);
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         try {
-            LinkedHashMap result = restTemplate.postForObject("http://localhost:8080/beercoins/validacao/token", entity, LinkedHashMap.class);
+            LinkedHashMap result = restTemplate.postForObject(bancoUrl + "validacao/token", entity, LinkedHashMap.class);
             return new Conta(result.get("hash").toString(), new BigDecimal(result.get("saldo").toString()));
         } catch (HttpStatusCodeException ex) {
             throw new ProductRewardException(ex.getStatusCode(), ex.getMessage());
