@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -16,22 +19,23 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:token_endpoint" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c09ff716-4151-4621-93e6-2655fadf6c4f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/banco-beer-api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/banco-beer-api.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/dto/ContaDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/listener/ContaListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/ConfigInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/WebSecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/security/Interceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/ProductController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +121,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.BeercoinsApplication" />
+      <item itemvalue="JUnit.BancoServiceImplTest.criarUmaContaComSucesso" />
+      <item itemvalue="JUnit.All in banco-beer-api" />
+      <item itemvalue="JUnit.BancoServiceImplTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.BeercoinsApplication" />
@@ -143,7 +153,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="token_endpoint" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -163,42 +185,42 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="2109" y="297" width="424" height="479" key="FileChooserDialogImpl/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603412865376" />
-    <state width="1878" height="385" key="GridCell.Tab.0.bottom" timestamp="1603496785280">
-      <screen x="0" y="0" width="1366" height="725" />
+    <state width="1878" height="357" key="GridCell.Tab.0.bottom" timestamp="1603546166971">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state width="1878" height="385" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
-    <state width="1878" height="481" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266765" />
-    <state width="1878" height="385" key="GridCell.Tab.0.center" timestamp="1603496785280">
-      <screen x="0" y="0" width="1366" height="725" />
+    <state width="1878" height="357" key="GridCell.Tab.0.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
+    <state width="1878" height="357" key="GridCell.Tab.0.center" timestamp="1603546166970">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state width="1878" height="385" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
-    <state width="1878" height="481" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
-    <state width="1878" height="385" key="GridCell.Tab.0.left" timestamp="1603496785280">
-      <screen x="0" y="0" width="1366" height="725" />
+    <state width="1878" height="357" key="GridCell.Tab.0.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166970" />
+    <state width="1878" height="357" key="GridCell.Tab.0.left" timestamp="1603546166970">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state width="1878" height="385" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
-    <state width="1878" height="481" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
-    <state width="1878" height="385" key="GridCell.Tab.0.right" timestamp="1603496785280">
-      <screen x="0" y="0" width="1366" height="725" />
+    <state width="1878" height="357" key="GridCell.Tab.0.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166970" />
+    <state width="1878" height="357" key="GridCell.Tab.0.right" timestamp="1603546166971">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state width="1878" height="385" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603496785280" />
-    <state width="1878" height="481" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603491266764" />
-    <state width="1878" height="357" key="GridCell.Tab.1.bottom" timestamp="1603326104761">
+    <state width="1878" height="357" key="GridCell.Tab.0.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
+    <state width="1878" height="357" key="GridCell.Tab.1.bottom" timestamp="1603546166971">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603326104761" />
-    <state width="1878" height="357" key="GridCell.Tab.1.center" timestamp="1603326104761">
+    <state width="1878" height="357" key="GridCell.Tab.1.bottom/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
+    <state width="1878" height="357" key="GridCell.Tab.1.center" timestamp="1603546166971">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603326104761" />
-    <state width="1878" height="357" key="GridCell.Tab.1.left" timestamp="1603326104761">
+    <state width="1878" height="357" key="GridCell.Tab.1.center/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
+    <state width="1878" height="357" key="GridCell.Tab.1.left" timestamp="1603546166971">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603326104761" />
-    <state width="1878" height="357" key="GridCell.Tab.1.right" timestamp="1603326104761">
+    <state width="1878" height="357" key="GridCell.Tab.1.left/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
+    <state width="1878" height="357" key="GridCell.Tab.1.right" timestamp="1603546166971">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
-    <state width="1878" height="357" key="GridCell.Tab.1.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603326104761" />
+    <state width="1878" height="357" key="GridCell.Tab.1.right/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603546166971" />
     <state x="1859" y="197" width="924" height="679" key="Maven.ArtifactSearchDialog" timestamp="1603318542411">
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
@@ -211,10 +233,29 @@
       <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="1830" y="174" key="SettingsEditor/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603318346845" />
-    <state x="284" y="203" width="724" height="502" key="find.popup" timestamp="1603493329656">
-      <screen x="0" y="0" width="1366" height="725" />
+    <state x="2032" y="288" width="744" height="560" key="find.popup" timestamp="1603499832235">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="284" y="203" width="724" height="502" key="find.popup/0.0.1366.725/1366.0.1920.1080@0.0.1366.725" timestamp="1603493329656" />
-    <state x="2032" y="288" width="674" height="560" key="find.popup/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603323621016" />
+    <state x="2032" y="288" width="744" height="560" key="find.popup/0.0.1366.725/1366.0.1920.1080@1366.0.1920.1080" timestamp="1603499832235" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoController.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/banco$MySqlContaRepositoryImplTest.ic" NAME="MySqlContaRepositoryImplTest Coverage Results" MODIFIED="1603327402167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.beertech.banco.infrastructure.repository.mysql.repository.impl.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/banco$BancoApplicationTests.ic" NAME="BancoApplicationTests Coverage Results" MODIFIED="1603327348792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.beertech.banco.*</FILTER>
+    </SUITE>
   </component>
 </project>
