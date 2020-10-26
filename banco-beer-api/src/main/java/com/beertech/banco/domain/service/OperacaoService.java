@@ -12,7 +12,7 @@ import com.beertech.banco.domain.model.TipoOperacao;
 public interface OperacaoService {
     Conta realizaOperacao(String contaHash, Operacao operacao);
 
-    void transferencia(String hahsDaContaOrigem, String hahsDaContaDestino, BigDecimal valor);
+    void transferencia(String hashDaContaOrigem, String hashDaContaDestino, BigDecimal valor);
 
     Page<Operacao> extrato(Long contaId, Pageable page);
 

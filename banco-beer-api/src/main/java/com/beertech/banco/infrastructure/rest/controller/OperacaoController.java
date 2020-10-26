@@ -40,7 +40,7 @@ public class OperacaoController {
     public ResponseEntity<?> salvaOperacao(@Valid @RequestBody OperacaoForm operacaoForm, @ApiIgnore UriComponentsBuilder uriBuilder) {
 //		log.info("operacaoForm");
 		try {
-    		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), operacaoForm.getHash());
+    		Operacao operacaoNaoRealizada = new Operacao(operacaoForm.getValor(), operacaoForm.getTipo(), null);
     		Conta conta = operacaoService.realizaOperacao(operacaoForm.getHash(), operacaoNaoRealizada);
     		URI uri = uriBuilder.path("/beercoins/conta/extrato").buildAndExpand().toUri();
     		return ResponseEntity.created(uri).body(conta);

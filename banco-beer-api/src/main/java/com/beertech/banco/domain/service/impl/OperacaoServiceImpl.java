@@ -97,7 +97,7 @@ public class OperacaoServiceImpl implements OperacaoService {
         if(conta.getSaldo().compareTo(valor) < 0) {
             throw new ContaException("Saldo insuficiente para o resgate!");
         }
-        Operacao operacao = new Operacao(valor, TipoOperacao.RESGATE, nomeProduto);
+        Operacao operacao = new Operacao(valor.multiply(new BigDecimal(-1)), TipoOperacao.RESGATE, nomeProduto);
         operacao.setConta(conta);
         operacaoRepository.save(operacao);
 
