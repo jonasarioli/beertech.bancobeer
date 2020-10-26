@@ -1,6 +1,8 @@
 package com.beertech.banco.infrastructure.rest.controller;
 
 import antlr.TokenStreamException;
+import com.beertech.banco.domain.model.Conta;
+import com.beertech.banco.domain.model.EPerfil;
 import com.beertech.banco.domain.service.ContaService;
 import com.beertech.banco.infrastructure.rest.configuration.security.AuthenticationTokenFilter;
 import com.beertech.banco.infrastructure.rest.controller.dto.ContaDto;
@@ -8,6 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +26,7 @@ import org.springframework.web.servlet.function.ServerRequest;
 import static io.jsonwebtoken.Jwts.parser;
 
 @RestController
-@RequestMapping("/validacao")
+@RequestMapping("/beercoins/validacao")
 @CrossOrigin
 public class ValidationController {
 
@@ -40,17 +43,24 @@ public class ValidationController {
     public ResponseEntity<ContaDto> validar(@RequestHeader("Authorization") String token) {
 
         try {
-            tokenService.isTokenValido(token);
+            if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            token = token.substring(7, token.length());
+            boolean tokenValido = tokenService.isTokenValido(token);
+            if(!tokenValido) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }
         try {
-            token = token.substring(7);
             Long contaId = tokenService.getIdConta(token);
-
-
-            ContaDto contaResponse = new ContaDto(contaService.contaPeloId(contaId));
-            return ResponseEntity.ok(contaResponse);
+            Conta conta = contaService.contaPeloId(contaId);
+            if(conta.getProfiles().iterator().next().getName().equals(EPerfil.ADMIN)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            return ResponseEntity.ok(new ContaDto(conta));
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }
