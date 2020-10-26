@@ -1,8 +1,7 @@
 package com.beertech.product.controller;
 
 import com.beertech.product.controller.form.ProductForm;
-import com.beertech.product.controller.form.RewardForm;
-import com.beertech.product.model.Conta;
+import com.beertech.product.exception.ProductRewardException;
 import com.beertech.product.model.Product;
 import com.beertech.product.service.ProductService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
-import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -111,14 +109,14 @@ public class ProductController {
     }
 
     @PostMapping("/reward/{id}")
-    public ResponseEntity rewardProoduct(@RequestBody RewardForm form) {
-        Optional<Product> productById = productService.findProductById(form.getProdutoId());
-        if(productById.isPresent()) {
-            productService.rewardProduct(productById.get(), form.getContaHash(), form.getSaldo());
-            return ResponseEntity.accepted().build();
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity rewardProoduct(@RequestHeader (name="Authorization") String token, @PathVariable Long id) {
+        try {
+            productService.rewardProduct(id, token);
+        } catch (ProductRewardException ex) {
+            System.out.println(ex.getMessage());
+            return ResponseEntity.status(ex.getHttpStatusCode()).build();
         }
+        return ResponseEntity.accepted().build();
     }
 
     @ApiIgnore
@@ -132,4 +130,5 @@ public class ProductController {
                 .contentType(MediaType.IMAGE_PNG)
                 .body(new InputStreamResource(classPathResource.getInputStream()));
     }
+
 }

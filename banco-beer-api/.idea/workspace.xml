@@ -16,22 +16,23 @@
         <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:token_endpoint" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c09ff716-4151-4621-93e6-2655fadf6c4f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/0/90f47eb178d8500033ba7fbfec6b52bcc676c16d" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/0/90f47eb178d8500033ba7fbfec6b52bcc676c16d" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/3/a3061e83694895614963de997964c66f0b48cc5c" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/3/a3061e83694895614963de997964c66f0b48cc5c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/dto/ContaDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/amqp/config/RabbitConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/ContaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beertech/banco/infrastructure/rest/controller/OperacaoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/config/RabbitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/config/RabbitConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/java/com/beertecth/bancobeerconsumer/listener/ContaListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application-local.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-consumer/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/ConfigInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/WebSecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/WebSecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/config/security/Interceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../banco-beer-product/src/main/java/com/beertech/product/controller/ProductController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +118,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.BeercoinsApplication" />
+      <item itemvalue="JUnit.BancoServiceImplTest.criarUmaContaComSucesso" />
+      <item itemvalue="JUnit.All in banco-beer-api" />
+      <item itemvalue="JUnit.BancoServiceImplTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.BeercoinsApplication" />
@@ -143,7 +150,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="token_endpoint" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -227,5 +246,13 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/banco$MySqlContaRepositoryImplTest.ic" NAME="MySqlContaRepositoryImplTest Coverage Results" MODIFIED="1603327402167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.beertech.banco.infrastructure.repository.mysql.repository.impl.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/banco$BancoApplicationTests.ic" NAME="BancoApplicationTests Coverage Results" MODIFIED="1603327348792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.beertech.banco.*</FILTER>
+    </SUITE>
   </component>
 </project>
