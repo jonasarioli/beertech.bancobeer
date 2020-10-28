@@ -46,7 +46,7 @@ public class WireMockTests {
         configureFor("localhost", 8090);
         stubFor(get(urlEqualTo("/beercoins/product"))
                 .willReturn(aResponse()
-                        .withBody(productList)));
+                        .withBody(productList).withHeader("Content-Type", "application/json")));
     }
 
     String productList = "{\n" +
