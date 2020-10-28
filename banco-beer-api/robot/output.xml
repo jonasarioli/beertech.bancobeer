@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20201027 21:44:31.294" generator="Robot 3.2.2 (Python 2.7.17 on linux2)">
+<suite source="/home/marcilio/Documents/Training/TrainingBeertechTalents/Colorado/beertech.bancobeer/banco-beer-api/robot/TestAdminCriaConta.robot" id="s1" name="TestAdminCriaConta">
+<test id="s1-t1" name="001_Admin_Realiza_Login">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>beertech_banco</arg>
+<arg>${HOST}</arg>
+</arguments>
+<msg timestamp="20201027 21:44:31.429" level="INFO">Creating Session using : alias=beertech_banco, url=https://beertech-banco.herokuapp.com/beercoins, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20201027 21:44:31.429" starttime="20201027 21:44:31.429"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20201027 21:44:31.430" level="INFO">${headers} = {u'Content-Type': u'application/json'}</msg>
+<status status="PASS" endtime="20201027 21:44:31.430" starttime="20201027 21:44:31.430"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>email=admin@email.com</arg>
+<arg>password=grupocolorado</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20201027 21:44:31.432" level="INFO">&amp;{data} = { email=admin@email.com | password=grupocolorado }</msg>
+<status status="PASS" endtime="20201027 21:44:31.432" starttime="20201027 21:44:31.430"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>beertech_banco</arg>
+<arg>/login</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${data}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20201027 21:44:32.143" level="INFO">POST Request : url=https://beertech-banco.herokuapp.com/beercoins/login 
+ path_url=/beercoins/login 
+ headers={'Content-Length': '57', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': u'application/json'} 
+ body={"email": "admin@email.com", "password": "grupocolorado"} 
+ </msg>
+<msg timestamp="20201027 21:44:32.143" level="INFO">POST Response : url=https://beertech-banco.herokuapp.com/beercoins/login 
+ status=200, reason= 
+ body={"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5MzIyNzIsImlhdCI6MTYwMzg0NTg3Mn0.kRzjzQnuV6UK_nBK9NVwrhVZTzW35kW89xiZNCa4Mw0","type":"Bearer"} 
+ </msg>
+<msg timestamp="20201027 21:44:32.144" level="INFO">/home/marcilio/.local/lib/python2.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'beertech-banco.herokuapp.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20201027 21:44:32.144" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20201027 21:44:32.144" starttime="20201027 21:44:31.432"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20201027 21:44:32.145" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20201027 21:44:32.145" starttime="20201027 21:44:32.145"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+</arguments>
+<status status="PASS" endtime="20201027 21:44:32.147" starttime="20201027 21:44:32.146"></status>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<doc>Get Value From JSON using JSONPath</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>$..token</arg>
+</arguments>
+<assign>
+<var>${ADMIN_TOKEN}</var>
+</assign>
+<msg timestamp="20201027 21:44:32.189" level="INFO">${ADMIN_TOKEN} = [u'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5MzIyNzIsImlhdCI6MTYwMzg0...</msg>
+<status status="PASS" endtime="20201027 21:44:32.189" starttime="20201027 21:44:32.147"></status>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<arguments>
+<arg>${ADMIN_TOKEN}</arg>
+</arguments>
+<msg timestamp="20201027 21:44:32.190" level="INFO">${ADMIN_TOKEN} = [u'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5MzIyNzIsImlhdCI6MTYwMzg0...</msg>
+<status status="PASS" endtime="20201027 21:44:32.190" starttime="20201027 21:44:32.189"></status>
+</kw>
+<status status="PASS" endtime="20201027 21:44:32.190" critical="yes" starttime="20201027 21:44:31.428"></status>
+</test>
+<test id="s1-t2" name="002_Admin_Cria_Conta">
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${ADMIN_TOKEN}</arg>
+</arguments>
+<status status="PASS" endtime="20201027 21:44:32.191" starttime="20201027 21:44:32.191"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${ADMIN_TOKEN}</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20201027 21:44:32.192" level="INFO">${headers} = {u'Content-Type': u'application/json', u'Authorization': u"Bearer [u'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNj...</msg>
+<status status="PASS" endtime="20201027 21:44:32.192" starttime="20201027 21:44:32.191"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>cnpj=1234567</arg>
+<arg>email=teste@email.com</arg>
+<arg>nome=testrobot</arg>
+<arg>senha=123456</arg>
+</arguments>
+<assign>
+<var>&amp;{data}</var>
+</assign>
+<msg timestamp="20201027 21:44:32.193" level="INFO">&amp;{data} = { cnpj=1234567 | email=teste@email.com | nome=testrobot | senha=123456 }</msg>
+<status status="PASS" endtime="20201027 21:44:32.193" starttime="20201027 21:44:32.192"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>beertech_banco</arg>
+<arg>/conta</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${data}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20201027 21:44:32.342" level="INFO">POST Request : url=https://beertech-banco.herokuapp.com/beercoins/conta 
+ path_url=/beercoins/conta 
+ headers={'Content-Length': '87', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'User-Agent': 'python-requests/2.24.0', 'Connection': 'keep-alive', 'Content-Type': u'application/json', 'Authorization': u"Bearer [u'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5MzIyNzIsImlhdCI6MTYwMzg0NTg3Mn0.kRzjzQnuV6UK_nBK9NVwrhVZTzW35kW89xiZNCa4Mw0']"} 
+ body={"cnpj": "1234567", "email": "teste@email.com", "nome": "testrobot", "senha": "123456"} 
+ </msg>
+<msg timestamp="20201027 21:44:32.343" level="INFO">POST Response : url=https://beertech-banco.herokuapp.com/beercoins/conta 
+ status=403, reason= 
+ body={"timestamp":"2020-10-28T00:44:32.263+00:00","status":403,"error":"Forbidden","message":"","path":"/beercoins/conta"} 
+ </msg>
+<msg timestamp="20201027 21:44:32.343" level="INFO">/home/marcilio/.local/lib/python2.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'beertech-banco.herokuapp.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20201027 21:44:32.343" level="INFO">${response} = &lt;Response [403]&gt;</msg>
+<status status="PASS" endtime="20201027 21:44:32.343" starttime="20201027 21:44:32.193"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+</arguments>
+<status status="PASS" endtime="20201027 21:44:32.344" starttime="20201027 21:44:32.343"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+</arguments>
+<msg timestamp="20201027 21:44:32.345" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<msg timestamp="20201027 21:44:32.345" level="FAIL">403 != 201</msg>
+<status status="FAIL" endtime="20201027 21:44:32.345" starttime="20201027 21:44:32.344"></status>
+</kw>
+<status status="FAIL" endtime="20201027 21:44:32.346" critical="yes" starttime="20201027 21:44:32.190">403 != 201</status>
+</test>
+<status status="FAIL" endtime="20201027 21:44:32.347" starttime="20201027 21:44:31.295"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="1">Critical Tests</stat>
+<stat fail="1" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="TestAdminCriaConta" pass="1">TestAdminCriaConta</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
