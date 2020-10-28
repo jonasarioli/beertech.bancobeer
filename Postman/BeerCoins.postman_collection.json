@@ -1,0 +1,1269 @@
+{
+	"info": {
+		"_postman_id": "f60a7174-1a7c-47f0-8986-0f1e27baa7eb",
+		"name": "BeerCoins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Setup Postman",
+			"item": [
+				{
+					"name": "Install Postman BDD",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fce55ab7-d62d-4c1e-8ed8-ba44d0f7b02e",
+								"exec": [
+									"postman.setGlobalVariable('postmanBDD', responseBody);\r",
+									"\r",
+									"eval(globals.postmanBDD);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://bigstickcarpet.com/postman-bdd/dist/postman-bdd.min.js",
+							"protocol": "http",
+							"host": [
+								"bigstickcarpet",
+								"com"
+							],
+							"path": [
+								"postman-bdd",
+								"dist",
+								"postman-bdd.min.js"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Principal",
+			"item": [
+				{
+					"name": "API Principal",
+					"item": [
+						{
+							"name": "Authentication Controller",
+							"item": [
+								{
+									"name": "Login admin response successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "5992f8e4-fd9b-420b-b971-740d421c6839",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['token', 'type']);\r",
+													"    response.body.token.should.be.an('String').and.not.empty;\r",
+													"    response.body.type.should.equal('Bearer');\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['token', 'type'],\r",
+													"        properties: {\r",
+													"            token: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            headers: {\r",
+													"                type: 'string',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"user@email.com\",\r\n  \"password\": \"user\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/login",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"login"
+											]
+										},
+										"description": "Teste de login na aplicação"
+									},
+									"response": []
+								},
+								{
+									"name": "Login response error",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "377fca5c-6671-48d1-8cc9-46283c8c5a80",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a error response', () => {\r",
+													"    response.ok.should.be.false;\r",
+													"    response.badRequest.should.be.true;\r",
+													"    response.should.have.status(400);\r",
+													"    response.statusType.should.equal(4);\r",
+													"});\r",
+													"\r",
+													"it('should be an empty response', () => {\r",
+													"    response.text.should.have.lengthOf(0);\r",
+													"    response.should.have.header('Content-Length', '0');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"admin@email.com\",\r\n  \"password\": \"123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/login",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"login"
+											]
+										},
+										"description": "Teste de login na aplicação"
+									},
+									"response": []
+								},
+								{
+									"name": "Login userresponse successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "5da401ae-16a6-4d68-9e2b-6c01ec81d696",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['token', 'type']);\r",
+													"    response.body.token.should.be.an('String').and.not.empty;\r",
+													"    response.body.type.should.equal('Bearer');\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['token', 'type'],\r",
+													"        properties: {\r",
+													"            token: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            headers: {\r",
+													"                type: 'string',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"admin@email.com\",\r\n  \"password\": \"grupocolorado\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/login",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"login"
+											]
+										},
+										"description": "Teste de login na aplicação"
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Conta Controller",
+							"item": [
+								{
+									"name": "Listar contas successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ce8ff0ae-e7e8-42c7-8b5f-a5773694e1c5",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty']);\r",
+													"    response.body.content.should.be.an('array').and.not.empty;\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty'],\r",
+													"        properties: {\r",
+													"            content: {\r",
+													"                type: 'array',\r",
+													"            },\r",
+													"            pageable: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            totalElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            totalPages: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            last: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            first: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            sort: {\r",
+													"                type: 'object',\r",
+													"            },\r",
+													"            size: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            number: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            numberOfElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            empty: {\r",
+													"                type: 'boolean',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "page",
+												"value": "0",
+												"type": "text"
+											},
+											{
+												"key": "size",
+												"value": "10",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar contas error",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "178cf2e2-0487-4489-8fa2-b901d037ab44",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a forbidden response', () => {\r",
+													"    response.ok.should.be.false;\r",
+													"    response.forbidden.should.be.true;\r",
+													"    response.should.have.status(403);\r",
+													"    response.statusType.should.equal(4);\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "123",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"cnpj\": \"12345678910\",\r\n  \"email\": \"abc@email.com\",\r\n  \"nome\": \"abc\",\r\n  \"senha\": \"abc\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar contas successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f83f5dd6-b911-449b-8b04-8db8a6c47cfc",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty']);\r",
+													"    response.body.content.should.be.an('array').and.not.empty;\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty'],\r",
+													"        properties: {\r",
+													"            content: {\r",
+													"                type: 'array',\r",
+													"            },\r",
+													"            pageable: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            totalElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            totalPages: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            last: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            first: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            sort: {\r",
+													"                type: 'object',\r",
+													"            },\r",
+													"            size: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            number: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            numberOfElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            empty: {\r",
+													"                type: 'boolean',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar conta pelo hash successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0271baf5-8a0e-420c-8fc6-9330e9924790",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['hash', 'saldo', 'nome', 'email', 'cnpj']);\r",
+													"    response.body.hash.should.be.an('string').and.not.empty;\r",
+													"    response.body.email.should.be.an('string').and.not.empty;\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['hash', 'saldo', 'nome', 'email', 'cnpj'],\r",
+													"        properties: {\r",
+													"            hash: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            saldo: {\r",
+													"                type: 'number',\r",
+													"            },\r",
+													"            nome: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            email: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            cnpj: {\r",
+													"                type: 'string',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiUGVyZmlsIjoiUk9MRV9VU0VSIiwiU2FsZG8iOjI3My40NCwiTm9tZSI6IlVTRVIiLCJIYXNoIjoiNWM0N2QyNWUzZTk4YjUzYWJjNTMyYTNlNzcyMzAzN2YiLCJleHAiOjE2MDM5MzI4MDEsImlhdCI6MTYwMzg0NjQwMX0._tO8CJXo50PDevok05Dfm5ialbX7jW8h--4FjmDXqPk",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/hash/5c47d25e3e98b53abc532a3e7723037f",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"hash",
+												"5c47d25e3e98b53abc532a3e7723037f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar saldo successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ee456677-8521-47fc-8038-d13d012f4e59",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['saldo']);\r",
+													"    response.body.saldo.should.be.an('number');\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['saldo'],\r",
+													"        properties: {\r",
+													"            saldo: {\r",
+													"                type: 'number',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiUGVyZmlsIjoiUk9MRV9VU0VSIiwiU2FsZG8iOjI3My40NCwiTm9tZSI6IlVTRVIiLCJIYXNoIjoiNWM0N2QyNWUzZTk4YjUzYWJjNTMyYTNlNzcyMzAzN2YiLCJleHAiOjE2MDM5MzI4MDEsImlhdCI6MTYwMzg0NjQwMX0._tO8CJXo50PDevok05Dfm5ialbX7jW8h--4FjmDXqPk",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/saldo",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"saldo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Fazer  saque successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "cb6a9464-9d52-4e59-8b1b-4313e57a8ebd",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(202);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should be an empty response', () => {\r",
+													"    response.text.should.have.lengthOf(0);\r",
+													"    response.should.have.header('Content-Length', '0');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiUGVyZmlsIjoiUk9MRV9VU0VSIiwiU2FsZG8iOjI3My40NCwiTm9tZSI6IlVTRVIiLCJIYXNoIjoiNWM0N2QyNWUzZTk4YjUzYWJjNTMyYTNlNzcyMzAzN2YiLCJleHAiOjE2MDM5MzI4MDEsImlhdCI6MTYwMzg0NjQwMX0._tO8CJXo50PDevok05Dfm5ialbX7jW8h--4FjmDXqPk",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"valor\": 10\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/saque",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"saque"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Fazer Transferencia  successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7a0b71d-7dd2-420b-bb24-57c7e0d70466",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(202);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should be an empty response', () => {\r",
+													"    response.text.should.have.lengthOf(0);\r",
+													"    response.should.have.header('Content-Length', '0');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiUGVyZmlsIjoiUk9MRV9VU0VSIiwiU2FsZG8iOjI3My40NCwiTm9tZSI6IlVTRVIiLCJIYXNoIjoiNWM0N2QyNWUzZTk4YjUzYWJjNTMyYTNlNzcyMzAzN2YiLCJleHAiOjE2MDM5MzI4MDEsImlhdCI6MTYwMzg0NjQwMX0._tO8CJXo50PDevok05Dfm5ialbX7jW8h--4FjmDXqPk",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"contaDestino\": \"9a3f339c6b93d0a8e4aadece69985d17\",\r\n  \"valor\": 10\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/saque",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"saque"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar conta id 1 successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9bc2d19c-ebff-4d56-bea9-9f34930a68ce",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['hash', 'saldo', 'nome', 'email', 'cnpj']);\r",
+													"    response.body.hash.should.be.an('string').and.not.empty;\r",
+													"    response.body.email.should.be.an('string').and.not.empty;\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['hash', 'saldo', 'nome', 'email', 'cnpj'],\r",
+													"        properties: {\r",
+													"            hash: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            saldo: {\r",
+													"                type: 'number',\r",
+													"            },\r",
+													"            nome: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            email: {\r",
+													"                type: 'string',\r",
+													"            },\r",
+													"            cnpj: {\r",
+													"                type: 'string',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/1",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Deposito successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7d4ae1e6-bc58-4601-a526-c86075a967d8",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.accepted.should.be.true;\r",
+													"    response.should.have.status(202);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should be an empty response', () => {\r",
+													"    response.text.should.have.lengthOf(0);\r",
+													"    response.should.have.header('Content-Length', '0');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"hashDaConta\": \"5c47d25e3e98b53abc532a3e7723037f\",\r\n  \"valor\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/deposito",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"deposito"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Deposito error",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a7c8e4aa-1852-453d-9723-cc519f4e43a8",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a error response', () => {\r",
+													"    response.ok.should.be.false;\r",
+													"    response.badRequest.should.be.true;\r",
+													"    response.should.have.status(400);\r",
+													"    response.statusType.should.equal(4);\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"hashDaConta\": \"5c47d25e3e98b53abc532a3e7723037f\",\r\n  \"valor\": 0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/deposito",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"deposito"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Obter extrato successful",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b77c4f01-e3c9-45c4-9367-cdaec6cd311e",
+												"exec": [
+													"eval(globals.postmanBDD);\r",
+													"\r",
+													"it('should be a successful response', () => {\r",
+													"    response.ok.should.be.true;\r",
+													"    response.should.have.status(200);\r",
+													"    response.statusType.should.equal(2);\r",
+													"    response.error.should.be.false;\r",
+													"});\r",
+													"\r",
+													"it('should return JSON', () => {\r",
+													"    response.should.be.json;\r",
+													"    response.should.have.header('Content-Type', 'application/json');\r",
+													"    response.type.should.equal('application/json');\r",
+													"});\r",
+													"\r",
+													"it('should contain the parsed JSON object', () => {\r",
+													"    response.body.should.be.an('object').with.keys(['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty']);\r",
+													"    response.body.content.should.be.an('array').and.not.empty;\r",
+													"});\r",
+													"\r",
+													"it('should match against a JSON Schema', () => {\r",
+													"    response.body.should.have.schema({\r",
+													"        type: 'object',\r",
+													"        required: ['content', 'pageable', 'totalElements', 'totalPages', 'last', 'first', 'sort', 'size', 'number', 'numberOfElements', 'empty'],\r",
+													"        properties: {\r",
+													"            content: {\r",
+													"                type: 'array',\r",
+													"            },\r",
+													"            pageable: {\r",
+													"                type: 'object',\r",
+													"            },\r",
+													"            totalElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            totalPages: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            last: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            first: {\r",
+													"                type: 'boolean',\r",
+													"            },\r",
+													"            sort: {\r",
+													"                type: 'object',\r",
+													"            },\r",
+													"            size: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            number: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            numberOfElements: {\r",
+													"                type: 'integer',\r",
+													"            },\r",
+													"            empty: {\r",
+													"                type: 'boolean',\r",
+													"            }\r",
+													"        }\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiUGVyZmlsIjoiUk9MRV9VU0VSIiwiU2FsZG8iOjI3My40NCwiTm9tZSI6IlVTRVIiLCJIYXNoIjoiNWM0N2QyNWUzZTk4YjUzYWJjNTMyYTNlNzcyMzAzN2YiLCJleHAiOjE2MDM5MzI4MDEsImlhdCI6MTYwMzg0NjQwMX0._tO8CJXo50PDevok05Dfm5ialbX7jW8h--4FjmDXqPk",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiUGVyZmlsIjoiUk9MRV9BRE1JTiIsIlNhbGRvIjowLjAwLCJOb21lIjoiQWRtaW4iLCJIYXNoIjoiZDcxMjBmYzUzMGVkNjA5ZDQwNjRjMTNiNmM4Yzg4ZDMiLCJleHAiOjE2MDM5Mjc0MjUsImlhdCI6MTYwMzg0MTAyNX0.hao6HRUvpCUHVSPqoV_bEePWHEQqBqqXDY9uy45Va2M",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "https://beertech-banco.herokuapp.com/beercoins/conta/extrato?page=0&size=10",
+											"protocol": "https",
+											"host": [
+												"beertech-banco",
+												"herokuapp",
+												"com"
+											],
+											"path": [
+												"beercoins",
+												"conta",
+												"extrato"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
