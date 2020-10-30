@@ -4,8 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.beertech.banco.infrastructure.repository.mysql.model.MySqlConta;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
