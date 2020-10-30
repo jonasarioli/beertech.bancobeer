@@ -1,44 +1,43 @@
 package com.beertech.banco.infrastructure.rest.controller.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Pattern.Flag;
+import org.springframework.data.domain.Page;
 
-import com.beertech.banco.domain.TipoOperacao;
+import com.beertech.banco.domain.model.Operacao;
 
 public class OperacaoDto {
 
-	@NotBlank
-	private String hash;
-	@NotNull
-	@Min(value = 0, message = "Valor deve ser maior do que 0!")
+	private String tipo;
 	private BigDecimal valor;
-	@NotNull
-	private TipoOperacao tipo;
-	
-	public String getHash() {
-		return hash;
+	private LocalDateTime dataHora;
+	private String nomeContaOrigemOuDestino;
+
+	public OperacaoDto(Operacao operacao) {
+		this.tipo = operacao.getTipo().name();
+		this.valor = operacao.getValor();
+		this.dataHora = operacao.getDataHora();
+		this.nomeContaOrigemOuDestino = operacao.getDescricao();
 	}
-	public void setHash(String hash) {
-		this.hash = hash;
+
+	public String getTipo() {
+		return tipo;
 	}
-	
+
 	public BigDecimal getValor() {
 		return valor;
 	}
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+
+	public LocalDateTime getDataHora() {
+		return dataHora;
 	}
-	public TipoOperacao getTipo() {
-		return tipo;
+
+	public String getNomeContaOrigemOuDestino() {
+		return nomeContaOrigemOuDestino;
 	}
-	public void setTipo(TipoOperacao tipo) {
-		this.tipo = tipo;
+
+	public static Page<OperacaoDto> converter(Page<Operacao> operacoes) {
+		return operacoes.map(OperacaoDto::new);
 	}
-	
-	
 }

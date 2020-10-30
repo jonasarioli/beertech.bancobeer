@@ -1,0 +1,10 @@
+spring:
+   profiles: local
+
+server.port: 8083
+
+banco.url: "http://localhost:8080/beercoins/"
+
+
+
+
